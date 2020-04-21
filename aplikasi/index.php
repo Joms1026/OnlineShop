@@ -26,6 +26,7 @@ include("conn.php");
 			header("Location: cart.php");
 		}
 	}
+	
 	if(isset($_POST["register"]))
 	{
 		if($_POST["nama"]<>'' && $_POST["email"]<>'' && $_POST["pass"]<>'' && $_POST["cpass"]<>'')
@@ -56,7 +57,7 @@ include("conn.php");
 						{
 							$error = $conn->error;
 							echo"<script>alert('$error');</script>";
-							}
+						}
 				}
 				else
 				{
