@@ -1,8 +1,6 @@
 <<<<<<< HEAD 
 =======
 <?php
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-include("conn.php");
 	session_start();
 	//unset($_SESSION["cart"]);
 	//nanti saat user logout atau melakukan buy , session akan di unset
