@@ -1,3 +1,4 @@
+<<<<<<< HEAD:aplikasi/home.php
 <<<<<<< HEAD:aplikasi/index.php
 <?php 
 	session_start();
@@ -24,11 +25,16 @@
 		}
 	}
 =======
+=======
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:1. Desain/index.html
 <?php
 
 
 
+<<<<<<< HEAD:aplikasi/home.php
 >>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:aplikasi/home.php
+=======
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:1. Desain/index.html
 ?>
 <!DOCTYPE html>
 <html lang="en">
