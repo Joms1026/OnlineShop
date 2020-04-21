@@ -1,3 +1,128 @@
+<<<<<<< HEAD
+<<<<<<< HEAD:aplikasi/index.php
+<?php 
+	session_start();
+	//unset($_SESSION["cart"]);
+	//nanti saat user logout atau melakukan buy , session akan di unset
+	if(isset($_POST["addtocart"])){
+		echo "<script>alert('Berhasil')</script>";
+		$arrtemp = array(
+			"namaproduk" =>  $_POST["namaproduk"],
+			"harga" => $_POST["harga"],
+			"gambar" => $_POST["gambar"],
+		);
+		if(!isset($_SESSION["cart"])){
+			$datacart = array();
+			array_push($datacart , $arrtemp);
+			$_SESSION["cart"] = $datacart;
+			header("Location: cart.php");
+		}
+		else{
+			$datacart = $_SESSION["cart"];
+			array_push($datacart , $arrtemp);
+			$_SESSION["cart"] = $datacart;
+			header("Location: cart.php");
+		}
+	}
+=======
+<?php
+
+
+
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:aplikasi/home.php
+=======
+<?php
+include("conn.php");
+
+	if(isset($_POST["register"]))
+	{
+		if($_POST["nama"]<>'' && $_POST["email"]<>'' && $_POST["pass"]<>'' && $_POST["cpass"]<>'')
+		{
+			if ($_POST["pass"]==$_POST["cpass"])
+			{
+				$nama=$_POST["nama"];
+				$email=$_POST["email"];
+				$pass=$_POST["pass"];
+				$sql = "Select count(username) as 'jumlah' from user where username='$email'";
+				$result = $conn->query($sql);
+				if($result->num_rows > 0)
+				{	while($row = $result->fetch_assoc())
+					{
+					$hasil= $row["jumlah"];
+					}
+				}
+				if ($hasil==0)
+				{
+						
+						$sql2 = "INSERT INTO user VALUES('', '$email', '$pass','','$nama',0,0,'','')";
+						if($conn->query($sql2) == TRUE)
+		
+						{
+							echo "<script>alert('Insert berhasil');</script>";
+						}
+						else
+						{
+							$error = $conn->error;
+							echo"<script>alert('$error');</script>";
+							}
+				}
+				else
+				{
+					echo "<script>alert('Username Sudah Terdaftar');</script>";
+				}
+			}
+			else{
+				echo "<script>alert('Password dan Confrim Password tdk sama');</script>";
+			}
+		} 
+		else
+		{
+			echo "<script>alert('Harus Terisi Semua !');</script>";
+		}
+		
+	}
+
+	if(isset($_POST["login"]))
+	{
+		$user=$_POST["luser"];
+		$pass=$_POST["lpass"];
+		$sql = "Select count(EMAIL) as 'jumlah' from user where EMAIL='$user'";
+		//echo($sql);
+		$result = $conn->query($sql);
+		if($result->num_rows > 0)
+		{	while($row = $result->fetch_assoc())
+			{
+			$hasil= $row["jumlah"];
+			}
+		}
+		if ($hasil==0)
+		{
+			echo "<script>alert('Username Tidak Terdaftar');</script>";
+		}
+		else
+		{
+			$sql1 = "Select count(EMAIL) as 'jumlah' from user where EMAIL='$user' and PASSWORD_USER='$pass'";
+			$result1 = $conn->query($sql1);
+			if($result1->num_rows > 0)
+			{	while($row1 = $result1->fetch_assoc())
+				{
+				$hasil1= $row1["jumlah"];
+				}
+			}
+			if ($hasil1==0)
+			{
+				echo "<script>alert('Password salah');</script>";
+			}
+			else
+			{
+				$_SESSION['username']=$user;
+				header('location:home.php');	
+			}
+		}
+	}
+
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,10 +168,10 @@
 </head>
 
 <body>
-<!--<div class="preloader-full-height" id="preloading">
-	<img id="me" src="images/logo-icon.png">
-	<h4>LOADING ...</h4>
-</div>-->
+<div class="preloader-full-height" id="preloading">
+	<img id="me" src="images/logo-icon.png" style= "margin-top : -145px">
+	<h4 style= "color: white; margin-top : -125px" >LOADING ...</h4>
+</div>
 
 <div class="super_container">
 
@@ -60,7 +185,11 @@
 					<div class="col-lg-12 text-right">
 						<div class="logo_container">
 							<!-- <div class="logo"></div> -->
+<<<<<<< HEAD
 							<a href="index.html"><img src="images/logo.jpg" width="150px"></a>
+=======
+							<a href="index.php"><img src="images/logo.jpg" width="150px"></a>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
@@ -97,7 +226,20 @@
 								<li class="checkout">
 									<a href="#">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+<<<<<<< HEAD
+										<span id="checkout_items" class="checkout_items">
+										<?php
+											if(isset($_SESSION["cart"])){
+												echo count($_SESSION["cart"]);
+											}
+											else{
+												echo "0";
+											}
+										?>
+										</span>
+=======
 										<span id="checkout_items" class="checkout_items">2</span>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 									</a>
 								</li>
 							</ul>
@@ -173,7 +315,11 @@
 	<!-- Banner -->
 
 	<!--<div class="banner">
+<<<<<<< HEAD
+		 <div class="container"> -->
+=======
 		<!-- <div class="container"> -->
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
                 <!--<div class="row rowbanner">
 					<div class="col-md-1"></div>
                     <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar2.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
@@ -213,7 +359,11 @@
 					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
 
 						<!-- Product 1 -->
+<<<<<<< HEAD
+						<!-- nanti di load dari database-->
+=======
 
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						<div class="product-item men">
 							<div class="product discount product_filter">
 								<div class="product_image">
@@ -226,7 +376,17 @@
 									<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
 								</div>
 							</div>
+<<<<<<< HEAD
+							<form method="post">
+								<!-- Untuk menyimpan harga nya , nama nya , dan nama gambar untuk di masukkan ke session cart -->
+								<input type="hidden" value='Brown hoddie' name="namaproduk">
+								<input type="hidden" value="65.000" name="harga">
+								<input type="hidden" value="images/product_1.png" name="gambar">
+								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+							</form>
+=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 2 -->
@@ -243,7 +403,17 @@
 									<div class="product_price">Rp 185.000</div>
 								</div>
 							</div>
+<<<<<<< HEAD
+							<form method="post">
+								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
+								<input type="hidden" value='Navy Dress' name="namaproduk">
+								<input type="hidden" value="185.000" name="harga">
+								<input type="hidden" value="images/product_2.png" name="gambar">
+								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+							</form>
+=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 3 -->
@@ -259,7 +429,17 @@
 									<div class="product_price">Rp 125.000</div>
 								</div>
 							</div>
+<<<<<<< HEAD
+							<form method="post">
+								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
+								<input type="hidden" value='Yellow Gold Sweater' name="namaproduk">
+								<input type="hidden" value="125.000" name="harga">
+								<input type="hidden" value="images/product_3.png" name="gambar">
+								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+							</form>
+=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 4 -->
@@ -276,7 +456,17 @@
 									<div class="product_price">Rp 250.000</div>
 								</div>
 							</div>
+<<<<<<< HEAD
+							<form method="post">
+								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
+								<input type="hidden" value='Dress' name="namaproduk">
+								<input type="hidden" value="250.000" name="harga">
+								<input type="hidden" value="images/product_4.png" name="gambar">
+								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+							</form>
+=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 5 -->
@@ -292,7 +482,17 @@
 									<div class="product_price">Rp 80.000</div>
 								</div>
 							</div>
+<<<<<<< HEAD
+							<form method="post">
+								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
+								<input type="hidden" value='T-Shirt' name="namaproduk">
+								<input type="hidden" value="80.000" name="harga">
+								<input type="hidden" value="images/product_5.png" name="gambar">
+								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+							</form>
+=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 6 -->
@@ -309,7 +509,17 @@
 									<div class="product_price">Rp 75.000<span>$150.0000</span></div>
 								</div>
 							</div>
+<<<<<<< HEAD
+							<form method="post">
+								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
+								<input type="hidden" value='Jacket' name="namaproduk">
+								<input type="hidden" value="75.000" name="harga">
+								<input type="hidden" value="images/product_6.png" name="gambar">
+								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+							</form>
+=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 7 -->
@@ -325,7 +535,17 @@
 									<div class="product_price">Rp 85.000</div>
 								</div>
 							</div>
+<<<<<<< HEAD
+							<form method="post">
+								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
+								<input type="hidden" value='Sweeter Brown' name="namaproduk">
+								<input type="hidden" value="85.000" name="harga">
+								<input type="hidden" value="images/product_7.png" name="gambar">
+								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+							</form>
+=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 8 -->
@@ -341,7 +561,17 @@
 									<div class="product_price">Rp 350.000</div>
 								</div>
 							</div>
+<<<<<<< HEAD
+							<form method="post">
+								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
+								<input type="hidden" value='Red Women Dress' name="namaproduk">
+								<input type="hidden" value="350.000" name="harga">
+								<input type="hidden" value="images/product_8.png" name="gambar">
+								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+							</form>
+=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 9 -->
@@ -358,7 +588,17 @@
 									<div class="product_price">Rp 125.000</div>
 								</div>
 							</div>
+<<<<<<< HEAD
+							<form method="post">
+								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
+								<input type="hidden" value='Jacket' name="namaproduk">
+								<input type="hidden" value="125.000" name="harga">
+								<input type="hidden" value="images/product_9.png" name="gambar">
+								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+							</form>
+=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 10 -->
@@ -374,7 +614,17 @@
 									<div class="product_price">Rp 100.000</div>
 								</div>
 							</div>
+<<<<<<< HEAD
+							<form method="post">
+								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
+								<input type="hidden" value='Grey Sweeter' name="namaproduk">
+								<input type="hidden" value="100.000" name="harga">
+								<input type="hidden" value="images/product_10.png" name="gambar">
+								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+							</form>
+=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 					</div>
 				</div>
@@ -846,6 +1096,7 @@
 			<div class="container-login" id="container-login">
 				<div class="form-container sign-up-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
+<<<<<<< HEAD
 					<form action="#" class="form-login">
 						<h3>Create Account</h3>
 						<br>
@@ -855,6 +1106,17 @@
 						<input type="password" placeholder="Confirm Password" />
 						<br>
 						<button class="button-login">Register</button>
+=======
+					<form action="Index.php" method="post" class="form-login">
+						<h3>Create Account</h3>
+						<br>
+						<input type="text" name ="nama" placeholder="Name" />
+						<input type="email" name ="email" placeholder="Email" />
+						<input type="password" name ="pass" placeholder="Password" />
+						<input type="password" name ="cpass" placeholder="Confirm Password" />
+						<br>
+						<button type="submit" name="register" class="button-login">Register</button>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						<br>
 						<span>or use your account for login</span>
 						<div class="social-container">
@@ -865,6 +1127,7 @@
 				</div>
 				<div class="form-container sign-in-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
+<<<<<<< HEAD
 					<form action="#" class="form-login">
 						<h3>Sign in</h3>
 						<br>
@@ -872,6 +1135,15 @@
 						<input type="password" placeholder="Password" />
 						<br>
 						<button class="button-login">Sign In</button>
+=======
+					<form action="index.php" method="post" class="form-login">
+						<h3>Sign in</h3>
+						<br>
+						<input type="email" name ="luser" placeholder="Email" />
+						<input type="password" name ="lpass" placeholder="Password" />
+						<br>
+						<button typr="submit" name ="login" class="button-login">Sign In</button>
+>>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						<br>
 						<span>or use your account for login</span>
 						<div class="social-container">

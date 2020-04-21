@@ -2,7 +2,8 @@
 	height: 100%;
 	position: fixed;
 	z-index: 100000000000000000;
-	background: url(../images/patternbatik.png) top left repeat, linear-gradient(to right, #dbaf6c, #9c6161);
+	/* background: url(../images/patternbatik.png) top left repeat, linear-gradient(to right, #dbaf6c, #9c6161); */
+	background-color: crimson ;
 	width: 100%;
 	text-align: center;
 	padding-top: calc(32vh);

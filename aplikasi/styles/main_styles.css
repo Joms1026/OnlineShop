@@ -579,7 +579,7 @@ section
 }
 .navbar_menu .actived
 {
-	color: #dbaf6c;
+	color: pink;
 	font-weight: bold;
 }
 .navbar_user
@@ -1760,7 +1760,7 @@ section
 	margin-top: 8px; 
 	margin-bottom: 8px; 
 	height: 3px;
-	background-color:#dbaf6c;
+	background-color: pink;
 }
 
 
@@ -1771,7 +1771,7 @@ section
 	margin-top: 8px; 
 	margin-bottom: 8px; 
 	height: 3px;
-	background-color:#702323;
+	background-color: purple;
 }
 
 /*********************************
@@ -1817,8 +1817,8 @@ section
 }
 
 .btn-brown {
-	border-color: #dbaf6c;
-	background-color: #dbaf6c;
+	border-color: #eb5b92;
+	background-color: #db6cc3;
 }
 
 .center {
@@ -1848,10 +1848,10 @@ section
 	margin-bottom: 4px;
 	width: 40px; height: 40px;
 	margin: 4px auto;
-	color: #702323; /* Green */
-	border-color: #702323; /* Green */
+	color: pink; /* Green */
+	border-color: pink; /* Green */
 	border-width: 2px; /* Green */
-	background-color: rgba(219, 175, 108, 0.8); /* Green */
+	background-color: rgba(235, 103, 184, 0.8); /* Green */
 }
 .btn-group-fab .btn-main {
 	width: 50px; height: 50px;
@@ -1918,7 +1918,7 @@ section
 
 .widgets_div .text_div span:hover, .widgets_div:hover
 {
-	color: #dbaf6c!important;
+	color: #c45dbb!important;
 }
 
 /*********************************
