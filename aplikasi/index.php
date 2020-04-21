@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD:aplikasi/index.php
 <?php 
 	session_start();
 	//unset($_SESSION["cart"]);
@@ -24,14 +22,7 @@
 			header("Location: cart.php");
 		}
 	}
-=======
-<?php
 
-
-
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:aplikasi/home.php
-=======
-<?php
 include("conn.php");
 
 	if(isset($_POST["register"]))
@@ -121,7 +112,6 @@ include("conn.php");
 		}
 	}
 
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 ?>
 <!DOCTYPE html>
 <html lang="en">
