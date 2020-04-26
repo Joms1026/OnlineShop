@@ -422,29 +422,9 @@
 								<input type="hidden" value="images/product_2.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
 							</form>
-=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-						</div>
 
-						<!-- Product 3 -->
 
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_3.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Yellow Gold Sweeter</a></h6>
-									<div class="product_price">Rp 125.000</div>
-								</div>
-							</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
 							<form method="post">
 								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
 								<input type="hidden" value='Yellow Gold Sweater' name="namaproduk">
@@ -452,14 +432,8 @@
 								<input type="hidden" value="images/product_3.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
 							</form>
-=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
-
 						<!-- Product 4 -->
 
 						<div class="product-item accessories">
@@ -474,8 +448,7 @@
 									<div class="product_price">Rp 250.000</div>
 								</div>
 							</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 							<form method="post">
 								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
 								<input type="hidden" value='Dress' name="namaproduk">
@@ -483,7 +456,7 @@
 								<input type="hidden" value="images/product_4.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
 							</form>
-=======
+
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 >>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 =======

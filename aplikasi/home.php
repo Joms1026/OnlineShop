@@ -24,13 +24,8 @@
 			header("Location: cart.php");
 		}
 	}
-=======
-=======
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:1. Desain/index.html
+
 <?php
-
-
-
 <<<<<<< HEAD:aplikasi/home.php
 >>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:aplikasi/home.php
 =======
