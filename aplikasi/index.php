@@ -1072,10 +1072,6 @@
 						<input type="password" name ="lpass" placeholder="Password" />
 						<br>
 						<button typr="submit" name ="login" class="button-login">Sign In</button>
-<<<<<<< HEAD
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						<br>
 						<span>or use your account for login</span>
 						<div class="social-container">
@@ -1196,8 +1192,39 @@
 			success : function(result){
 				var allProduct = JSON.parse(result);
 				
-				// code here
+				/*for (let index = 0; index < allProduct.length; index++) {
+					$("#id").append(`
+						<div id="product${index}">
+							<div class="product_image">
+								<img src="images/product_1.png" alt="">
+							</div>
+							<div class="favorite favorite_left"></div>
+							<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-20.000</span></div>
+							<div class="product_info">
+								<h6 class="product_name"><a href="single.html">${allProduct[1]}</a></h6>
+								<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
+							</div>
+							<form id="formProduct${index}">
+								<!-- Untuk menyimpan harga nya , nama nya , dan nama gambar untuk di masukkan ke session cart -->
+								<input type="hidden" value='${allProduct[1]}' name="namaproduk">
+								<input type="hidden" value="65.000" name="harga">
+							</form>
+						</div>
+					`);
+
+					var newElementCart = '<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>';
+					newElementCart.on("click", {idx:allProduct[0]}, fungsiBtnCart);
+					$("#formProduct"+index).append(newElementCart);
+				}*/
 			}
 		});
 	}
+
+	/*function fungsiBtnCart(e){
+		// apa yang terjadi jika btn add cart di klik
+		e.preventDefault();
+		var idxBtn = e.data.idx; // akan mendapatkan id product
+
+		// code perintah add to cart
+	}*/
 </script>
