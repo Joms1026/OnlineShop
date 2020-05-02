@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	require_once('conn.php');
 	//unset($_SESSION["cart"]);
 	//nanti saat user logout atau melakukan buy , session akan di unset
 	if(isset($_POST["addtocart"])){
@@ -33,7 +34,7 @@
 				$email=$_POST["email"];
 				$pass=$_POST["pass"];
 				$sql = "Select count(username) as 'jumlah' from user where username='$email'";
-				$result = $conn->query($sql);
+				$result = mysqli_query($conn, $sql);
 				if($result->num_rows > 0)
 				{	while($row = $result->fetch_assoc())
 					{
@@ -77,16 +78,10 @@
 		$pass=$_POST["lpass"];
 		$sql = "Select count(EMAIL) as 'jumlah' from user where EMAIL='$user'";
 		//echo($sql);
-		$result = $conn->query($sql);
-		if($result->num_rows > 0)
-		{	while($row = $result->fetch_assoc())
-			{
-			$hasil= $row["jumlah"];
-			}
-		}
-		if ($hasil==0)
-		{
-			echo "<script>alert('Username Tidak Terdaftar');</script>";
+		$result = mysqli_query($conn, $sql)->fetch_assoc();
+		if($result->num_rows == 0)
+		{	
+			echo "<script>alert('Email Tidak Terdaftar!');</script>";
 		}
 		else
 		{
