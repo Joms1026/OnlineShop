@@ -1,5 +1,3 @@
-<<<<<<< HEAD 
-=======
 <?php
 	session_start();
 	//unset($_SESSION["cart"]);
@@ -176,15 +174,8 @@
 					<div class="col-lg-12 text-right">
 						<div class="logo_container">
 							<!-- <div class="logo"></div> -->
-<<<<<<< HEAD
-<<<<<<< HEAD
 							<a href="index.html"><img src="images/logo.jpg" width="150px"></a>
-=======
-							<a href="index.php"><img src="images/logo.jpg" width="150px"></a>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-							<a href="index.php"><img src="images/logo.jpg" width="150px"></a>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
+
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
@@ -221,8 +212,6 @@
 								<li class="checkout">
 									<a href="#">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-<<<<<<< HEAD
-<<<<<<< HEAD
 										<span id="checkout_items" class="checkout_items">
 										<?php
 											if(isset($_SESSION["cart"])){
@@ -233,12 +222,8 @@
 											}
 										?>
 										</span>
-=======
 										<span id="checkout_items" class="checkout_items">2</span>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-										<span id="checkout_items" class="checkout_items">2</span>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
+
 									</a>
 								</li>
 							</ul>
@@ -314,15 +299,8 @@
 	<!-- Banner -->
 
 	<!--<div class="banner">
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 		 <div class="container"> -->
-=======
-		<!-- <div class="container"> -->
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-		<!-- <div class="container"> -->
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
                 <!--<div class="row rowbanner">
 					<div class="col-md-1"></div>
                     <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar2.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
@@ -362,15 +340,7 @@
 					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
 
 						<!-- Product 1 -->
-<<<<<<< HEAD
-<<<<<<< HEAD
 						<!-- nanti di load dari database-->
-=======
-
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						<div class="product-item men">
 							<div class="product discount product_filter">
 								<div class="product_image">
@@ -383,8 +353,6 @@
 									<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
 								</div>
 							</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
 							<form method="post">
 								<!-- Untuk menyimpan harga nya , nama nya , dan nama gambar untuk di masukkan ke session cart -->
 								<input type="hidden" value='Brown hoddie' name="namaproduk">
@@ -392,12 +360,8 @@
 								<input type="hidden" value="images/product_1.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
 							</form>
-=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
+
 						</div>
 
 						<!-- Product 2 -->
@@ -414,8 +378,6 @@
 									<div class="product_price">Rp 185.000</div>
 								</div>
 							</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
 							<form method="post">
 								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
 								<input type="hidden" value='Navy Dress' name="namaproduk">
@@ -459,10 +421,7 @@
 							</form>
 
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 5 -->
@@ -478,8 +437,7 @@
 									<div class="product_price">Rp 80.000</div>
 								</div>
 							</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 							<form method="post">
 								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
 								<input type="hidden" value='T-Shirt' name="namaproduk">
@@ -487,12 +445,8 @@
 								<input type="hidden" value="images/product_5.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
 							</form>
-=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
+
 						</div>
 
 						<!-- Product 6 -->
@@ -509,8 +463,6 @@
 									<div class="product_price">Rp 75.000<span>$150.0000</span></div>
 								</div>
 							</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
 							<form method="post">
 								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
 								<input type="hidden" value='Jacket' name="namaproduk">
@@ -518,29 +470,9 @@
 								<input type="hidden" value="images/product_6.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
 							</form>
-=======
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-						</div>
 
-						<!-- Product 7 -->
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_7.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Sweeter Brown</a></h6>
-									<div class="product_price">Rp 85.000</div>
-								</div>
-							</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
 							<form method="post">
 								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
 								<input type="hidden" value='Sweeter Brown' name="namaproduk">
@@ -548,12 +480,8 @@
 								<input type="hidden" value="images/product_7.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
 							</form>
-=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
+
 						</div>
 
 						<!-- Product 8 -->
@@ -569,8 +497,7 @@
 									<div class="product_price">Rp 350.000</div>
 								</div>
 							</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 							<form method="post">
 								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
 								<input type="hidden" value='Red Women Dress' name="namaproduk">
@@ -578,12 +505,7 @@
 								<input type="hidden" value="images/product_8.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
 							</form>
-=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 
 						<!-- Product 9 -->
@@ -600,8 +522,7 @@
 									<div class="product_price">Rp 125.000</div>
 								</div>
 							</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 							<form method="post">
 								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
 								<input type="hidden" value='Jacket' name="namaproduk">
@@ -609,12 +530,8 @@
 								<input type="hidden" value="images/product_9.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
 							</form>
-=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
+
 						</div>
 
 						<!-- Product 10 -->
@@ -630,8 +547,6 @@
 									<div class="product_price">Rp 100.000</div>
 								</div>
 							</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
 							<form method="post">
 								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
 								<input type="hidden" value='Grey Sweeter' name="namaproduk">
@@ -639,12 +554,7 @@
 								<input type="hidden" value="images/product_10.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
 							</form>
-=======
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
 						</div>
 					</div>
 				</div>
@@ -1116,8 +1026,7 @@
 			<div class="container-login" id="container-login">
 				<div class="form-container sign-up-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 					<form action="#" class="form-login">
 						<h3>Create Account</h3>
 						<br>
@@ -1127,9 +1036,7 @@
 						<input type="password" placeholder="Confirm Password" />
 						<br>
 						<button class="button-login">Register</button>
-=======
-=======
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
+
 					<form action="Index.php" method="post" class="form-login">
 						<h3>Create Account</h3>
 						<br>
@@ -1138,11 +1045,7 @@
 						<input type="password" name ="pass" placeholder="Password" />
 						<input type="password" name ="cpass" placeholder="Confirm Password" />
 						<br>
-						<button type="submit" name="register" class="button-login">Register</button>
-<<<<<<< HEAD
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
-=======
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
+
 						<br>
 						<span>or use your account for login</span>
 						<div class="social-container">
@@ -1153,8 +1056,7 @@
 				</div>
 				<div class="form-container sign-in-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 					<form action="#" class="form-login">
 						<h3>Sign in</h3>
 						<br>
@@ -1162,9 +1064,7 @@
 						<input type="password" placeholder="Password" />
 						<br>
 						<button class="button-login">Sign In</button>
-=======
-=======
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff
+
 					<form action="index.php" method="post" class="form-login">
 						<h3>Sign in</h3>
 						<br>
