@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    $_SESSION['sideNav'] = [
+        'dashboard' => true,
+    ];
+    $_SESSION['activeTree'] = [];
+?>
 <!-- Head -->
 <!DOCTYPE html>
 <html lang="en">
