@@ -1,6 +1,4 @@
-<<<<<<< HEAD:aplikasi/home.php
-<<<<<<< HEAD:aplikasi/index.php
-<?php 
+<?php
 	session_start();
 	//unset($_SESSION["cart"]);
 	//nanti saat user logout atau melakukan buy , session akan di unset
@@ -24,12 +22,6 @@
 			header("Location: cart.php");
 		}
 	}
-
-<?php
-<<<<<<< HEAD:aplikasi/home.php
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:aplikasi/home.php
-=======
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:1. Desain/index.html
 ?>
 <!DOCTYPE html>
 <html lang="en">
