@@ -211,7 +211,7 @@
 											</div>
 										</td>
 										<td>L</td>
-										<td>".$value["harga"]."</td>
+										<td id='price".$key."'>".$value["harga"]."</td>
 										<td><div class='product_quantity ml-lg-auto mr-lg-auto text-center'>
 											<span class='product_text product_num' id='angka".$key."'>1</span>
 											<div class='qty_sub qty_button trans_200 text-center' id='minus".$key."'><span>-</span></div>
@@ -220,8 +220,7 @@
 										<td id='total".$key."'>
 											<script>
 												document.getElementById('total".$key."').innerHTML = document.getElementById('angka".$key."').innerHTML * ".$value['harga']." + '.000'
-											</script>
-										</td>
+											</script></td>
 										</tr> <br>";
 										}
 										}
@@ -250,53 +249,12 @@
 									</tr> -->
 								</tbody>
 							</table>
-							
-							<!-- Cart Bar -->
-							<!-- <div class="cart_bar">
-								<ul class="cart_bar_list item_list d-flex flex-row align-items-center justify-content-end">
-									<li class="mr-auto">Product</li>
-									<li>Color</li>
-									<li>Size</li>
-									<li>Price</li>
-									<li>Quantity</li>
-									<li>Total</li>
-								</ul>
-							</div> -->
-
-							<!-- Cart Items -->
-							<!-- <div class="cart_items">
-								<ul class="cart_items_list">
-
-									<li class="cart_item item_list d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-end justify-content-start">
-										<div class="product d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start mr-auto">
-											<div><div class="product_number">1</div></div>
-											<div><div class="product_image"><img src="images/cart_item_1.jpg" alt=""></div></div>
-											<div class="product_name_container">
-												<div class="product_name"><a href="product.html">Cool Flufy Clothing without Stripes</a></div>
-												<div class="product_text">Second line for additional info</div>
-											</div>
-										</div>
-										<div class="product_color product_text"><span>Color: </span>beige</div>
-										<div class="product_size product_text"><span>Size: </span>L</div>
-										<div class="product_price product_text"><span>Price: </span>$3.99</div>
-										<div class="product_quantity_container">
-											<div class="product_quantity ml-lg-auto mr-lg-auto text-center">
-												<span class="product_text product_num">1</span>
-												<div class="qty_sub qty_button trans_200 text-center"><span>-</span></div>
-												<div class="qty_add qty_button trans_200 text-center"><span>+</span></div>
-											</div>
-										</div>
-										<div class="product_total product_text"><span>Total: </span>$3.99</div>
-									</li>
-
-								</ul>
-							</div> -->
 
 							<!-- Cart Buttons -->
 							<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
 								<div class="cart_buttons_inner ml-sm-auto d-flex flex-row align-items-start justify-content-start flex-wrap">
-									<form method="post" id="clearcart"><button type="submit" name="btnClear"><div class="button button_clear trans_200" name="clearcart"><a color="white">clear cart</a></div></button></form>
-									<form method="post"><button type="submit" name="continueshopping"><div class="button button_continue trans_200"><a color="white">continue shopping</a></div></button></form>
+									<form method="post" id="clearcart"><button type="submit" name="btnClear"><div class="button button_clear trans_200" name="clearcart"><a style="color:white">clear cart</a></div></button></form>
+									<form method="post"><button type="submit" name="continueshopping"><div class="button button_continue trans_200"><a style="color:white">continue shopping</a></div></button></form>
 								</div>
 							</div>
 						</div>
@@ -317,30 +275,32 @@
 								<div class="shipping">
 									<div class="cart_extra_title">Shipping Method</div>
 									<ul>
+										<form name="shipping">
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_1" name="shipping_radio" class="shipping_radio">
+												<input type="radio" id="radio_1" name="shipping_radio" class="shipping_radio" value="nd">
 												<span class="radio_mark"></span>
 												<span class="radio_text">Next day delivery</span>
 											</label>
-											<div class="shipping_price ml-auto">$4.99</div>
+											<div class="shipping_price ml-auto">100.000</div>
 										</li>
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_2" name="shipping_radio" class="shipping_radio">
+												<input type="radio" id="radio_2" name="shipping_radio" class="shipping_radio" value="sd">
 												<span class="radio_mark"></span>
 												<span class="radio_text">Standard delivery</span>
 											</label>
-											<div class="shipping_price ml-auto">$1.99</div>
+											<div class="shipping_price ml-auto">50.000</div>
 										</li>
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_3" name="shipping_radio" class="shipping_radio" checked>
+												<input type="radio" id="radio_3" name="shipping_radio" class="shipping_radio" value="free" checked>
 												<span class="radio_mark"></span>
 												<span class="radio_text">Personal Pickup</span>
 											</label>
 											<div class="shipping_price ml-auto">Free</div>
 										</li>
+										</form>
 									</ul>
 								</div>
 							</div>
@@ -652,25 +612,30 @@
 		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
 			document.getElementById("minus"+index.toString()).addEventListener("click", function(){
 				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) - 1;
-				var totalnya = parseInt(document.getElementById("total"+index.toString()).innerHTML);
-				var hasil = angkanya * totalnya;
-				//document.getElementById("total"+index.toString()).innerHTML = hasil;
-				alert(totalnya);
+				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
+				var hasil = angkanya * harganya;
+				document.getElementById("total"+index.toString()).innerHTML = hasil + '.000';
 			});
 		}
 		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
 			document.getElementById("plus"+index.toString()).addEventListener("click", function(){
 				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) + 1;
-				var totalnya = parseInt(document.getElementById("total"+index.toString()).innerHTML_;
-				var hasil = angkanya * totalnya;
-				//document.getElementById("total"+index.toString()).innerHTML = hasil+'.000';
-				alert(totalnya);
+				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
+				var hasil = angkanya * harganya;
+				document.getElementById("total"+index.toString()).innerHTML = hasil + '.000';
 			});
 		}
 	} catch (error) {
 		
 	}
 
+	//Ganti shipping
+	var radios = document.forms["shipping"].elements["shipping_radio"];
+	for(var i = 0, max = radios.length; i < max; i++) {
+    	radios[i].onclick = function() {
+        	alert(this.value);
+    	}
+	}
 </script>
 
 <script type="text/javascript">
