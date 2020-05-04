@@ -1,5 +1,8 @@
 <?php
 	session_start();
+	if(isset($_POST["continueshopping"])){
+		header("Location: home.php");
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -184,9 +187,15 @@
 										<td style="width: 10%;">Total</td>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="tablecart">
 									<?php
-										$datacart = $_SESSION["cart"];
+										if(!isset($_SESSION["cart"]) || count($_SESSION["cart"]) == 0){
+											echo '<td colspan="6"><div class="alert alert-danger" role="alert">
+ 												 Tidak ada barang di dalam cart
+											</div></td>';
+										}
+										else{
+											$datacart = $_SESSION["cart"];
 										foreach ($datacart as $key => $value) {
 										echo	"<tr>
 										<td>".($key + 1)."</td>
@@ -204,12 +213,17 @@
 										<td>L</td>
 										<td>".$value["harga"]."</td>
 										<td><div class='product_quantity ml-lg-auto mr-lg-auto text-center'>
-											<span class='product_text product_num'>1</span>
-											<div class='qty_sub qty_button trans_200 text-center'><span>-</span></div>
-											<div class='qty_add qty_button trans_200 text-center'><span>+</span></div>
+											<span class='product_text product_num' id='angka".$key."'>1</span>
+											<div class='qty_sub qty_button trans_200 text-center' id='minus".$key."'><span>-</span></div>
+											<div class='qty_add qty_button trans_200 text-center' id='plus".$key."'><span>+</span></div>
 										</div></td>
-										<td>$3.99</td>
+										<td id='total".$key."'>
+											<script>
+												document.getElementById('total".$key."').innerHTML = document.getElementById('angka".$key."').innerHTML * ".$value['harga']." + '.000'
+											</script>
+										</td>
 										</tr> <br>";
+										}
 										}
 									?>									 
 									<!-- <tr>
@@ -281,8 +295,8 @@
 							<!-- Cart Buttons -->
 							<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
 								<div class="cart_buttons_inner ml-sm-auto d-flex flex-row align-items-start justify-content-start flex-wrap">
-									<div class="button button_clear trans_200"><a href="categories.html">clear cart</a></div>
-									<div class="button button_continue trans_200"><a href="categories.html">continue shopping</a></div>
+									<form method="post" id="clearcart"><button type="submit" name="btnClear"><div class="button button_clear trans_200" name="clearcart"><a color="white">clear cart</a></div></button></form>
+									<form method="post"><button type="submit" name="continueshopping"><div class="button button_continue trans_200"><a color="white">continue shopping</a></div></button></form>
 								</div>
 							</div>
 						</div>
@@ -609,6 +623,54 @@
 		$("#signUp").trigger( "click" );
 		$("#loginModal").modal("toggle");
 	}
+
+	$(document).ready(function(){
+		$("#clearcart").submit(function(e){
+			e.preventDefault();
+
+			$.ajax({
+          		method : "post", // metode ajax
+          		url : "ajax/clearcart.php", // tujuan request
+         	 	data : $("#clearcart").serialize(), // data yang dikirim
+          		success : function(res){
+					if(res.match("sukses")){
+						alert('Cart cleared');
+						$("#tablecart").html('');
+						$("#tablecart").append(`<td colspan="6">
+						<div class="alert alert-danger" role="alert>
+							Tidak ada barang dalam cart
+						</div>
+						</td>`);
+					}
+          		}
+        	});
+		});
+	});
+
+	//bikin penambahan qty
+	try {
+		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
+			document.getElementById("minus"+index.toString()).addEventListener("click", function(){
+				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) - 1;
+				var totalnya = parseInt(document.getElementById("total"+index.toString()).innerHTML);
+				var hasil = angkanya * totalnya;
+				//document.getElementById("total"+index.toString()).innerHTML = hasil;
+				alert(totalnya);
+			});
+		}
+		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
+			document.getElementById("plus"+index.toString()).addEventListener("click", function(){
+				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) + 1;
+				var totalnya = parseInt(document.getElementById("total"+index.toString()).innerHTML_;
+				var hasil = angkanya * totalnya;
+				//document.getElementById("total"+index.toString()).innerHTML = hasil+'.000';
+				alert(totalnya);
+			});
+		}
+	} catch (error) {
+		
+	}
+
 </script>
 
 <script type="text/javascript">

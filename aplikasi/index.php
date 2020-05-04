@@ -217,8 +217,6 @@
 											}
 										?>
 										</span>
-										<span id="checkout_items" class="checkout_items">2</span>
-
 									</a>
 								</li>
 							</ul>
