@@ -20,7 +20,7 @@
             } else {
                 if($pass == $cpass){
                     $pass = password_hash($pass, PASSWORD_DEFAULT);
-                    $queryInsert = "INSERT INTO users VALUES('', '$username', '$pass', '$email', '1', '', '')";
+                    $queryInsert = "INSERT INTO users VALUES('', '$username', '$pass', '$email', '1', 'c', '0', '', '')";
                     $result = mysqli_query($conn, $queryInsert);
 
                     if($result) $returnValue = "success";
