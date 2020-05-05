@@ -1125,7 +1125,12 @@
 						if(arrLogin['ROLE'] == "1"){
 							alert("Berhasil Login!");
 							window.location.href = 'home.php';
+						} else if(arrLogin['ROLE'] == "0"){
+							alert("Berhasil Login!");
+							window.location.href = 'admin/produk.php';
 						}
+					} else {
+						alert("Gagal Login!");
 					}
 				}
 			});
