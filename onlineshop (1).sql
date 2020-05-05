@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2020 at 03:54 PM
+-- Generation Time: May 05, 2020 at 04:09 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -272,6 +272,8 @@ CREATE TABLE `users` (
   `PASSWORD_USER` varchar(100) NOT NULL,
   `EMAIL_USER` varchar(50) NOT NULL,
   `ROLE` int(11) NOT NULL,
+  `code_verify` varchar(100) NOT NULL,
+  `verify_email` int(11) NOT NULL,
   `ALAMAT` varchar(150) DEFAULT NULL,
   `NO_TELEPON` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -280,11 +282,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`ID_USER`, `USERNAME`, `PASSWORD_USER`, `EMAIL_USER`, `ROLE`, `ALAMAT`, `NO_TELEPON`) VALUES
-(8, 'Stefanie', '$2y$10$QTWp9AkzfQMr6scowFOZ/uoZbjXL6yXiAq/qmRH.pMp2Vg5D2wf96', 'stefanieangl@gmail.com', 1, 'kapasari 50', 2147483647),
-(9, 'Stefanie', '$2y$10$XGX4MvszK3OuKexP1ljdjO3jXG0.3Alw.5raeov.17xUh8y8b0L7y', 'stefanie@gmail.com', 0, 'kapasari 50', 2147483647),
-(10, 'jennifer', '$2y$10$qO0Y2Eucr6uV/5GXw0CHX.RLb7KUKRPnKNnHr1CnasTZLBnP8fYdC', 'jennifer@gmail.com', 1, '', 0),
-(11, 'jens', '$2y$10$yhnCGbk06ezgGjsNRL6D1eZ8SaxkjP8nv3YNDS1e7.JUj2toI3pMm', 'jen@gmail.com', 1, '', 0);
+INSERT INTO `users` (`ID_USER`, `USERNAME`, `PASSWORD_USER`, `EMAIL_USER`, `ROLE`, `code_verify`, `verify_email`, `ALAMAT`, `NO_TELEPON`) VALUES
+(8, 'Stefanie', '$2y$10$QTWp9AkzfQMr6scowFOZ/uoZbjXL6yXiAq/qmRH.pMp2Vg5D2wf96', 'stefanieangl@gmail.com', 1, '', 1, 'kapasari 50', 2147483647),
+(9, 'Stefanie', '$2y$10$XGX4MvszK3OuKexP1ljdjO3jXG0.3Alw.5raeov.17xUh8y8b0L7y', 'stefanie@gmail.com', 0, '', 1, 'kapasari 50', 2147483647),
+(10, 'jennifer', '$2y$10$qO0Y2Eucr6uV/5GXw0CHX.RLb7KUKRPnKNnHr1CnasTZLBnP8fYdC', 'jennifer@gmail.com', 1, '', 1, '', 0),
+(11, 'jens', '$2y$10$yhnCGbk06ezgGjsNRL6D1eZ8SaxkjP8nv3YNDS1e7.JUj2toI3pMm', 'jen@gmail.com', 1, '', 1, '', 0);
 
 -- --------------------------------------------------------
 
