@@ -7,7 +7,7 @@
     $password = $_POST['lpass'];
 
     if((!empty($username)) && (!empty($password))){
-        $querySelect = "SELECT * FROM users WHERE email_user = '$username'";
+        $querySelect = "SELECT * FROM users WHERE email_user = '$username' AND verify_email = 1";
         $result = mysqli_query($conn, $querySelect)->fetch_assoc();
         
         if(password_verify($password, $result['PASSWORD_USER']) == true){
