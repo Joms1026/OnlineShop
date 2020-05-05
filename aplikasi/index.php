@@ -71,11 +71,17 @@
 		}
 		
 	}
+	if(isset($_POST["login"])){
+		$user=$_POST["luser"];
+		$pass=$_POST["lpass"];
+		if($user=="admin@gmail.com" && $pass="admin"){
+			header('location:"/admin/dashboard.php"');
+		}
+	}
 
 	if(isset($_POST["login"]))
 	{
-		$user=$_POST["luser"];
-		$pass=$_POST["lpass"];
+		
 		$sql = "Select count(EMAIL) as 'jumlah' from user where EMAIL='$user'";
 		//echo($sql);
 		$result = mysqli_query($conn, $sql)->fetch_assoc();
