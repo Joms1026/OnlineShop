@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	require_once('conn.php');
+
 	//unset($_SESSION["cart"]);
 	//nanti saat user logout atau melakukan buy , session akan di unset
 	if(isset($_POST["addtocart"])){
@@ -26,6 +27,7 @@
 	
 	if(isset($_POST["register"]))
 	{
+		echo "<script> alert('register') </script>;";
 		if($_POST["nama"]<>'' && $_POST["email"]<>'' && $_POST["pass"]<>'' && $_POST["cpass"]<>'')
 		{
 			if ($_POST["pass"]==$_POST["cpass"])
@@ -33,7 +35,7 @@
 				$nama=$_POST["nama"];
 				$email=$_POST["email"];
 				$pass=$_POST["pass"];
-				$sql = "Select count(username) as 'jumlah' from user where username='$email'";
+				$sql = "Select count(username) as 'jumlah' from users where username='$email'";
 				$result = mysqli_query($conn, $sql);
 				if($result->num_rows > 0)
 				{	while($row = $result->fetch_assoc())
@@ -44,7 +46,7 @@
 				if ($hasil==0)
 				{
 						
-						$sql2 = "INSERT INTO user VALUES('', '$email', '$pass','','$nama',0,0,'','')";
+						$sql2 = "INSERT INTO users VALUES('', '$email', '$pass','','$nama',0,0,'','')";
 						if($conn->query($sql2) == TRUE)
 		
 						{
@@ -71,41 +73,8 @@
 		}
 		
 	}
-
-	if(isset($_POST["login"]))
-	{
-		$user=$_POST["luser"];
-		$pass=$_POST["lpass"];
-		$sql = "Select count(EMAIL) as 'jumlah' from user where EMAIL='$user'";
-		//echo($sql);
-		$result = mysqli_query($conn, $sql)->fetch_assoc();
-		if($result->num_rows == 0)
-		{	
-			echo "<script>alert('Email Tidak Terdaftar!');</script>";
-		}
-		else
-		{
-			$sql1 = "Select count(EMAIL) as 'jumlah' from user where EMAIL='$user' and PASSWORD_USER='$pass'";
-			$result1 = $conn->query($sql1);
-			if($result1->num_rows > 0)
-			{	while($row1 = $result1->fetch_assoc())
-				{
-				$hasil1= $row1["jumlah"];
-				}
-			}
-			if ($hasil1==0)
-			{
-				echo "<script>alert('Password salah');</script>";
-			}
-			else
-			{
-				$_SESSION['username']=$user;
-				header('location:home.php');	
-			}
-		}
-	}
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -152,10 +121,10 @@
 </head>
 
 <body>
-<div class="preloader-full-height" id="preloading">
+<!-- <div class="preloader-full-height" id="preloading">
 	<img id="me" src="images/logo-icon.png" style= "margin-top : -145px">
 	<h4 style= "color: white; margin-top : -125px" >LOADING ...</h4>
-</div>
+</div> -->
 
 <div class="super_container">
 
@@ -1020,7 +989,7 @@
 				<div class="form-container sign-up-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 
-					<form action="Index.php" method="post" class="form-login">
+					<form class="form-login" id="formRegister">
 						<h3>Create Account</h3>
 						<br>
 						<input type="text" name ="nama" placeholder="Name" />
@@ -1040,7 +1009,7 @@
 				<div class="form-container sign-in-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 
-					<form action="index.php" method="post" class="form-login">
+					<form class="form-login" id="formLogin">
 						<h3>Sign in</h3>
 						<br>
 						<input type="email" name ="luser" placeholder="Email" />
@@ -1143,6 +1112,24 @@
 
 	$(document).ready(function(){
 		loadAllProduct();
+
+		$("#formLogin").submit(function(e){
+			e.preventDefault(); // mencegah page reload
+			$.ajax({
+				method : "post", 
+				url : "cekLogin.php", 
+				data : $("#formLogin").serialize(), 
+				success : function(result){
+					var arrLogin = JSON.parse(result);
+					if(arrLogin != "Gagal login!"){
+						if(arrLogin['ROLE'] == "1"){
+							alert("Berhasil Login!");
+							window.location.href = 'home.php';
+						}
+					}
+				}
+			});
+        });
 
 		/*$("#id").submit(function(e){
 			e.preventDefault(); // mencegah page reload
