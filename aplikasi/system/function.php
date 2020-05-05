@@ -54,15 +54,17 @@ function sendEmail($to, $subject, $body) {
         //Server settings
         // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
         $mail->isSMTP();                                            // Send using SMTP
-        $mail->Host       = 'smtp.zoho.com';                    // Set the SMTP server to send through smtp.gmail.com:587 => port
+        // $mail->SMTPDebug = 1; // Untuk debug misal kalau error lagi
+        $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through smtp.gmail.com:587 => port
         $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-        $mail->Username   = 'test@benyamin.xyz';                     // SMTP username
-        $mail->Password   = 'testmail123';                               // SMTP password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-        $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+        $mail->Username   = 'sunshopaplinproyek@gmail.com';                     // SMTP username
+        $mail->Password   = 'uyxztavypnxjlimc';                               // SMTP password
+        
+        $mail->SMTPSecure = 'ssl';         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+        $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
         // Recipients
-        $mail->setFrom('test@benyamin.xyz', 'Mailer Test');
+        $mail->setFrom('sunshopaplinproyek@gmail.com', 'Mailer Test');
         $mail->addAddress($to, 'User');     // Add a recipient
 
         // Content
