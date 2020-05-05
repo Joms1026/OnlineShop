@@ -1,0 +1,481 @@
+
+body{
+	margin: 0px;
+}
+/*DROP DOWN*/
+	
+/*DROP DOWN*/
+/*SOCIAL*/
+@media only screen and (min-width: 500px) {
+	/* Untuk ukuran layar web/komputer 200 px*/
+	/*FIXED MENU*/
+		div.kotak
+		{
+			position: fixed;
+			margin-top: 40px;
+			border: 1px solid white;
+			background-color:white;
+			width: 100%;
+			height: 20%;
+		}
+		div.home
+		{
+			
+			border: 3px solid white;
+			background-color: white;
+			width: 100%;
+			height: 100%;
+		}
+		div.kotak_logo
+		{
+			
+			border: 1px solid white;
+			width: 15%;
+			margin-left: 40%;
+			margin-top: 10px;
+			height: 90%;
+		}
+		div.logo
+		{
+			background-image: url(images/logo.jpg);
+			background-size: 100%;
+			width:200px;
+			height:99px;
+		}
+		div.background
+		{
+			background-image: url(images/gambar1.jpg);
+			background-size: 100%;
+			width:100%;
+			height:100%;    
+		}
+		div.garis1
+		{
+			border: 3px solid #ceb07c;
+			width: 69%;     
+			z-index: 1;
+		}
+		div.garis2
+		{
+			border: 3px solid #681f2a;
+			width: 100%;      
+			margin-top: 10px;
+		}
+		div.garis3
+		{
+			border: 3px solid #ceb07c;
+			width: 90%;      
+			margin-top: 10px;
+		}
+		/*FIXED MENU*/
+			div.nav1
+		{
+			position: static;
+				border: 5px solid white;
+			width: 100%;
+			height: 25%; z-index: 5;
+		}
+		div.nav
+		{
+			position: fixed;
+			margin-top: 40px;
+			width: 100%;
+			height: 20%;
+		}
+		div.back1
+		{
+			position: static;
+				border: 5px solid white;
+			width: 100%;
+			height: 150px;
+			margin-top: 150px;
+		}
+		div.back2
+		{
+			position: static;
+				border: 5px solid white;
+			width: 45%;
+			height: 45px;
+		}
+			div.back3
+		{
+			position: static;
+				border: 5px solid white;
+			width: 100%;
+			height: 900px;
+		}
+			div.sideback
+		{
+			position: static;
+				border: 5px solid black;
+			width: 20%;
+			height: 900px;
+		}
+			div.sideback2
+		{
+			position: static;
+			float: right;
+				border: 5px solid white;
+			width: 78%;
+			height: 900px;
+			margin-top: -912px;
+		}
+		/*SEARCH BAR*/
+
+		.search-container{
+			width: 500px;
+			height: 30px;
+			display: block;
+			margin: 0 auto;
+		}
+
+		input#search-bar{
+			margin: 0 auto;
+			width: 90%;
+			height: 30px;
+			padding: 0 20px;
+			font-size: 1rem;
+			border: 1px solid #D0CFCE;
+			outline: none;
+			&:focus{
+			border: 1px solid #008ABF;
+			transition: 0.35s ease;
+			color: #008ABF;
+			&::-webkit-input-placeholder{
+				transition: opacity 0.45s ease; 
+				opacity: 0;
+				}
+			&::-moz-placeholder {
+				transition: opacity 0.45s ease; 
+				opacity: 0;
+				}
+			&:-ms-placeholder {
+				transition: opacity 0.45s ease; 
+				opacity: 0;
+				}    
+			}
+			}
+
+		.search-icon{
+			position: static;
+			float: right;
+			width: 75px;
+			height: 75px;
+		}
+
+	/*SEARCH BAR*/
+	/*MENU*/
+		div.menu1
+		{
+			float: right; z-index: 8;
+			margin-right: 0%;
+			margin-top: -0.4%;
+			border-radius: 16%;
+			background-color:#ceb07c;
+			width: 170px;
+			height:23px;
+			font-size: 9px solid black;
+		}
+		div.menu2
+		{
+			float: right;z-index: 8;
+			margin-right: 0%;
+			margin-top: -0.4%;
+			background-color:white;
+			width: 180px;
+			height:14px;
+			font-size: 12px solid black;
+		}
+		div.menu3
+		{
+			float: right;z-index: 8;
+			margin-right: 0.7%;
+			margin-top: -0.4%;
+			background-color:white;
+			width: 100px;
+			height:14px;
+			font-size: 12px solid black;
+		}
+		div.menu4
+		{
+			float: right;
+			margin-right: 0.7%;
+			margin-top: -0.9%;
+			border-radius: 6%;
+			background-color:#6f201c;
+			width: 130px;
+			height:23px;
+			font-size: 12px solid black;
+		}
+		div.menu5
+		{
+			float: right;
+			margin-right: 0.7%;
+			margin-top: -0.9%;
+			border-radius: 6%;
+			background-color:white;
+			width: 20px;
+			height:14px;
+			font-size: 12px solid black;
+		}
+		div.menu6
+		{
+			float: right;
+			margin-right: 0.7%;
+			margin-top: -0.9%;
+			border-radius: 6%;
+			background-color:white;
+			width: 20px;
+			height:14px;
+			font-size: 12px solid black;
+		}
+		div.menu7
+		{
+			float: right;
+			margin-right: 0.7%;
+			margin-top: -0.9%;
+			border-radius: 6%;
+			background-color:white;
+			width: 20px;
+			height:14px;
+			font-size: 12px solid black;
+		}
+		/*MENU*/
+	
+}
+@media only screen and (max-width: 500px) {
+	/* Untuk ukuran layar web/komputer 200 px*/
+	/*FIXED MENU*/
+		div.kotak
+		{
+			position: fixed;
+			border: 1px solid white;
+			background-color:white;
+			width: 100%;
+			height: 20%;
+		}
+		div.home
+		{
+			
+				border: 3px solid white;
+			background-color: white;
+			width: 100%;
+			height: 100%;
+		}
+		div.kotak_logo
+		{
+			
+			border: 1px solid white;
+			width: 15%;
+			margin-left: 23%;
+			margin-top: 10px;
+			height: 90%;
+		}
+		div.logo
+		{
+			background-image: url(images/logo.jpg);
+			background-size: 100%;
+			width:200px;
+			height:99px;
+		}
+		div.background
+		{
+			background-image: url(images/background.jpg);
+			background-size: 100%;
+			width:100%;
+			height:20px;    
+		}
+		div.garis1
+		{
+			border: 3px solid #ceb07c;
+			width: 20%;     
+		}
+		div.garis2
+		{
+			border: 3px solid #681f2a;
+			width: 100%;      
+			margin-top: 10px;
+		}
+		div.garis3
+		{
+			border: 3px solid #ceb07c;
+			width: 60%;      
+			margin-top: 10px;
+		}
+		/*FIXED MENU*/
+			div.nav1
+		{
+			position: static;
+				border: 5px solid white;
+			width: 100%;
+			height: 25%;
+		}
+		div.nav
+		{
+			position: fixed;
+			margin-top: 40px;
+			width: 100%;
+			height: 20%;
+		}
+		div.back1
+		{
+			position: static;
+				border: 5px solid white;
+			width: 100%;
+			height: 150px;
+			margin-top: 150px;
+		}
+		div.back2
+		{
+			position: static;
+				border: 5px solid white;
+			width: 45%;
+			height: 45px;
+		}
+			div.back3
+		{
+			position: static;
+				border: 5px solid white;
+			width: 100%;
+			height: 900px;
+		}
+			div.sideback
+		{
+			position: static;
+				border: 5px solid black;
+			width: 20%;
+			height: 900px;
+		}
+			div.sideback2
+		{
+			position: static;
+			float: right;
+				border: 5px solid white;
+			width: 78%;
+			height: 900px;
+			margin-top: -912px;
+		}
+		/*SEARCH BAR*/
+
+		.search-container{
+			width: 490px;
+			height: 30px;
+			display: block;
+			margin: 0 auto;
+		}
+
+		input#search-bar{
+			margin: 0 auto;
+			width: 90%;
+			height: 30px;
+			padding: 0 20px;
+			font-size: 1rem;
+			border: 1px solid #D0CFCE;
+			outline: none;
+			&:focus{
+			border: 1px solid #008ABF;
+			transition: 0.35s ease;
+			color: #008ABF;
+			&::-webkit-input-placeholder{
+				transition: opacity 0.45s ease; 
+				opacity: 0;
+				}
+			&::-moz-placeholder {
+				transition: opacity 0.45s ease; 
+				opacity: 0;
+				}
+			&:-ms-placeholder {
+				transition: opacity 0.45s ease; 
+				opacity: 0;
+				}    
+			}
+			}
+
+		.search-icon{
+			position: static;
+			float: right;
+			width: 75px;
+			height: 75px;
+		}
+
+	/*SEARCH BAR*/
+	/*MENU*/
+		div.menu1
+		{
+			float: right;
+			margin-right: 0%;
+			margin-top: -0.4%;
+			border-radius: 16%;
+			background-color:#ceb07c;
+			width: 120px;
+			height:23px;
+			font-size: 10px;
+		}
+		div.menu2
+		{
+			float: right;
+			margin-right: 0%;
+			margin-top: -0.4%;
+			background-color:white;
+			width: 130px;
+			height:14px;
+			font-size: 10px;
+		}
+		div.menu3
+		{
+			float: right;
+			margin-right: 0%;
+			margin-top: -0.4%;
+			background-color:white;
+			width: 100px;
+			height:14px;
+			font-size: 10px;
+		}
+		div.menu4
+		{
+			float: right;
+			margin-right: 0.1%;
+			margin-top: -3%;
+			border-radius: 6%;
+			background-color:#6f201c;
+			width: 130px;
+			height:23px;
+			font-size: 12px solid black;
+		}
+		div.menu5
+		{
+			float: right;
+			margin-right: 0.7%;
+			margin-top: -3%;
+			border-radius: 6%;
+			background-color:white;
+			width: 20px;
+			height:14px;
+			font-size: 12px solid black;
+		}
+		div.menu6
+		{
+			float: right;
+			margin-right: 0.7%;
+			margin-top: -3%;
+			border-radius: 6%;
+			background-color:white;
+			width: 20px;
+			height:14px;
+			font-size: 12px solid black;
+		}
+		div.menu7
+		{
+			float: right;
+			margin-right: 0.7%;
+			margin-top: -3%;
+			border-radius: 6%;
+			background-color:white;
+			width: 20px;
+			height:14px;
+			font-size: 12px solid black;
+			
+		}
+		/*MENU*/
+	
+}
