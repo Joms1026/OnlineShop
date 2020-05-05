@@ -3,7 +3,7 @@
     if(isset($_POST['btn'])){
         $password = "stefanie";
         $password = password_hash($password, PASSWORD_DEFAULT);
-        $queryInsert = "INSERT INTO users VALUES('', 'Stefanie', '$password', 'stefanieangl@gmail.com', '1', 'kapasari 50', '085102093232')";
+        $queryInsert = "INSERT INTO users VALUES('', 'Stefanie', '$password', 'stefanie@gmail.com', '0', 'kapasari 50', '085102093232')";
         $result = mysqli_query($conn, $queryInsert);
 
         if($result){
