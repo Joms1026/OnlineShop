@@ -24,55 +24,6 @@
 			header("Location: cart.php");
 		}
 	}
-	
-	if(isset($_POST["register"]))
-	{
-		echo "<script> alert('register') </script>;";
-		if($_POST["nama"]<>'' && $_POST["email"]<>'' && $_POST["pass"]<>'' && $_POST["cpass"]<>'')
-		{
-			if ($_POST["pass"]==$_POST["cpass"])
-			{
-				$nama=$_POST["nama"];
-				$email=$_POST["email"];
-				$pass=$_POST["pass"];
-				$sql = "Select count(username) as 'jumlah' from users where username='$email'";
-				$result = mysqli_query($conn, $sql);
-				if($result->num_rows > 0)
-				{	while($row = $result->fetch_assoc())
-					{
-					$hasil= $row["jumlah"];
-					}
-				}
-				if ($hasil==0)
-				{
-						
-						$sql2 = "INSERT INTO users VALUES('', '$email', '$pass','','$nama',0,0,'','')";
-						if($conn->query($sql2) == TRUE)
-		
-						{
-							echo "<script>alert('Insert berhasil');</script>";
-						}
-						else
-						{
-							$error = $conn->error;
-							echo"<script>alert('$error');</script>";
-						}
-				}
-				else
-				{
-					echo "<script>alert('Username Sudah Terdaftar');</script>";
-				}
-			}
-			else{
-				echo "<script>alert('Password dan Confrim Password tdk sama');</script>";
-			}
-		} 
-		else
-		{
-			echo "<script>alert('Harus Terisi Semua !');</script>";
-		}
-		
-	}
 ?>
 
 <!DOCTYPE html>
@@ -996,6 +947,7 @@
 						<input type="email" name ="email" placeholder="Email" />
 						<input type="password" name ="pass" placeholder="Password" />
 						<input type="password" name ="cpass" placeholder="Confirm Password" />
+						<button type="submit" name ="register" class="button-login">Sign Up</button>
 						<br>
 
 						<br>
@@ -1015,7 +967,7 @@
 						<input type="email" name ="luser" placeholder="Email" />
 						<input type="password" name ="lpass" placeholder="Password" />
 						<br>
-						<button typr="submit" name ="login" class="button-login">Sign In</button>
+						<button type="submit" name ="login" class="button-login">Sign In</button>
 						<br>
 						<span>or use your account for login</span>
 						<div class="social-container">
@@ -1132,6 +1084,19 @@
 					} else {
 						alert("Gagal Login!");
 					}
+				}
+			});
+		});
+		
+		$("#formRegister").submit(function(e){
+			e.preventDefault(); // mencegah page reload
+			$.ajax({
+				method : "post", 
+				url : "cekRegister.php", 
+				data : $("#formRegister").serialize(), 
+				success : function(result){
+					var arr = JSON.parse(result);
+					alert(arr);
 				}
 			});
         });
