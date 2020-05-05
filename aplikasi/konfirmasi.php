@@ -1,33 +1,32 @@
 <?php 
 require_once('conn.php');
 
-if (isset($_GET["kode"])) { // Tanpa Form
-    $query = "SELECT COUNT(*) as jumlah FROM verify_email where code = :kode";
-    $kode = $_GET["kode"];
-    if ($jumlah > 0) {
-        $query = "UPDATE confirm_email SET status = 1 WHERE code = :kode";
-        $stmt  = $db->prepare($query);
-        $stmt->bindValue(":kode", $_GET["kode"]);
-        $result = $stmt->execute();
-        echo "Berhasil Konfirmasi email anda!!";
-    } else {
-        echo "Kode Tidak ditemukan, kode invalid!";
-    }
-} else { // dengan form!
-    if (isset($_POST["kode"])) {
-        $query = "SELECT COUNT(*) as jumlah FROM confirm_email where code = :kode";
-        $stmt  = $db->prepare($query);
-        $stmt->bindValue(":kode", $_POST["kode"]);
-        $stmt->execute();
-        $jumlah = $stmt->fetch(PDO::FETCH_ASSOC)["jumlah"];
+    if (isset($_GET["kode"])) { // Tanpa Form
+        $kode = $_GET["kode"];
+        $query = "SELECT COUNT(*) as jumlah FROM users where code_verify = '$kode'";
+        $result = mysqli_query($conn, $query);
+        
         if ($jumlah > 0) {
-            $query = "UPDATE confirm_email SET status = 1 WHERE code = :kode";
-            $stmt  = $db->prepare($query);
-            $stmt->bindValue(":kode", $_POST["kode"]);
-            $result = $stmt->execute();
-            echo "Berhasil Konfirmasi!";
+            $query = "UPDATE users SET verify_email = 1 WHERE code_verify = '$kode'";
+            $result = mysqli_query($conn, $query);
+
+            echo "Berhasil Konfirmasi email anda!!";
         } else {
-            echo "Kode Tidak ditemukan!";
+            echo "Kode Tidak ditemukan, kode invalid!";
+        }
+    } else { // dengan form!
+        if (isset($_POST["kode"])) {
+            $kode = $_POST["kode"];
+            $query = "SELECT COUNT(*) as jumlah FROM users where code_verify = '$kode'";
+            $result = mysqli_query($conn, $query);
+        
+        if ($jumlah > 0) {
+            $query = "UPDATE users SET verify_email = 1 WHERE code_verify = '$kode'";
+            $result = mysqli_query($conn, $query);
+
+            echo "Berhasil Konfirmasi email anda!!";
+        } else {
+            echo "Kode Tidak ditemukan, kode invalid!";
         }
     }
 ?>

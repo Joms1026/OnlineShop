@@ -39,7 +39,7 @@ function uniqueCodeEmail() {
 
     do {
         $result = generateCode(20);
-        $query = "SELECT COUNT(*) as jumlah FROM confirm_email WHERE code = '$result'";
+        $query = "SELECT COUNT(*) as jumlah FROM users WHERE code_verify = '$result'";
         $count = $db->query($query)->fetch(PDO::FETCH_ASSOC)["jumlah"];
     } while ($count > 0);
 
@@ -59,7 +59,7 @@ function sendEmail($to, $subject, $body) {
         $mail->Username   = 'test@benyamin.xyz';                     // SMTP username
         $mail->Password   = 'testmail123';                               // SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-        $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+        $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
         // Recipients
         $mail->setFrom('test@benyamin.xyz', 'Mailer Test');
