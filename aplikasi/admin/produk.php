@@ -9,6 +9,13 @@
         "master" => true
     ];
     $cobaselect = executeQuery("SELECT * from kategori");
+    if (isset($_POST['addproduk'])) {	
+        $insertproduk = executeNonQuery("INSERT into barang(NAMA_BARANG,	
+        STOK_BARANG,GAMBAR_BARANG,	
+        DESKRIPSI_BARANG,ID_KATEGORI) 	
+        values('Baju Koko',12,'aa','Baju Perempuan',1"); 	
+    
+    }
 ?>
 <!-- Head -->
 <!DOCTYPE html>
@@ -84,7 +91,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-primary" id="addproduk" name="addproduk">Add</button>
                     </div>
                 </div>
             </div>
@@ -113,7 +120,7 @@
             <section class="content">
                 <div class="container-fluid">
                     <?php // Ganti halaman mu disini 
-                    var_dump($cobaselect);?>
+                    // var_dump($cobaselect);?>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">
                     Add Produk
