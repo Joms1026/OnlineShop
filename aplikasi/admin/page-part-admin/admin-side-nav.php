@@ -35,7 +35,7 @@
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
             <li class="nav-item">
-                <a href="/aplikasi/admin/dashboard.php" class="nav-link <?php activeMenu('dashboard'); ?>">
+                <a href="http://localhost/onlineShop/aplikasi/admin/dashboard.php" class="nav-link <?php activeMenu('dashboard'); ?>">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>
@@ -57,9 +57,9 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-                <?php $base = "/aplikasi/admin/"; ?>
+                <?php $base = "http://localhost/onlineShop/aplikasi/admin/"; ?>
                 <li class="nav-item">
-                    <a href="<?=$base?>kategori.php" class="nav-link">
+                    <a href="<?=$base?>kategori.php" class="nav-link <?php activeMenu('kategori'); ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Kategori</p>
                     </a>

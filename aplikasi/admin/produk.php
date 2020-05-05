@@ -10,11 +10,18 @@
     ];
     $cobaselect = executeQuery("SELECT * from kategori");
     if (isset($_POST['addproduk'])) {	
-        $insertproduk = executeNonQuery("INSERT into barang(NAMA_BARANG,	
+        // var_dump($_POST);
+        $namaproduk      = $_POST['namaproduk'];
+        $stokProduk      = $_POST['stokProduk'];
+        $kategori        = $_POST['kategori'];
+        // $uploadgambar    = $_POST['uploadgambar'];
+        $deskripsiproduk = $_POST['deskripsiproduk'];
+        $insertproduk    = executeNonQuery("INSERT into barang(NAMA_BARANG,
         STOK_BARANG,GAMBAR_BARANG,	
         DESKRIPSI_BARANG,ID_KATEGORI) 	
-        values('Baju Koko',12,'aa','Baju Perempuan',1"); 	
-    
+        values('$namaproduk',$stokProduk,'temp.jpg','$deskripsiproduk','$kategori')"); 	
+        // print_r($insertproduk);
+        // die();
     }
 ?>
 <!-- Head -->
@@ -48,7 +55,7 @@
         
         <!-- Modal -->
         <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="AddProdukLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Add Produk</h5>
@@ -57,41 +64,84 @@
                             </button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" enctype="multipart/form-data">>
-                            <div class="form-group">
-                                <label for="">Nama Produk</label>
-                                <input type="text" name="namaproduk" id="namaproduk" class="form-control" placeholder="Masukan nama produk" aria-describedby="namaProdukHint">
-                                <small id="namaProdukHint" class="text-muted">Pastikan nama produk benar</small>
+                        <form id="formAddProduk" method="post" enctype="multipart/form-data">
+                            <div class="col-8 offset-2">
+                                <div class="form-group">
+                                    <label for="">Nama Produk</label>
+                                    <input type="text" name="namaproduk" id="namaproduk" class="form-control" placeholder="Masukan nama produk" aria-describedby="namaProdukHint">
+                                    <small id="namaProdukHint" class="text-muted">Pastikan nama produk benar</small>
+                                </div>
+                                <div class="form-group">
+                                  <label for="deskripsiproduk">Deskripsi Produk</label>
+                                  <textarea class="form-control" name="deskripsiproduk" id="deskripsiproduk" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                  <label for="uploadgambar">Upload Gambar</label>
+                                  <input type="file" class="form-control-file" name="uploadgambar" id="uploadgambar" placeholder="uploadgambar" aria-describedby="uploadgambarHint">
+                                  <small id="uploadgambarHint" class="form-text text-muted">Pastikan format gambar benar</small>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="stokProduk">Stok</label>
-                                <input type="number" name="stokProduk" id="stokProduk" class="form-control" placeholder="Masukkan Stok Produk" aria-describedby="stokProdukHint">
-                                <small id="stokProdukHint" class="text-muted">Pastikan Jumlah Stok Benar</small>
+                            <hr>
+                            <h4>Varian</h4>
+                            <!-- Dalam 1 Row ada 12 Kolom -->
+                            <div class="row"> 
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <select class="form-control" name="ukuranproduk" id="ukuranproduk">
+                                            <option selected disabled>Pilih Ukuran</option>
+                                            <option>M</option>
+                                            <option>L</option>
+                                            <option>XL</option>
+                                            <option>XXL</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <select class="form-control" name="kategori" id="kategori" aria-describedby="kategoriProdukHint">
+                                            <option disabled selected>Pilih Kategori</option>
+                                            <option value="K001">Baju Pria</option>
+                                            <option value="K002">Baju Wanita</option>
+                                            <option value="K003">Baju Anak-Anak</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <input type="number" name="hargaproduk" id="hargaproduk" class="form-control" placeholder="Masukkan Harga" aria-describedby="hargaprodukHint">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <input type="number" name="stokProduk" id="stokProduk" class="form-control" placeholder="Masukkan Stok" aria-describedby="stokProdukHint">
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" onclick="tambahVarian();" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="kategori">Kategori</label>
-                                <select class="form-control" name="kategori" id="kategori" aria-describedby="kategoriProdukHint">
-                                    <option disabled selected hidden>Pilih Kategori</option>
-                                    <option value="">Kategori2</option>
-                                    <?php ?>
-                                    <!-- <option> PAKAI PHP ISI PAKAI FOR </option> -->
-                                </select>
-                                <small id="kategoriProdukHint" class="text-muted">Pastikan kategori sesuai</small>
-                            </div>
-                            <div class="form-group">
-                              <label for="uploadgambar">Upload Gambar</label>
-                              <input type="file" class="form-control-file" name="uploadgambar" id="uploadgambar" placeholder="uploadgambar" aria-describedby="uploadgambarHint">
-                              <small id="uploadgambarHint" class="form-text text-muted">Pastikan format gambar benar</small>
-                            </div>
-                            <div class="form-group">
-                              <label for="deskripsiproduk">Deskripsi Produk</label>
-                              <textarea class="form-control" name="deskripsiproduk" id="deskripsiproduk" rows="3"></textarea>
+                            <div class="row">
+                                <div class="varianMessage col-12" style="display: none"></div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ukuran</th>
+                                            <th>Kategori</th>
+                                            <th>Harga</th>
+                                            <th>Stok</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="isiVarian">
+                                        
+                                    </tbody>
+                                </table>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="addproduk" name="addproduk">Add</button>
+                        <button type="submit" form="formAddProduk" class="btn btn-primary" id="addproduk" name="addproduk">Add</button>
                     </div>
                 </div>
             </div>
@@ -135,7 +185,7 @@
 
     <!-- REQUIRED SCRIPTS -->
     <?php include('page-part-admin/admin-required-script.php'); ?>
-    
+    <script src="./assets/js/produk.js"></script>
     <!-- Optional Scripts -->
     
 </body>
