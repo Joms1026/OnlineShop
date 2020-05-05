@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	//unset($_SESSION["cart"]);
+	//unset($_SESSION["totalbelanja"]);
 	//nanti saat user logout atau melakukan buy , session akan di unset
 	if(isset($_POST["addtocart"])){
 		echo "<script>alert('Berhasil')</script>";

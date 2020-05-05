@@ -197,11 +197,11 @@ INSERT INTO `tipe_warna` (`ID_WARNA`, `NAMA_WARNA`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
   `ID_USER` int(11) NOT NULL,
   `USERNAME` varchar(50) NOT NULL,
   `PASSWORD_USER` varchar(50) NOT NULL,
@@ -215,7 +215,7 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`ID_USER`, `USERNAME`, `PASSWORD_USER`, `EMAIL_USER`, `ROLE`, `ALAMAT`, `NO_TELEPON`) VALUES
+INSERT INTO `users` (`ID_USER`, `USERNAME`, `PASSWORD_USER`, `EMAIL_USER`, `ROLE`, `ALAMAT`, `NO_TELEPON`) VALUES
 (1, 'ste', '*EEF065AC68DD638F9E5056625B442263936163E3', 'stefanieangelina@gmail.com', 0, 'Kapasari', 2147483647);
 
 -- --------------------------------------------------------

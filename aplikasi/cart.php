@@ -313,15 +313,15 @@
 								<ul class="cart_extra_total_list">
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Subtotal</div>
-										<div class="cart_extra_total_value ml-auto">$29.90</div>
+										<div class="cart_extra_total_value ml-auto" id="subtotal"></div>
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Shipping</div>
-										<div class="cart_extra_total_value ml-auto">Free</div>
+										<div class="cart_extra_total_value ml-auto" id="shippingtype">Free</div>
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Total</div>
-										<div class="cart_extra_total_value ml-auto">$29.90</div>
+										<div class="cart_extra_total_value ml-auto" id="carttotal"></div>
 									</li>
 								</ul>
 								<div class="checkout_button trans_200"><a href="checkout.html">proceed to checkout</a></div>
@@ -584,6 +584,104 @@
 		$("#loginModal").modal("toggle");
 	}
 
+	//simpantotalbelanja
+	function simpantotalnya(totalbelanja){
+			$.ajax({
+			method : "post", // metode ajax
+			url : "ajax/simpantotal.php", // tujuan request
+			data : {
+				total : totalbelanja
+			}, // data yang dikirim
+			success : function(res){
+				$('#subtotal').html('');
+				$('#subtotal').append(parseInt(res) + '.000');
+				hitung();
+			}
+			});
+	}
+
+	//hitung
+	function hitung(){
+		var total = parseInt(document.getElementById("subtotal").innerHTML);
+		var shipping = document.getElementById('shippingtype').innerHTML;
+		var shipping2 = 0;
+		if(shipping == "Free" || shipping == "free"){
+			shipping2 = 0;
+		}
+		else{
+			shipping2 = parseInt(shipping);
+		}
+		var result = total + parseInt(shipping2);
+		$("#carttotal").html('');
+		$("#carttotal").append(result+ ".000");
+	}
+
+	//buattotal
+	function refreshtotal(){
+		var totalbelanja = 0;
+		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
+			totalbelanja += parseInt(document.getElementById('total'+index.toString()).innerHTML);
+		}
+		simpantotalnya(totalbelanja);
+		hitung();
+	}
+
+	//shipppingtype
+	function shippingcek(shippingtype){
+		$.ajax({
+			method : "post", // metode ajax
+			url : "ajax/simpanshipping.php", // tujuan request
+			data : {
+				shipping : shippingtype
+			}, // data yang dikirim
+			success : function(res){
+				if(res == 0){
+					$("#shippingtype").html('');
+					$("#shippingtype").append("free");
+				}
+				else{
+					$("#shippingtype").html('');
+					$("#shippingtype").append(res + '.000');
+				}
+			}
+		});
+	}
+
+	//Ganti shipping
+	var shippingtype = "";
+	var radios = document.forms["shipping"].elements["shipping_radio"];
+	for(var i = 0, max = radios.length; i < max; i++) {
+    	radios[i].onclick = function() {
+        	shippingtype = this.value;
+			shippingcek(shippingtype);
+			refreshtotal();
+    	}
+	}
+
+	//bikin penambahan qty
+	try {
+		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
+			document.getElementById("minus"+index.toString()).addEventListener("click", function(){
+				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) - 1;
+				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
+				var hasil = angkanya * harganya;
+				document.getElementById("total"+index.toString()).innerHTML = hasil + '.000';
+				refreshtotal();
+			});
+		}
+		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
+			document.getElementById("plus"+index.toString()).addEventListener("click", function(){
+				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) + 1;
+				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
+				var hasil = angkanya * harganya;
+				document.getElementById("total"+index.toString()).innerHTML = hasil + '.000';
+				refreshtotal();
+			});
+		}
+	} catch (error) {
+		
+	}
+
 	$(document).ready(function(){
 		$("#clearcart").submit(function(e){
 			e.preventDefault();
@@ -603,39 +701,13 @@
 						</td>`);
 					}
           		}
-        	});
-		});
+        	});	
+		});		
+
+		refreshtotal();
+		//shippingcek(shippingtype);
 	});
 
-	//bikin penambahan qty
-	try {
-		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
-			document.getElementById("minus"+index.toString()).addEventListener("click", function(){
-				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) - 1;
-				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
-				var hasil = angkanya * harganya;
-				document.getElementById("total"+index.toString()).innerHTML = hasil + '.000';
-			});
-		}
-		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
-			document.getElementById("plus"+index.toString()).addEventListener("click", function(){
-				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) + 1;
-				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
-				var hasil = angkanya * harganya;
-				document.getElementById("total"+index.toString()).innerHTML = hasil + '.000';
-			});
-		}
-	} catch (error) {
-		
-	}
-
-	//Ganti shipping
-	var radios = document.forms["shipping"].elements["shipping_radio"];
-	for(var i = 0, max = radios.length; i < max; i++) {
-    	radios[i].onclick = function() {
-        	alert(this.value);
-    	}
-	}
 </script>
 
 <script type="text/javascript">
