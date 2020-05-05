@@ -71,11 +71,17 @@
 		}
 		
 	}
+	if(isset($_POST["login"])){
+		$user=$_POST["luser"];
+		$pass=$_POST["lpass"];
+		if($user=="admin@gmail.com" && $pass="admin"){
+			header('location:"/admin/dashboard.php"');
+		}
+	}
 
 	if(isset($_POST["login"]))
 	{
-		$user=$_POST["luser"];
-		$pass=$_POST["lpass"];
+		
 		$sql = "Select count(EMAIL) as 'jumlah' from user where EMAIL='$user'";
 		//echo($sql);
 		$result = mysqli_query($conn, $sql)->fetch_assoc();
@@ -1020,16 +1026,6 @@
 				<div class="form-container sign-up-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 
-					<form action="#" class="form-login">
-						<h3>Create Account</h3>
-						<br>
-						<input type="text" placeholder="Name" />
-						<input type="email" placeholder="Email" />
-						<input type="password" placeholder="Password" />
-						<input type="password" placeholder="Confirm Password" />
-						<br>
-						<button class="button-login">Register</button>
-
 					<form action="Index.php" method="post" class="form-login">
 						<h3>Create Account</h3>
 						<br>
@@ -1049,14 +1045,6 @@
 				</div>
 				<div class="form-container sign-in-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-
-					<form action="#" class="form-login">
-						<h3>Sign in</h3>
-						<br>
-						<input type="email" placeholder="Email" />
-						<input type="password" placeholder="Password" />
-						<br>
-						<button class="button-login">Sign In</button>
 
 					<form action="index.php" method="post" class="form-login">
 						<h3>Sign in</h3>
