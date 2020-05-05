@@ -1020,16 +1020,6 @@
 				<div class="form-container sign-up-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 
-					<form action="#" class="form-login">
-						<h3>Create Account</h3>
-						<br>
-						<input type="text" placeholder="Name" />
-						<input type="email" placeholder="Email" />
-						<input type="password" placeholder="Password" />
-						<input type="password" placeholder="Confirm Password" />
-						<br>
-						<button class="button-login">Register</button>
-
 					<form action="Index.php" method="post" class="form-login">
 						<h3>Create Account</h3>
 						<br>
@@ -1049,14 +1039,6 @@
 				</div>
 				<div class="form-container sign-in-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-
-					<form action="#" class="form-login">
-						<h3>Sign in</h3>
-						<br>
-						<input type="email" placeholder="Email" />
-						<input type="password" placeholder="Password" />
-						<br>
-						<button class="button-login">Sign In</button>
 
 					<form action="index.php" method="post" class="form-login">
 						<h3>Sign in</h3>
