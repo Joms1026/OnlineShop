@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2020 at 04:09 PM
+-- Generation Time: May 06, 2020 at 05:59 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -167,6 +167,15 @@ CREATE TABLE `kategori` (
   `NAMA_KATEGORI` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `kategori`
+--
+
+INSERT INTO `kategori` (`ID_KATEGORI`, `NAMA_KATEGORI`) VALUES
+('K001', 'Men'),
+('K002', 'Women'),
+('K003', 'Kids');
+
 -- --------------------------------------------------------
 
 --
@@ -228,11 +237,11 @@ CREATE TABLE `tipe_size` (
 --
 
 INSERT INTO `tipe_size` (`ID_SIZE`, `NAMA_SIZE`, `HARGA`, `STOK`) VALUES
-('TS00', 'XL', 0, 0),
 ('TS001', 'XS', 0, 0),
 ('TS002', 'S', 0, 0),
 ('TS003', 'M', 0, 0),
-('TS004', 'L', 0, 0);
+('TS004', 'L', 0, 0),
+('TS005', 'XL', 0, 0);
 
 -- --------------------------------------------------------
 
