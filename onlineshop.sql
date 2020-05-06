@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Bulan Mei 2020 pada 05.44
+-- Waktu pembuatan: 06 Bulan Mei 2020 pada 06.10
 -- Versi server: 10.4.11-MariaDB
 -- Versi PHP: 7.2.28
 
@@ -274,23 +274,6 @@ INSERT INTO `tipe_warna` (`ID_WARNA`, `NAMA_WARNA`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
---
-
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `ID_USER` int(11) NOT NULL,
-  `USERNAME` varchar(50) NOT NULL,
-  `PASSWORD_USER` varchar(64) NOT NULL,
-  `EMAIL_USER` varchar(50) NOT NULL,
-  `ROLE` int(11) NOT NULL,
-  `ALAMAT` varchar(150) DEFAULT NULL,
-  `NO_TELEPON` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `users`
 --
 
@@ -417,13 +400,6 @@ ALTER TABLE `tipe_warna`
   ADD PRIMARY KEY (`ID_WARNA`);
 
 --
--- Indeks untuk tabel `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`ID_USER`),
-  ADD UNIQUE KEY `EMAIL_USER` (`EMAIL_USER`);
-
---
 -- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
@@ -463,12 +439,6 @@ ALTER TABLE `gambar`
 --
 ALTER TABLE `kategori`
   MODIFY `ID_KATEGORI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT untuk tabel `user`
---
-ALTER TABLE `user`
-  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
