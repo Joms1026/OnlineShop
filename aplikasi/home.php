@@ -1,5 +1,7 @@
 <?php
 	session_start();
+	require_once('conn.php');
+	
 	//unset($_SESSION["totalbelanja"]);
 	//nanti saat user logout atau melakukan buy , session akan di unset
 	if(isset($_POST["addtocart"])){
