@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Bulan Mei 2020 pada 06.10
--- Versi server: 10.4.11-MariaDB
--- Versi PHP: 7.2.28
+-- Generation Time: May 06, 2020 at 06:59 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -27,7 +25,7 @@ USE `onlineshop`;
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `baju`
+-- Table structure for table `baju`
 --
 
 DROP TABLE IF EXISTS `baju`;
@@ -41,7 +39,7 @@ CREATE TABLE `baju` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barang`
+-- Table structure for table `barang`
 --
 
 DROP TABLE IF EXISTS `barang`;
@@ -55,7 +53,7 @@ CREATE TABLE `barang` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `cart`
+-- Table structure for table `cart`
 --
 
 DROP TABLE IF EXISTS `cart`;
@@ -69,7 +67,7 @@ CREATE TABLE `cart` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `chat`
+-- Table structure for table `chat`
 --
 
 DROP TABLE IF EXISTS `chat`;
@@ -84,7 +82,7 @@ CREATE TABLE `chat` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `dchat`
+-- Table structure for table `dchat`
 --
 
 DROP TABLE IF EXISTS `dchat`;
@@ -101,7 +99,7 @@ CREATE TABLE `dchat` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `dtrans`
+-- Table structure for table `dtrans`
 --
 
 DROP TABLE IF EXISTS `dtrans`;
@@ -115,7 +113,7 @@ CREATE TABLE `dtrans` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `gambar`
+-- Table structure for table `gambar`
 --
 
 DROP TABLE IF EXISTS `gambar`;
@@ -127,7 +125,7 @@ CREATE TABLE `gambar` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `hchat`
+-- Table structure for table `hchat`
 --
 
 DROP TABLE IF EXISTS `hchat`;
@@ -138,7 +136,7 @@ CREATE TABLE `hchat` (
   `LAST_REPLIER` int(11) NOT NULL,
   `LAST_MESSAGE` text NOT NULL,
   `READ_STATUS` tinyint(1) NOT NULL,
-  `CREATED_AT` datetime NOT NULL DEFAULT current_timestamp(),
+  `CREATED_AT` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATED_AT` datetime NOT NULL,
   `CUST_LEAVE` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -146,7 +144,7 @@ CREATE TABLE `hchat` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `htrans`
+-- Table structure for table `htrans`
 --
 
 DROP TABLE IF EXISTS `htrans`;
@@ -160,29 +158,29 @@ CREATE TABLE `htrans` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kategori`
+-- Table structure for table `kategori`
 --
 
 DROP TABLE IF EXISTS `kategori`;
 CREATE TABLE `kategori` (
   `ID_KATEGORI` int(11) NOT NULL,
   `NAMA_KATEGORI` varchar(50) NOT NULL,
-  `STATUS` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `STATUS` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data untuk tabel `kategori`
+-- Dumping data for table `kategori`
 --
 
 INSERT INTO `kategori` (`ID_KATEGORI`, `NAMA_KATEGORI`, `STATUS`) VALUES
-(2, 'iuhkj', 0),
-(3, 'Baju Cowok', 0),
-(4, 'Baju Cowok', 1);
+(1, 'Laki-laki', 1),
+(2, 'Perempuan', 1),
+(3, 'Anak-anak', 1);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kategori_barang`
+-- Table structure for table `kategori_barang`
 --
 
 DROP TABLE IF EXISTS `kategori_barang`;
@@ -194,7 +192,7 @@ CREATE TABLE `kategori_barang` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `keranjang`
+-- Table structure for table `keranjang`
 --
 
 DROP TABLE IF EXISTS `keranjang`;
@@ -209,7 +207,7 @@ CREATE TABLE `keranjang` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pembayaran`
+-- Table structure for table `pembayaran`
 --
 
 DROP TABLE IF EXISTS `pembayaran`;
@@ -224,32 +222,30 @@ CREATE TABLE `pembayaran` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tipe_size`
+-- Table structure for table `tipe_size`
 --
 
 DROP TABLE IF EXISTS `tipe_size`;
 CREATE TABLE `tipe_size` (
   `ID_SIZE` varchar(50) NOT NULL,
-  `NAMA_SIZE` varchar(50) NOT NULL,
-  `HARGA` int(11) NOT NULL,
-  `STOK` int(11) NOT NULL
+  `NAMA_SIZE` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data untuk tabel `tipe_size`
+-- Dumping data for table `tipe_size`
 --
 
-INSERT INTO `tipe_size` (`ID_SIZE`, `NAMA_SIZE`, `HARGA`, `STOK`) VALUES
-('TS00', 'XL', 0, 0),
-('TS001', 'XS', 0, 0),
-('TS002', 'S', 0, 0),
-('TS003', 'M', 0, 0),
-('TS004', 'L', 0, 0);
+INSERT INTO `tipe_size` (`ID_SIZE`, `NAMA_SIZE`) VALUES
+('TS001', 'XS'),
+('TS002', 'S'),
+('TS003', 'M'),
+('TS004', 'L'),
+('TS005', 'XL');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tipe_warna`
+-- Table structure for table `tipe_warna`
 --
 
 DROP TABLE IF EXISTS `tipe_warna`;
@@ -259,7 +255,7 @@ CREATE TABLE `tipe_warna` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data untuk tabel `tipe_warna`
+-- Dumping data for table `tipe_warna`
 --
 
 INSERT INTO `tipe_warna` (`ID_WARNA`, `NAMA_WARNA`) VALUES
@@ -274,7 +270,7 @@ INSERT INTO `tipe_warna` (`ID_WARNA`, `NAMA_WARNA`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -291,7 +287,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`ID_USER`, `USERNAME`, `PASSWORD_USER`, `EMAIL_USER`, `ROLE`, `code_verify`, `verify_email`, `ALAMAT`, `NO_TELEPON`) VALUES
@@ -303,7 +299,7 @@ INSERT INTO `users` (`ID_USER`, `USERNAME`, `PASSWORD_USER`, `EMAIL_USER`, `ROLE
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `varian_baju`
+-- Table structure for table `varian_baju`
 --
 
 DROP TABLE IF EXISTS `varian_baju`;
@@ -311,7 +307,7 @@ CREATE TABLE `varian_baju` (
   `ID_VARIAN` int(11) NOT NULL,
   `ID_BAJU` int(11) NOT NULL,
   `HARGA` int(11) NOT NULL,
-  `STOK` int(11) NOT NULL DEFAULT 0,
+  `STOK` int(11) NOT NULL DEFAULT '0',
   `ID_WARNA` int(11) NOT NULL,
   `ID_UKURAN` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -319,7 +315,7 @@ CREATE TABLE `varian_baju` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `wishlist`
+-- Table structure for table `wishlist`
 --
 
 DROP TABLE IF EXISTS `wishlist`;
@@ -334,119 +330,113 @@ CREATE TABLE `wishlist` (
 --
 
 --
--- Indeks untuk tabel `baju`
+-- Indexes for table `baju`
 --
 ALTER TABLE `baju`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indeks untuk tabel `barang`
+-- Indexes for table `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`ID_BARANG`);
 
 --
--- Indeks untuk tabel `cart`
+-- Indexes for table `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`ID_CART`);
 
 --
--- Indeks untuk tabel `chat`
+-- Indexes for table `chat`
 --
 ALTER TABLE `chat`
   ADD PRIMARY KEY (`ID_CHAT`);
 
 --
--- Indeks untuk tabel `dtrans`
+-- Indexes for table `dtrans`
 --
 ALTER TABLE `dtrans`
   ADD PRIMARY KEY (`ID_DTRANS`);
 
 --
--- Indeks untuk tabel `gambar`
+-- Indexes for table `gambar`
 --
 ALTER TABLE `gambar`
   ADD PRIMARY KEY (`ID_GAMBAR`);
 
 --
--- Indeks untuk tabel `htrans`
+-- Indexes for table `htrans`
 --
 ALTER TABLE `htrans`
   ADD PRIMARY KEY (`ID_HTRANS`);
 
 --
--- Indeks untuk tabel `kategori`
+-- Indexes for table `kategori`
 --
 ALTER TABLE `kategori`
   ADD PRIMARY KEY (`ID_KATEGORI`);
 
 --
--- Indeks untuk tabel `pembayaran`
+-- Indexes for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
   ADD PRIMARY KEY (`ID_PEMBAYARAN`);
 
 --
--- Indeks untuk tabel `tipe_size`
+-- Indexes for table `tipe_size`
 --
 ALTER TABLE `tipe_size`
   ADD PRIMARY KEY (`ID_SIZE`);
 
 --
--- Indeks untuk tabel `tipe_warna`
+-- Indexes for table `tipe_warna`
 --
 ALTER TABLE `tipe_warna`
   ADD PRIMARY KEY (`ID_WARNA`);
 
 --
--- Indeks untuk tabel `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`ID_USER`),
   ADD UNIQUE KEY `EMAIL_USER` (`EMAIL_USER`);
 
 --
--- Indeks untuk tabel `wishlist`
+-- Indexes for table `wishlist`
 --
 ALTER TABLE `wishlist`
   ADD PRIMARY KEY (`ID_WISHLIST`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `cart`
+-- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
   MODIFY `ID_CART` int(11) NOT NULL AUTO_INCREMENT;
-
 --
--- AUTO_INCREMENT untuk tabel `chat`
+-- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
   MODIFY `ID_CHAT` int(11) NOT NULL AUTO_INCREMENT;
-
 --
--- AUTO_INCREMENT untuk tabel `gambar`
+-- AUTO_INCREMENT for table `gambar`
 --
 ALTER TABLE `gambar`
   MODIFY `ID_GAMBAR` int(11) NOT NULL AUTO_INCREMENT;
-
 --
--- AUTO_INCREMENT untuk tabel `kategori`
+-- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `ID_KATEGORI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
+  MODIFY `ID_KATEGORI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT untuk tabel `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
