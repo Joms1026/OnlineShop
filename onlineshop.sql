@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2020 at 06:59 AM
+-- Generation Time: May 06, 2020 at 05:23 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -78,6 +78,31 @@ CREATE TABLE `chat` (
   `ID_ADMIN` int(11) DEFAULT NULL,
   `TANGGAL_CHAT` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `confirm_email`
+--
+
+DROP TABLE IF EXISTS `confirm_email`;
+CREATE TABLE `confirm_email` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `code` varchar(20) NOT NULL,
+  `status` int(1) NOT NULL,
+  `insert_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `confirm_email`
+--
+
+INSERT INTO `confirm_email` (`id`, `id_user`, `code`, `status`, `insert_date`, `update_date`) VALUES
+(0, 4, 'a3uxt4bu6dxhp8csqbxt', 1, '2020-05-05 13:50:50', '2020-05-05 14:08:36'),
+(0, 5, 'bx5t6dajtdid922g9r86', 0, '2020-05-05 14:13:16', '0000-00-00 00:00:00'),
+(0, 6, 'pqnuyzq8iip4us9cykam', 0, '2020-05-05 14:21:29', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -277,24 +302,21 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `ID_USER` int(11) NOT NULL,
   `USERNAME` varchar(50) NOT NULL,
-  `PASSWORD_USER` varchar(100) NOT NULL,
+  `PASSWORD_USER` varchar(255) NOT NULL,
   `EMAIL_USER` varchar(50) NOT NULL,
   `ROLE` int(11) NOT NULL,
-  `code_verify` varchar(100) NOT NULL,
-  `verify_email` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `ALAMAT` varchar(150) DEFAULT NULL,
   `NO_TELEPON` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`ID_USER`, `USERNAME`, `PASSWORD_USER`, `EMAIL_USER`, `ROLE`, `code_verify`, `verify_email`, `ALAMAT`, `NO_TELEPON`) VALUES
-(8, 'Stefanie', '$2y$10$QTWp9AkzfQMr6scowFOZ/uoZbjXL6yXiAq/qmRH.pMp2Vg5D2wf96', 'stefanieangl@gmail.com', 1, '', 1, 'kapasari 50', 2147483647),
-(9, 'Stefanie', '$2y$10$XGX4MvszK3OuKexP1ljdjO3jXG0.3Alw.5raeov.17xUh8y8b0L7y', 'stefanie@gmail.com', 0, '', 1, 'kapasari 50', 2147483647),
-(10, 'jennifer', '$2y$10$qO0Y2Eucr6uV/5GXw0CHX.RLb7KUKRPnKNnHr1CnasTZLBnP8fYdC', 'jennifer@gmail.com', 1, '', 1, '', 0),
-(11, 'jens', '$2y$10$yhnCGbk06ezgGjsNRL6D1eZ8SaxkjP8nv3YNDS1e7.JUj2toI3pMm', 'jen@gmail.com', 1, '', 1, '', 0);
+INSERT INTO `users` (`ID_USER`, `USERNAME`, `PASSWORD_USER`, `EMAIL_USER`, `ROLE`, `status`, `token`, `ALAMAT`, `NO_TELEPON`) VALUES
+(2, 'stefanie', '$2y$10$sepcJbxtS.sqBDUbfbHwseqXozM/.qvjjDhhghedkNwiAAtr6yKoe', 'stefanieangelina.sa@gmail.com', 0, 0, '74e6e8aaa5b93ac4b0ec3600bc8ee1ad41bb31ca0be17a63b35abdbf5a85e383', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -436,7 +458,7 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
