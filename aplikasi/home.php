@@ -68,10 +68,10 @@
 </head>
 
 <body>
-<div class="preloader-full-height" id="preloading">
+<!-- <div class="preloader-full-height" id="preloading">
 	<img id="me" src="images/logo-icon.png" style= "margin-top : -145px">
 	<h4 style= "color: white; margin-top : -125px" >LOADING ...</h4>
-</div>
+</div> -->
 
 <div class="super_container">
 
@@ -94,8 +94,7 @@
 								<li><a href="contact.html">contact</a></li>
 							</ul>
 							<ul class="navbar_user">
-								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
+								<!-- <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li> -->
 								<li class="account">
 									<a>
 										<i class="fa fa-user" aria-hidden="true"></i>
@@ -233,11 +232,24 @@
 				<div class="col text-center">
 					<div class="new_arrivals_sorting">
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
+							<?php
+								$querySelect = "SELECT * FROM kategori";
+								$result = mysqli_query($conn, $querySelect);
+
+								if($result->num_rows > 0){
+									$querySelect = "SELECT * FROM kategori";
+									$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
+
+									for ($i=0; $i < $result->num_rows; $i++) { ?>
+										<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="<?= $isiDB[$i][1]; ?>" value="<?= $isiDB[$i][1]; ?>"><?= $isiDB[$i][1]; ?></li>
+									<?php }
+								}
+							?>
+							<!-- <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
 							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">For Men</li>
 							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women">For Women</li>
 							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".kids">For Kids</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".about">About Us</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".about">About Us</li> -->
 						</ul>
 					</div>
 				</div>
@@ -1050,13 +1062,13 @@
 </script>
 
 <script type="text/javascript">
-	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-	(function(){
-	var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-	s1.async=true;
-	s1.src='https://embed.tawk.to/5dedcbe1d96992700fcb5cbd/1drnchuei';
-	s1.charset='UTF-8';
-	s1.setAttribute('crossorigin','*');
-	s0.parentNode.insertBefore(s1,s0);
-	})();
+	// var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+	// (function(){
+	// var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+	// s1.async=true;
+	// s1.src='https://embed.tawk.to/5dedcbe1d96992700fcb5cbd/1drnchuei';
+	// s1.charset='UTF-8';
+	// s1.setAttribute('crossorigin','*');
+	// s0.parentNode.insertBefore(s1,s0);
+	// })();
 </script>
