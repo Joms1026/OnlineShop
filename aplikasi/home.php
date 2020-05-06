@@ -91,7 +91,7 @@
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Home</a></li>
 								<li><a href="#">Term & Condition</a></li>
-								<li><a href="contact.html">contact</a></li>
+								<!-- <li><a href="contact.html">contact</a></li> -->
 							</ul>
 							<ul class="navbar_user">
 								<!-- <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li> -->
@@ -165,7 +165,7 @@
 					</ul>
 				</li>
 				<li class="menu_item"><a href="#">Term & Condition</a></li>
-				<li class="menu_item"><a href="contact.html">contact</a></li>
+				<!-- <li class="menu_item"><a href="contact.html">contact</a></li> -->
 			</ul>
 		</div>
 		<div class="hamburger_footer"><img src="images/logo.jpg" width="160px"></div>
@@ -232,6 +232,7 @@
 				<div class="col text-center">
 					<div class="new_arrivals_sorting">
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="Semua" value="Semua">Semua</li>
 							<?php
 								$querySelect = "SELECT * FROM kategori";
 								$result = mysqli_query($conn, $querySelect);
@@ -245,11 +246,6 @@
 									<?php }
 								}
 							?>
-							<!-- <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">For Men</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women">For Women</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".kids">For Kids</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".about">About Us</li> -->
 						</ul>
 					</div>
 				</div>
@@ -892,28 +888,6 @@
 
 	<footer class="footer">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
-						<ul class="footer_nav">
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">FAQs</a></li>
-							<li><a href="contact.html">Contact us</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
-						<ul>
-							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="footer_nav_container">
