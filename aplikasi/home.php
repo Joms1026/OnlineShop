@@ -1,29 +1,14 @@
 <?php
-	session_start();
-	require_once('conn.php');
-	
-	//unset($_SESSION["totalbelanja"]);
-	//nanti saat user logout atau melakukan buy , session akan di unset
-	if(isset($_POST["addtocart"])){
-		echo "<script>alert('Berhasil')</script>";
-		$arrtemp = array(
-			"namaproduk" =>  $_POST["namaproduk"],
-			"harga" => $_POST["harga"],
-			"gambar" => $_POST["gambar"],
-		);
-		if(!isset($_SESSION["cart"])){
-			$datacart = array();
-			array_push($datacart , $arrtemp);
-			$_SESSION["cart"] = $datacart;
-			header("Location: cart.php");
-		}
-		else{
-			$datacart = $_SESSION["cart"];
-			array_push($datacart , $arrtemp);
-			$_SESSION["cart"] = $datacart;
-			header("Location: cart.php");
-		}
-	}
+session_start();
+$user=$_SESSION['username'];
+
+if (!isset($_SESSION['username'])) {
+	header('location:index.php');
+  }
+if (isset($_POST['Logout'])) {
+    header('location:index.php');
+    unset($_SESSION['username']);
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,10 +55,10 @@
 </head>
 
 <body>
-<!-- <div class="preloader-full-height" id="preloading">
+<div class="preloader-full-height" id="preloading">
 	<img id="me" src="images/logo-icon.png" style= "margin-top : -145px">
 	<h4 style= "color: white; margin-top : -125px" >LOADING ...</h4>
-</div> -->
+</div>
 
 <div class="super_container">
 
@@ -93,29 +78,33 @@
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Home</a></li>
 								<li><a href="#">Term & Condition</a></li>
-								<!-- <li><a href="contact.html">contact</a></li> -->
+								<li><a href="contact.html">contact</a></li>
 							</ul>
 							<ul class="navbar_user">
-								<!-- <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li> -->
+								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
 								<li class="account">
 									<a>
 										<i class="fa fa-user" aria-hidden="true"></i>
 									</a>
 									<ul class="account_selection">
-										<div class="widgets_div" onclick="showLoginModal()">
+										<div class="widgets_div" >
 											<div class="icon_div">
-												<span><i class="fa fa-sign-in"></i></span>
+												<span><i class="fa fa-user"></i></span>
 											</div>
 											<div class="text_div">
-												<span>Sign In</span>
+												<span><?php  echo($user); ?></span>
 											</div>
 										</div>
-										<div class="widgets_div" onclick="showRegisterModal()">
+										<div class="widgets_div" >
 											<div class="icon_div">
-												<span><i class="fa fa-user-plus"></i></span>
+												<span><i class="fa fa-sign-out"></i></span>
 											</div>
 											<div class="text_div">
-												<span>Register</span>
+											<form action="home.php" method="POST"  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<button name = "Logout" type="submit"   ><span style="margin-left:-15px; margin-top:13px">Logout</span></button>  
+          									</form>	
+											
 											</div>
 										</div>
 									</ul>
@@ -123,16 +112,7 @@
 								<li class="checkout">
 									<a href="#">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">
-										<?php
-											if(isset($_SESSION["cart"])){
-												echo count($_SESSION["cart"]);
-											}
-											else{
-												echo "0";
-											}
-										?>
-										</span>
+										<span id="checkout_items" class="checkout_items">2</span>
 									</a>
 								</li>
 							</ul>
@@ -167,7 +147,7 @@
 					</ul>
 				</li>
 				<li class="menu_item"><a href="#">Term & Condition</a></li>
-				<!-- <li class="menu_item"><a href="contact.html">contact</a></li> -->
+				<li class="menu_item"><a href="contact.html">contact</a></li>
 			</ul>
 		</div>
 		<div class="hamburger_footer"><img src="images/logo.jpg" width="160px"></div>
@@ -208,7 +188,7 @@
 	<!-- Banner -->
 
 	<!--<div class="banner">
-		 <div class="container"> -->
+		<!-- <div class="container"> -->
                 <!--<div class="row rowbanner">
 					<div class="col-md-1"></div>
                     <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar2.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
@@ -234,20 +214,11 @@
 				<div class="col text-center">
 					<div class="new_arrivals_sorting">
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="Semua" value="Semua">Semua</li>
-							<?php
-								$querySelect = "SELECT * FROM kategori";
-								$result = mysqli_query($conn, $querySelect);
-
-								if($result->num_rows > 0){
-									$querySelect = "SELECT * FROM kategori";
-									$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
-
-									for ($i=0; $i < $result->num_rows; $i++) { ?>
-										<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="<?= $isiDB[$i][1]; ?>" value="<?= $isiDB[$i][1]; ?>"><?= $isiDB[$i][1]; ?></li>
-									<?php }
-								}
-							?>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">For Men</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women">For Women</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".kids">For Kids</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".about">About Us</li>
 						</ul>
 					</div>
 				</div>
@@ -257,7 +228,7 @@
 					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
 
 						<!-- Product 1 -->
-						<!-- nanti di load dari database-->
+
 						<div class="product-item men">
 							<div class="product discount product_filter">
 								<div class="product_image">
@@ -270,13 +241,7 @@
 									<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya , nama nya , dan nama gambar untuk di masukkan ke session cart -->
-								<input type="hidden" value='Brown hoddie' name="namaproduk">
-								<input type="hidden" value="65.000" name="harga">
-								<input type="hidden" value="images/product_1.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
 						<!-- Product 2 -->
@@ -293,13 +258,7 @@
 									<div class="product_price">Rp 185.000</div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Navy Dress' name="namaproduk">
-								<input type="hidden" value="185.000" name="harga">
-								<input type="hidden" value="images/product_2.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
 						<!-- Product 3 -->
@@ -315,13 +274,7 @@
 									<div class="product_price">Rp 125.000</div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Yellow Gold Sweater' name="namaproduk">
-								<input type="hidden" value="125.000" name="harga">
-								<input type="hidden" value="images/product_3.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
 						<!-- Product 4 -->
@@ -338,13 +291,7 @@
 									<div class="product_price">Rp 250.000</div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Dress' name="namaproduk">
-								<input type="hidden" value="250.000" name="harga">
-								<input type="hidden" value="images/product_4.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
 						<!-- Product 5 -->
@@ -360,13 +307,7 @@
 									<div class="product_price">Rp 80.000</div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='T-Shirt' name="namaproduk">
-								<input type="hidden" value="80.000" name="harga">
-								<input type="hidden" value="images/product_5.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
 						<!-- Product 6 -->
@@ -383,13 +324,7 @@
 									<div class="product_price">Rp 75.000<span>$150.0000</span></div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Jacket' name="namaproduk">
-								<input type="hidden" value="75.000" name="harga">
-								<input type="hidden" value="images/product_6.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
 						<!-- Product 7 -->
@@ -405,13 +340,7 @@
 									<div class="product_price">Rp 85.000</div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Sweeter Brown' name="namaproduk">
-								<input type="hidden" value="85.000" name="harga">
-								<input type="hidden" value="images/product_7.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
 						<!-- Product 8 -->
@@ -427,13 +356,7 @@
 									<div class="product_price">Rp 350.000</div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Red Women Dress' name="namaproduk">
-								<input type="hidden" value="350.000" name="harga">
-								<input type="hidden" value="images/product_8.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
 						<!-- Product 9 -->
@@ -450,13 +373,7 @@
 									<div class="product_price">Rp 125.000</div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Jacket' name="namaproduk">
-								<input type="hidden" value="125.000" name="harga">
-								<input type="hidden" value="images/product_9.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
 						<!-- Product 10 -->
@@ -472,13 +389,7 @@
 									<div class="product_price">Rp 100.000</div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Grey Sweeter' name="namaproduk">
-								<input type="hidden" value="100.000" name="harga">
-								<input type="hidden" value="images/product_10.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 					</div>
 				</div>
@@ -891,6 +802,28 @@
 	<footer class="footer">
 		<div class="container">
 			<div class="row">
+				<div class="col-lg-6">
+					<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+						<ul class="footer_nav">
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">FAQs</a></li>
+							<li><a href="contact.html">Contact us</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+						<ul>
+							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+							<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+							<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+							<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-lg-12">
 					<div class="footer_nav_container">
 						<div class="cr">©2020 <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Sun Shop</a></div>
@@ -1038,13 +971,13 @@
 </script>
 
 <script type="text/javascript">
-	// var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-	// (function(){
-	// var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-	// s1.async=true;
-	// s1.src='https://embed.tawk.to/5dedcbe1d96992700fcb5cbd/1drnchuei';
-	// s1.charset='UTF-8';
-	// s1.setAttribute('crossorigin','*');
-	// s0.parentNode.insertBefore(s1,s0);
-	// })();
+	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+	(function(){
+	var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+	s1.async=true;
+	s1.src='https://embed.tawk.to/5dedcbe1d96992700fcb5cbd/1drnchuei';
+	s1.charset='UTF-8';
+	s1.setAttribute('crossorigin','*');
+	s0.parentNode.insertBefore(s1,s0);
+	})();
 </script>

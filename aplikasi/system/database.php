@@ -1,5 +1,5 @@
 <?php
-$dsn = "mysql:host=localhost;dbname=onlineshop;port=3306;charset=utf8mb4";
+$dsn = "mysql:host=localhost;dbname=proyekaplin;port=3306;charset=utf8mb4";
 $user = "root"; // Ini default di xampp, kalau nanti deploy tergantung server kalian!
 $pass = ""; // User root di xampp tidak punya password
 $options = [

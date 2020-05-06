@@ -1,9 +1,207 @@
 <?php
-	session_start();
-	require_once('conn.php');
+include("conn.php");
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+session_start();
 
-	//unset($_SESSION["cart"]);
-	//nanti saat user logout atau melakukan buy , session akan di unset
+if(isset($_POST["login"]))
+	{
+		$user = $_POST["Luser"];
+        $pass = $_POST["Lpass"];
+        $sql = "select * from user where email='$user'";
+        $result = $conn->query($sql);
+    
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+				
+					if (password_verify($pass, $row["PASSWORD_USER"])) {
+						if ($row["STATUS"] == "0") {
+							echo "<script>alert('mohon maaf anda harus verifikasi email terlebih dahulu')</script>";
+						}
+						else if ($row["STATUS"] == "1") {
+							if ($row["ROLE"] == "0") {
+								$_SESSION['username']= $row["NAMA"];
+								$user=$_SESSION['username'];
+								echo "<script>alert('$user')</script>";
+								header("location: home.php");
+							} else if ($row["ROLE"] == "1") {
+								$_SESSION['username']= $row["NAMA"];
+								header("location: admin.php");
+							} 
+						}
+					} else {
+						echo "<script>alert('password salah')</script>";
+					}
+            }
+        } else {
+            echo "<script>alert('username tidak ada')</script>";
+        }
+	}
+if(isset($_POST["register"]))
+	{
+		if($_POST["nama"]<>'' && $_POST["email"]<>'' && $_POST["pass"]<>'' && $_POST["cpass"]<>'')
+		{
+			if ($_POST["pass"]==$_POST["cpass"])
+			{
+				$email=$_POST["email"];
+				$sql = "Select count(email) as 'jumlah' from user where email='$email'";
+				$result = $conn->query($sql);
+				if($result->num_rows > 0)
+				{	while($row = $result->fetch_assoc())
+					{
+					$hasil= $row["jumlah"];
+					}
+				}
+				
+				if ($hasil==0)
+				{
+					if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+						$nama=$_POST["nama"];
+						$pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
+						$token=hash('sha256', md5(date('Y-m-d'))) ;
+						$sql = "insert into user(email,password_user,nama,role,status,token) values('$email','$pass','$nama',0,0,'$token')";
+						if (mysqli_query($conn, $sql)) {
+							echo "<script>alert('Register berhasil segera check email buat mengaktifkan akun');</script>";
+							//Send Email
+								require 'vendor/autoload.php';
+								$mail = new PHPMailer(true);    
+								$body = "<body style='margin: 10px;'>
+								<div style='width: 640px; font-family: Helvetica, sans-serif; font-size: 13px; padding:10px; line-height:150%; border:#eaeaea solid 10px;'>
+								<br>
+								<strong>Terima Kasih Telah Melakukan Pendaftaran pada website sunshop.com segera lakukan verifikasi dengan mengklik url dibawah ini</strong><br>
+								<b>Nama Anda : </b>".$nama."<br>
+								<b>Email : </b>".$email."<br>
+								<b>URL Konfirmasi : </b><a href='http://localhost/proyek/sunshop.com/konfirmasi.php?t=".$token."'>http://localhost/proyek/sunshop.com/konfirmasi.php?t=".$token."</a><br>
+								<br>
+								</div>
+								</body>";
+								try {
+									$mail->SMTPDebug = 0;                          
+									$mail->isSMTP();                   
+									$mail->Host = 'smtp.gmail.com'; 
+									$mail->SMTPAuth = true;         
+									$mail->Username = 'sunshopaplinproyek@gmail.com'; 
+									$mail->Password = 'uyxztavypnxjlimc'; 
+									$mail->SMTPSecure = 'ssl';   
+									$mail->Port = 465;
+									$mail->setFrom('sunshopaplinproyek@gmail.com', 'verifikasi Sun Shop');
+									$mail->addAddress($email, $nama); 
+									$mail->isHTML(true);      
+									$mail->Subject = 'Sun Shop Online';
+									$mail->Body    = $body;
+									$mail->AltBody = 'This is the body ';
+								
+									$mail->send();
+									echo 'Message has been sent';
+								} catch (Exception $e) {
+									echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+								}
+
+								if(!$mail->Send()) {
+									echo "Oops, Mailer Error: " . $mail->ErrorInfo;
+								} else {
+									echo "Mail Sukses";
+								}
+
+							//
+						} else {
+							echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+						}
+						
+					} else {
+						echo "<script>alert('$email Harap masukkan email dengan benar');</script>";
+					}
+					
+				}
+				else
+				{
+					echo "<script>alert('Email Sudah Teregister');</script>";
+				}
+			}
+			else{
+				echo "<script>alert('Password dan Confrim Password tdk sama');</script>";
+			}
+		} 
+		else
+		{
+			echo "<script>alert('Harus Terisi Semua !');</script>";
+		}
+	}
+
+	if(isset($_POST["forgetpass"]))
+	{
+		if($_POST["forgetemail"]<>'' )
+		{
+			$email=$_POST["forgetemail"];
+			$sql = "Select count(email) as 'jumlah',nama,token from user where email='$email'";
+			$result = $conn->query($sql);
+				if($result->num_rows > 0)
+				{	while($row = $result->fetch_assoc())
+					{
+						$hasil= $row["jumlah"];
+						$namauser= $row["nama"];
+						$tokenuser= $row["token"];
+					}
+					if ($hasil==1){
+						if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+							//Send Email
+							require 'vendor/autoload.php';
+							$mail = new PHPMailer(true);    
+							$body = "<body style='margin: 10px;'>
+							<div style='width: 640px; font-family: Helvetica, sans-serif; font-size: 13px; padding:10px; line-height:150%; border:#eaeaea solid 10px;'>
+							<br>
+							<strong>User telah Forget Password Sunshop.com jika anda benar ingin mereset Password segera reset password dengan  melakukan mengganti password baru dengan mengklik url dibawah ini</strong><br>
+							<b>Nama Anda : </b>".$namauser."<br>
+							<b>Email : </b>".$email."<br>
+							<b>URL Konfirmasi : </b><a href='http://localhost/proyek/sunshop.com/forget.php?t=".$tokenuser."&e=".$email."'>http://localhost/proyek/sunshop.com/forget.php?t=".$tokenuser."&e=".$email."'</a><br>
+							<br>
+							</div>
+							</body>";
+							try {
+								$mail->SMTPDebug = 0;                          
+								$mail->isSMTP();                   
+								$mail->Host = 'smtp.gmail.com'; 
+								$mail->SMTPAuth = true;         
+								$mail->Username = 'sunshopaplinproyek@gmail.com'; 
+								$mail->Password = 'uyxztavypnxjlimc'; 
+								$mail->SMTPSecure = 'ssl';   
+								$mail->Port = 465;
+								$mail->setFrom('sunshopaplinproyek@gmail.com', 'Forget Password Sun Shop');
+								$mail->addAddress($email, $nama); 
+								$mail->isHTML(true);      
+								$mail->Subject = 'Sun Shop Online';
+								$mail->Body    = $body;
+								$mail->AltBody = 'This is the body ';
+								$mail->send();
+								echo "<script>alert('Message has been sent');</script>";
+							} catch (Exception $e) {
+								echo "<script>alert('Message could not be sent. forget password Error:', $mail->ErrorInfo);</script>";
+							}
+							if(!$mail->Send()) {
+								echo "<script>alert('Oops, Mailer Error: ' . $mail->ErrorInfo);</script>";
+							} else {
+								echo "<script>alert('Forget Password Sukses');</script>";
+							}
+						}
+						else {
+							echo "<script>alert('$email Harap masukkan email dengan benar');</script>";
+						}
+					}
+					else
+					{
+						echo "<script>alert('Email Belum Teregister');</script>";
+					}
+				}
+				else {
+					echo "<script>alert('Error:  '. $sql .' <br> '. mysqli_error($conn));</script>";
+				}
+		}
+		else
+		{
+			echo "<script>alert('Email Harus Terisi!!!');</script>";
+		}
+	}
+
 	if(isset($_POST["addtocart"])){
 		echo "<script>alert('Berhasil')</script>";
 		$arrtemp = array(
@@ -25,12 +223,10 @@
 		}
 	}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <title>Sun Shop</title>
-<script type="text/javascript" src="jquery.js"></script>
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -72,10 +268,10 @@
 </head>
 
 <body>
-<!-- <div class="preloader-full-height" id="preloading">
+<div class="preloader-full-height" id="preloading">
 	<img id="me" src="images/logo-icon.png" style= "margin-top : -145px">
 	<h4 style= "color: white; margin-top : -125px" >LOADING ...</h4>
-</div> -->
+</div>
 
 <div class="super_container">
 
@@ -89,17 +285,17 @@
 					<div class="col-lg-12 text-right">
 						<div class="logo_container">
 							<!-- <div class="logo"></div> -->
-							<a href="index.html"><img src="images/logo.jpg" width="150px"></a>
-
+							<a href="index.php"><img src="images/logo.jpg" width="150px"></a>
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Home</a></li>
 								<li><a href="#">Term & Condition</a></li>
-								<!-- <li><a href="contact.html">contact</a></li> -->
+								<li><a href="contact.html">contact</a></li>
 							</ul>
 							<ul class="navbar_user">
-								<!-- <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li> -->
+								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
 								<li class="account">
 									<a>
 										<i class="fa fa-user" aria-hidden="true"></i>
@@ -126,16 +322,7 @@
 								<li class="checkout">
 									<a href="#">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">
-										<?php
-											if(isset($_SESSION["cart"])){
-												echo count($_SESSION["cart"]);
-											}
-											else{
-												echo "0";
-											}
-										?>
-										</span>
+										<span id="checkout_items" class="checkout_items">2</span>
 									</a>
 								</li>
 							</ul>
@@ -170,7 +357,7 @@
 					</ul>
 				</li>
 				<li class="menu_item"><a href="#">Term & Condition</a></li>
-				<!-- <li class="menu_item"><a href="contact.html">contact</a></li> -->
+				<li class="menu_item"><a href="contact.html">contact</a></li>
 			</ul>
 		</div>
 		<div class="hamburger_footer"><img src="images/logo.jpg" width="160px"></div>
@@ -208,23 +395,6 @@
 		</div>
 	</div>
 
-	<!-- Banner -->
-
-	<!--<div class="banner">
-
-		 <div class="container"> -->
-                <!--<div class="row rowbanner">
-					<div class="col-md-1"></div>
-                    <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar2.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
-                    <div class="col-md-2 hidden-phone" style="background-image:url(images/gambar4.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;"></div>
-                    <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar3.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
-					<div class="col-md-1"></div>
-                </div>-->
-		<!-- </div> -->
-	<!--</div>-->
-
-	<!-- New Arrivals -->
-
 	<div class="new_arrivals">
 		<div class="container">
 			<div class="row">
@@ -238,20 +408,11 @@
 				<div class="col text-center">
 					<div class="new_arrivals_sorting">
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
-						<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="Semua" value="Semua">Semua</li>
-							<?php
-								$querySelect = "SELECT * FROM kategori";
-								$result = mysqli_query($conn, $querySelect);
-
-								if($result->num_rows > 0){
-									$querySelect = "SELECT * FROM kategori";
-									$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
-
-									for ($i=0; $i < $result->num_rows; $i++) { ?>
-										<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="<?= $isiDB[$i][1]; ?>" value="<?= $isiDB[$i][1]; ?>"><?= $isiDB[$i][1]; ?></li>
-									<?php }
-								}
-							?>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">For Men</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women">For Women</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".kids">For Kids</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".about">About Us</li>
 						</ul>
 					</div>
 				</div>
@@ -261,7 +422,7 @@
 					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
 
 						<!-- Product 1 -->
-						<!-- nanti di load dari database-->
+
 						<div class="product-item men">
 							<div class="product discount product_filter">
 								<div class="product_image">
@@ -275,14 +436,14 @@
 								</div>
 							</div>
 							<form method="post">
-								<!-- Untuk menyimpan harga nya , nama nya , dan nama gambar untuk di masukkan ke session cart -->
-								<input type="hidden" value='Brown hoddie' name="namaproduk">
-								<input type="hidden" value="65.000" name="harga">
-								<input type="hidden" value="images/product_1.png" name="gambar">
+								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
+								<input type="hidden" value='Dress' name="namaproduk">
+								<input type="hidden" value="250.000" name="harga">
+								<input type="hidden" value="images/product_4.png" name="gambar">
 								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
+								<!-- <div type="submit" name="addtocart" class="red_button add_to_cart_button"><a href="single.html">add to cart</a></div> -->
 							</form>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-
+							
 						</div>
 
 						<!-- Product 2 -->
@@ -299,25 +460,25 @@
 									<div class="product_price">Rp 185.000</div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Navy Dress' name="namaproduk">
-								<input type="hidden" value="185.000" name="harga">
-								<input type="hidden" value="images/product_2.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-
-
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Yellow Gold Sweater' name="namaproduk">
-								<input type="hidden" value="125.000" name="harga">
-								<input type="hidden" value="images/product_3.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
+
+						<!-- Product 3 -->
+
+						<div class="product-item women">
+							<div class="product product_filter">
+								<div class="product_image">
+									<img src="images/product_3.png" alt="">
+								</div>
+								<div class="favorite"></div>
+								<div class="product_info">
+									<h6 class="product_name"><a href="single.html">Yellow Gold Sweeter</a></h6>
+									<div class="product_price">Rp 125.000</div>
+								</div>
+							</div>
+							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+						</div>
+
 						<!-- Product 4 -->
 
 						<div class="product-item accessories">
@@ -332,16 +493,6 @@
 									<div class="product_price">Rp 250.000</div>
 								</div>
 							</div>
-
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Dress' name="namaproduk">
-								<input type="hidden" value="250.000" name="harga">
-								<input type="hidden" value="images/product_4.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
@@ -358,16 +509,7 @@
 									<div class="product_price">Rp 80.000</div>
 								</div>
 							</div>
-
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='T-Shirt' name="namaproduk">
-								<input type="hidden" value="80.000" name="harga">
-								<input type="hidden" value="images/product_5.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-
 						</div>
 
 						<!-- Product 6 -->
@@ -384,25 +526,23 @@
 									<div class="product_price">Rp 75.000<span>$150.0000</span></div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Jacket' name="namaproduk">
-								<input type="hidden" value="75.000" name="harga">
-								<input type="hidden" value="images/product_6.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
+						</div>
 
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Sweeter Brown' name="namaproduk">
-								<input type="hidden" value="85.000" name="harga">
-								<input type="hidden" value="images/product_7.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
+						<!-- Product 7 -->
+
+						<div class="product-item women">
+							<div class="product product_filter">
+								<div class="product_image">
+									<img src="images/product_7.png" alt="">
+								</div>
+								<div class="favorite"></div>
+								<div class="product_info">
+									<h6 class="product_name"><a href="single.html">Sweeter Brown</a></h6>
+									<div class="product_price">Rp 85.000</div>
+								</div>
+							</div>
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-
 						</div>
 
 						<!-- Product 8 -->
@@ -418,14 +558,6 @@
 									<div class="product_price">Rp 350.000</div>
 								</div>
 							</div>
-
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Red Women Dress' name="namaproduk">
-								<input type="hidden" value="350.000" name="harga">
-								<input type="hidden" value="images/product_8.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 
@@ -443,16 +575,7 @@
 									<div class="product_price">Rp 125.000</div>
 								</div>
 							</div>
-
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Jacket' name="namaproduk">
-								<input type="hidden" value="125.000" name="harga">
-								<input type="hidden" value="images/product_9.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-
 						</div>
 
 						<!-- Product 10 -->
@@ -468,13 +591,6 @@
 									<div class="product_price">Rp 100.000</div>
 								</div>
 							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Grey Sweeter' name="namaproduk">
-								<input type="hidden" value="100.000" name="harga">
-								<input type="hidden" value="images/product_10.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
 							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
 						</div>
 					</div>
@@ -729,164 +845,30 @@
 		</div>
 	</div>
 
-	<!-- Benefit -->
-
-	<!--<div class="benefit">
-		<div class="container">
-			<div class="row benefit_row">
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>free shipping</h6>
-							<p>Suffered Alteration in Some Form</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>cach on delivery</h6>
-							<p>The Internet Tend To Repeat</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-undo" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>45 days return</h6>
-							<p>Making it Look Like Readable</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>opening all week</h6>
-							<p>8AM - 09PM</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>-->
-
-	<!-- Blogs -->
-
-	<!--<div class="blogs">
-		<div class="container">
-			<div class="row">
-				<div class="col text-center">
-					<div class="section_title">
-						<h2>Latest Blogs</h2>
-					</div>
-				</div>
-			</div>
-			<div class="row blogs_container">
-				<div class="product_slider_container">
-					<div class="owl-carousel owl-theme product_slider">
-						<div class="col-lg-4 blog_item_col">
-								<div class="blog_item">
-									<div class="blog_background" style="background-image:url(images/blog_jambi.jpg)"></div>
-									<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-										<h4 class="blog_title">Batik Jambi</h4>
-										<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-										<a class="blog_more" href="#">Read more</a>
-									</div>
-								</div>			
-						</div>
-						<div class="col-lg-4 blog_item_col">
-								<div class="blog_item">
-									<div class="blog_background" style="background-image:url(images/blog_madura.jpg)"></div>
-									<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-										<h4 class="blog_title">Batik Madura</h4>
-										<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-										<a class="blog_more" href="#">Read more</a>
-									</div>
-								</div>
-						</div>
-						<div class="col-lg-4 blog_item_col">
-								<div class="blog_item">
-									<div class="blog_background" style="background-image:url(images/blog_sumatra.jpg)"></div>
-									<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-										<h4 class="blog_title">Batik Sumatra</h4>
-										<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-										<a class="blog_more" href="#">Read more</a>
-									</div>
-								</div>
-						</div>
-						<div class="col-lg-4 blog_item_col">
-								<div class="blog_item">
-									<div class="blog_background" style="background-image:url(images/blog_sumatra.jpg)"></div>
-									<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-										<h4 class="blog_title">Batik Sumatra</h4>
-										<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-										<a class="blog_more" href="#">Read more</a>
-									</div>
-								</div>
-						</div>
-						<div class="col-lg-4 blog_item_col">
-							<div class="blog_item">
-								<div class="blog_background" style="background-image:url(images/blog_sumatra.jpg)"></div>
-								<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-									<h4 class="blog_title">Batik Sumatra</h4>
-									<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-									<a class="blog_more" href="#">Read more</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 blog_item_col">
-							<div class="blog_item">
-								<div class="blog_background" style="background-image:url(images/blog_sumatra.jpg)"></div>
-								<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-									<h4 class="blog_title">Batik Sumatra</h4>
-									<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-									<a class="blog_more" href="#">Read more</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
-						<i class="fa fa-chevron-left" aria-hidden="true"></i>
-					</div>
-					<div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
-						<i class="fa fa-chevron-right" aria-hidden="true"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>-->
-
-	<!-- Newsletter -->
-
-	<!--<div class="newsletter">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-						<h4>Newsletter</h4>
-						<p>Subscribe to our newsletter and get 20% off your first purchase</p>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<form action="post">
-						<div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
-							<input id="newsletter_email" type="email" placeholder="Your email" required="required" data-error="Valid email is required.">
-							<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">subscribe</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>-->
-
-	<!-- Footer -->
-
 	<footer class="footer">
 		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+						<ul class="footer_nav">
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">FAQs</a></li>
+							<li><a href="contact.html">Contact us</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+						<ul>
+							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+							<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+							<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+							<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="footer_nav_container">
@@ -916,6 +898,7 @@
 <div class="box">
     <div class="navbox"></div>
 </div>
+<!--modal send email -->
 
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -925,17 +908,15 @@
 			<div class="container-login" id="container-login">
 				<div class="form-container sign-up-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-
-					<form class="form-login" id="formRegister">
+					<form action="Index.php" method="post" class="form-login">
 						<h3>Create Account</h3>
 						<br>
 						<input type="text" name ="nama" placeholder="Name" />
 						<input type="email" name ="email" placeholder="Email" />
 						<input type="password" name ="pass" placeholder="Password" />
 						<input type="password" name ="cpass" placeholder="Confirm Password" />
-						<button type="submit" name ="register" class="button-login">Sign Up</button>
 						<br>
-
+						<button type="submit" name="register" class="button-login">Register</button>
 						<br>
 						<span>or use your account for login</span>
 						<div class="social-container">
@@ -946,12 +927,11 @@
 				</div>
 				<div class="form-container sign-in-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-
-					<form class="form-login" id="formLogin">
+					<form action="index.php" method="post" class="form-login">
 						<h3>Sign in</h3>
 						<br>
-						<input type="email" name ="luser" placeholder="Email" />
-						<input type="password" name ="lpass" placeholder="Password" />
+						<input type="email" name ="Luser" placeholder="Email" />
+						<input type="password" name ="Lpass" placeholder="Password" />
 						<br>
 						<button type="submit" name ="login" class="button-login">Sign In</button>
 						<br>
@@ -961,7 +941,16 @@
 							<a href="#" class="social"><i class="fa fa-google"></i></a>
 						</div>
 						<br>
-						<a href="#">Forgot your password?</a>
+						<button type="button" class="btn btn-danger" id="exampleModal">Forgot your password?</button>
+					</form>
+				</div>
+				<div class="form-container forget-in-container">
+					<form action="index.php" method="post" class="form-login">
+						<h3>Forget Password</h3>
+						<br>
+						<input type="email" name ="forgetemail" placeholder="Email" />
+						<button typr="submit" name ="forgetpass" class="button-login">Send Email</button>
+						<br>
 					</form>
 				</div>
 				<div class="overlay-container">
@@ -998,18 +987,28 @@
 
 
 <script>
+	
 	const container = document.getElementById('container-login');
 
 	$('#btnToTop').fadeOut();
 
 	$( "#signUp" ).click(function() {
 		$(".sign-in-container").hide();
+		$(".forget-in-container").hide();
 		$(".sign-up-container").show();
 		container.classList.add("right-panel-active");
 	});
 
 	$( "#signIn" ).click(function() {
 		$(".sign-in-container").show();
+		$(".sign-up-container").hide();
+		$(".forget-in-container").hide();
+		container.classList.remove("right-panel-active");
+	});
+
+	$( "#exampleModal" ).click(function() {
+		$(".forget-in-container").show();
+		$(".sign-in-container").hide();
 		$(".sign-up-container").hide();
 		container.classList.remove("right-panel-active");
 	});
@@ -1038,7 +1037,7 @@
 </script>
 
 <script type="text/javascript">
-	/*var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 	(function(){
 	var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
 	s1.async=true;
@@ -1046,103 +1045,5 @@
 	s1.charset='UTF-8';
 	s1.setAttribute('crossorigin','*');
 	s0.parentNode.insertBefore(s1,s0);
-	})();*/
-
-	$(document).ready(function(){
-		loadAllProduct();
-
-		$("#formLogin").submit(function(e){
-			e.preventDefault(); // mencegah page reload
-			$.ajax({
-				method : "post", 
-				url : "cekLogin.php", 
-				data : $("#formLogin").serialize(), 
-				success : function(result){
-					var arrLogin = JSON.parse(result);
-					if(arrLogin != "Gagal login!"){
-						if(arrLogin['ROLE'] == "1"){
-							alert("Berhasil Login!");
-							window.location.href = 'home.php';
-						} else if(arrLogin['ROLE'] == "0"){
-							alert("Berhasil Login!");
-							window.location.href = 'admin/produk.php';
-						}
-					} else {
-						alert("Gagal Login!");
-					}
-				}
-			});
-		});
-		
-		$("#formRegister").submit(function(e){
-			e.preventDefault(); // mencegah page reload
-			$.ajax({
-				method : "post", 
-				url : "cekRegister.php", 
-				data : $("#formRegister").serialize(), 
-				success : function(result){
-					var arr = JSON.parse(result);
-					alert(arr);
-				}
-			});
-        });
-
-		/*$("#id").submit(function(e){
-			e.preventDefault(); // mencegah page reload
-
-			$.ajax({
-				method : "post", 
-				url : ".php", 
-				data : $("#id").serialize(), 
-				success : function(result){
-					
-				}
-			});
-		});*/
-	});
-
-	function loadAllProduct(){
-		// load product saat pertama kali halaman dibuka
-
-		$.ajax({
-			method : "post", 
-			url : "ajax/getAllProduct.php",  
-			success : function(result){
-				var allProduct = JSON.parse(result);
-				
-				/*for (let index = 0; index < allProduct.length; index++) {
-					$("#id").append(`
-						<div id="product${index}">
-							<div class="product_image">
-								<img src="images/product_1.png" alt="">
-							</div>
-							<div class="favorite favorite_left"></div>
-							<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-20.000</span></div>
-							<div class="product_info">
-								<h6 class="product_name"><a href="single.html">${allProduct[1]}</a></h6>
-								<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
-							</div>
-							<form id="formProduct${index}">
-								<!-- Untuk menyimpan harga nya , nama nya , dan nama gambar untuk di masukkan ke session cart -->
-								<input type="hidden" value='${allProduct[1]}' name="namaproduk">
-								<input type="hidden" value="65.000" name="harga">
-							</form>
-						</div>
-					`);
-
-					var newElementCart = '<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>';
-					newElementCart.on("click", {idx:allProduct[0]}, fungsiBtnCart);
-					$("#formProduct"+index).append(newElementCart);
-				}*/
-			}
-		});
-	}
-
-	/*function fungsiBtnCart(e){
-		// apa yang terjadi jika btn add cart di klik
-		e.preventDefault();
-		var idxBtn = e.data.idx; // akan mendapatkan id product
-
-		// code perintah add to cart
-	}*/
+	})();
 </script>
