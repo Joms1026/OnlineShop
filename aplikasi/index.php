@@ -8,7 +8,7 @@ if(isset($_POST["login"]))
 	{
 		$user = $_POST["Luser"];
         $pass = $_POST["Lpass"];
-        $sql = "select * from user where email='$user'";
+        $sql = "select * from users where email='$user'";
         $result = $conn->query($sql);
     
         if ($result->num_rows > 0) {
@@ -20,12 +20,12 @@ if(isset($_POST["login"]))
 						}
 						else if ($row["STATUS"] == "1") {
 							if ($row["ROLE"] == "0") {
-								$_SESSION['username']= $row["NAMA"];
+								$_SESSION['username']= $row["username"];
 								$user=$_SESSION['username'];
 								echo "<script>alert('$user')</script>";
 								header("location: home.php");
 							} else if ($row["ROLE"] == "1") {
-								$_SESSION['username']= $row["NAMA"];
+								$_SESSION['username']= $row["username"];
 								header("location: admin.php");
 							} 
 						}
@@ -44,7 +44,7 @@ if(isset($_POST["register"]))
 			if ($_POST["pass"]==$_POST["cpass"])
 			{
 				$email=$_POST["email"];
-				$sql = "Select count(email) as 'jumlah' from user where email='$email'";
+				$sql = "Select count(email) as 'jumlah' from users where email='$email'";
 				$result = $conn->query($sql);
 				if($result->num_rows > 0)
 				{	while($row = $result->fetch_assoc())
@@ -59,7 +59,7 @@ if(isset($_POST["register"]))
 						$nama=$_POST["nama"];
 						$pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
 						$token=hash('sha256', md5(date('Y-m-d'))) ;
-						$sql = "insert into user(email,password_user,nama,role,status,token) values('$email','$pass','$nama',0,0,'$token')";
+						$sql = "insert into users(email_user,password_user,username,role,status,token) values('$email','$pass','$nama',0,0,'$token')";
 						if (mysqli_query($conn, $sql)) {
 							echo "<script>alert('Register berhasil segera check email buat mengaktifkan akun');</script>";
 							//Send Email
@@ -71,7 +71,7 @@ if(isset($_POST["register"]))
 								<strong>Terima Kasih Telah Melakukan Pendaftaran pada website sunshop.com segera lakukan verifikasi dengan mengklik url dibawah ini</strong><br>
 								<b>Nama Anda : </b>".$nama."<br>
 								<b>Email : </b>".$email."<br>
-								<b>URL Konfirmasi : </b><a href='http://localhost/proyek/sunshop.com/konfirmasi.php?t=".$token."'>http://localhost/proyek/sunshop.com/konfirmasi.php?t=".$token."</a><br>
+								<b>URL Konfirmasi : </b><a href='http://localhost/OnlineShop/OnlineShop/aplikasi/konfirmasi.php?t=".$token."'>http://localhost/OnlineShop/OnlineShop/aplikasi/konfirmasi.php?t=".$token."</a><br>
 								<br>
 								</div>
 								</body>";
@@ -133,13 +133,13 @@ if(isset($_POST["register"]))
 		if($_POST["forgetemail"]<>'' )
 		{
 			$email=$_POST["forgetemail"];
-			$sql = "Select count(email) as 'jumlah',nama,token from user where email='$email'";
+			$sql = "Select count(email_user) as 'jumlah',username,token from user where email_user='$email'";
 			$result = $conn->query($sql);
 				if($result->num_rows > 0)
 				{	while($row = $result->fetch_assoc())
 					{
 						$hasil= $row["jumlah"];
-						$namauser= $row["nama"];
+						$namauser= $row["usename"];
 						$tokenuser= $row["token"];
 					}
 					if ($hasil==1){
