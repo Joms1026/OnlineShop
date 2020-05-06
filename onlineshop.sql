@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2020 at 06:40 AM
+-- Generation Time: May 06, 2020 at 06:59 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -270,23 +270,6 @@ INSERT INTO `tipe_warna` (`ID_WARNA`, `NAMA_WARNA`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `ID_USER` int(11) NOT NULL,
-  `USERNAME` varchar(50) NOT NULL,
-  `PASSWORD_USER` varchar(64) NOT NULL,
-  `EMAIL_USER` varchar(50) NOT NULL,
-  `ROLE` int(11) NOT NULL,
-  `ALAMAT` varchar(150) DEFAULT NULL,
-  `NO_TELEPON` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -413,13 +396,6 @@ ALTER TABLE `tipe_warna`
   ADD PRIMARY KEY (`ID_WARNA`);
 
 --
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`ID_USER`),
-  ADD UNIQUE KEY `EMAIL_USER` (`EMAIL_USER`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -456,11 +432,6 @@ ALTER TABLE `gambar`
 --
 ALTER TABLE `kategori`
   MODIFY `ID_KATEGORI` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
