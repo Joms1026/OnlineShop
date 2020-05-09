@@ -941,12 +941,7 @@ if(isset($_POST["register"]))
 						</div>
 					`);
 					ambilHarga(isiProduct[index][0]);
-
-					// var img = new Image(100,100);
 					ambilGambar(isiProduct[index][0]);
-					// console.log(srcGambar["link_gambar"]);
-					// img.src=srcGambar["link_gambar"];
-					// document.getElementById('product-image'+isiProduct[index][0]).appendChild(img); 
 
 					var newElementDetail = $('<input type="submit" name="btnDetail" value="Show Detail" style="width: 195px; height:25px; background-color: red; color: white">');
 					newElementDetail.on("click", {"idx": isiProduct[index][0]}, fungsiBtnDetail);
@@ -963,8 +958,6 @@ if(isset($_POST["register"]))
 			data : `idx=${id}`,
 			success : function (result) {
 				var srcGambar = JSON.parse(result);
-				var temp = "./admin/uploads/produk/"+srcGambar+".";
-				console.log(temp);
 				var img = new Image(100,145);
 				img.src=srcGambar;
 				document.getElementById('product-image'+id).appendChild(img); 
