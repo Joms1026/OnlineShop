@@ -1,14 +1,14 @@
 <?php
-    require_once("conn.php");
+    require_once("conn-admin.php");
     if($_FILES['gambar']['size'] > 0 && $_FILES['gambar']['error'] == 0){
         // $fileName = $_FILES['gambar']['name'];
         // $mimeType = $_FILES['gambar']['type'];
         $tmpFile = fopen($_FILES['gambar']['tmp_name'], 'rb'); // (fileName, mode)
         $fileData = fread($tmpFile, filesize($_FILES['gambar']['tmp_name']));
         $fileData = addslashes($fileData);
-        $query = "update users set display_picture='$fileData' WHERE username ='$_SESSION[userlogin]'";
+        $query = "uwwpdate users set display_picture='$fileData' WHERE username ='$_SESSION[userlogin]'";
         mysqli_query($conn,$query);
-        header("location:editprofile.php");
+        header("location:masukangambar.php");
     }
     else
     {

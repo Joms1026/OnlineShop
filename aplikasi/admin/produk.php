@@ -1,6 +1,7 @@
 <?php 
     session_start();
     include('conn-admin.php');
+    
     $_SESSION['sideNav'] = [
         'produk' => true,
     ];
@@ -16,12 +17,56 @@
         $kategori        = $_POST['kategori'];
         // $uploadgambar    = $_POST['uploadgambar'];
         $deskripsiproduk = $_POST['deskripsiproduk'];
-        $insertproduk    = executeNonQuery("INSERT into barang(NAMA_BARANG,
-        STOK_BARANG,GAMBAR_BARANG,	
-        DESKRIPSI_BARANG,ID_KATEGORI) 	
-        values('$namaproduk',$stokProduk,'temp.jpg','$deskripsiproduk','$kategori')"); 	
-        // print_r($insertproduk);
-        // die();
+        $insertbarang = executeNonQuery("INSERT INTO baju(NAMA, DESKRIPSI, STATUS, ID_KATEGORI) values 
+        ('$namaproduk','$deskripsiproduk',1, $kategori)");
+        $ambilID = executeQuery("SELECT max(ID) as id from baju")[0]['id'];
+        $kodeukuranProduk = [
+            'produk1' => "123",
+            'produk2' => "224",
+        ];
+        $kodeukuranProduk = [
+            0 => "123",
+            1 => "224",
+        ];
+        
+        foreach ($_POST['kodeukuranproduk'] as $key => $value) {
+            $ukuran      = $_POST['kodeukuranproduk'][$key];
+            $warna       = $_POST['warna'][$key];
+            $stok        = $_POST['stokProduk'][$key];
+            $hargaProduk = $_POST['hargaproduk'][$key];
+
+            $insertvarians = executeNonQuery("INSERT into varian_baju(ID_BAJU, HARGA, STOK, ID_WARNA, ID_UKURAN) values
+            ($ambilID, $hargaProduk, $stok, '$warna', '$ukuran')");
+        }
+        
+        
+        foreach ($_FILES['uploadgambar']['name'] as $key => $img) {
+            
+            // echo json_encode($_FILES['uploadgambar'][$key]);
+
+            if($_FILES['uploadgambar']['size'][$key] > 0 && $_FILES['uploadgambar']['error'][$key] == 0){
+                $target_dir = "uploads/produk/$ambilID";
+
+                if (!file_exists( $target_dir)) {
+                    mkdir( $target_dir, 0777, true);
+                }
+                // $target_file = $target_dir . basename($_FILES['uploadgambar']["name"][$key]);
+                $imageFileType = strtolower(pathinfo(basename($_FILES['uploadgambar']["name"][$key]),PATHINFO_EXTENSION));
+
+                $filename = $ambilID.uniqid().".".$imageFileType;
+                $target_file = $target_dir."/" . $filename;
+                $uploadOk = 1;
+
+                if (move_uploaded_file($_FILES['uploadgambar']["tmp_name"][$key], $target_file)) {
+                    # Buat ExecuteNonQuery Insert nama gambar $filename
+                    $insertgambar = executeNonQuery("INSERT into gambar(LINK_GAMBAR,ID_BAJU) values
+                    ('$filename',$ambilID)");
+                    // echo "The file ". basename( $_FILES['uploadgambar']["name"][$key]). " has been uploaded.";
+                } else {
+                    
+                }
+            }
+        }
     }
 ?>
 <!-- Head -->
@@ -72,12 +117,24 @@
                                     <small id="namaProdukHint" class="text-muted">Pastikan nama produk benar</small>
                                 </div>
                                 <div class="form-group">
+                                  <label for="kategori">Kategori</label>
+                                  <select class="form-control" name="kategori" id="kategori">
+                                      <?php $ambilkategori = executeQuery("SELECT ID_KATEGORI,NAMA_KATEGORI from kategori where STATUS=1");
+                                      for ($i=0; $i < count($ambilkategori); $i++) { ?>
+                                          
+                                          <option value="<?=$ambilkategori[$i]['ID_KATEGORI']?>">
+                                          <?= $ambilkategori[$i]['NAMA_KATEGORI']?></option>
+                                    <?php  }
+                                      ?>
+                                  </select>
+                                </div>
+                                <div class="form-group">
                                   <label for="deskripsiproduk">Deskripsi Produk</label>
                                   <textarea class="form-control" name="deskripsiproduk" id="deskripsiproduk" rows="3"></textarea>
                                 </div>
                                 <div class="form-group">
                                   <label for="uploadgambar">Upload Gambar</label>
-                                  <input type="file" class="form-control-file" name="uploadgambar" id="uploadgambar" placeholder="uploadgambar" aria-describedby="uploadgambarHint">
+                                  <input type="file" multiple class="form-control-file" name="uploadgambar[]" id="uploadgambar" placeholder="uploadgambar" aria-describedby="uploadgambarHint">
                                   <small id="uploadgambarHint" class="form-text text-muted">Pastikan format gambar benar</small>
                                 </div>
                             </div>
@@ -87,22 +144,26 @@
                             <div class="row"> 
                                 <div class="col-3">
                                     <div class="form-group">
-                                        <select class="form-control" name="ukuranproduk" id="ukuranproduk">
+                                        <select class="form-control" id="ukuranproduk">
                                             <option selected disabled>Pilih Ukuran</option>
-                                            <option>M</option>
-                                            <option>L</option>
-                                            <option>XL</option>
-                                            <option>XXL</option>
+                                            <option value="TS001">XS</option>
+                                            <option value="TS002">S</option>
+                                            <option value="TS003">M</option>
+                                            <option value="TS004">L</option>
+                                            <option value="TS005">XL</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group">
-                                        <select class="form-control" name="kategori" id="kategori" aria-describedby="kategoriProdukHint">
-                                            <option disabled selected>Pilih Kategori</option>
-                                            <option value="K001">Baju Pria</option>
-                                            <option value="K002">Baju Wanita</option>
-                                            <option value="K003">Baju Anak-Anak</option>
+                                        <select class="form-control" id="warna" aria-describedby="warnaProdukHint">
+                                            <option disabled selected>Pilih warna</option>
+                                            <?php $ambilwarna = executeQuery("SELECT ID_WARNA,NAMA_WARNA from tipe_warna");
+                                            for ($i=0; $i <count($ambilwarna) ; $i++) {?>
+                                                <option value="<?= $ambilwarna[$i]['ID_WARNA']?>" ><?= $ambilwarna[$i]['NAMA_WARNA'] ?></option>
+                                                
+                                           <?php }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -141,7 +202,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" form="formAddProduk" class="btn btn-primary" id="addproduk" name="addproduk">Add</button>
+                        <button type="submit" form="formAddProduk" class="btn btn-primary" id="addproduk" name="addproduk">Submit</button>
                     </div>
                 </div>
             </div>
@@ -175,18 +236,15 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">
                     Add Produk
                     </button>
-                    
                 </div>
             </section>
         </div>
     </div>
-
-
 
     <!-- REQUIRED SCRIPTS -->
     <?php include('page-part-admin/admin-required-script.php'); ?>
     <script src="./assets/js/produk.js"></script>
     <!-- Optional Scripts -->
     
-</body>
+    </body>
 </html>
