@@ -227,6 +227,7 @@ if(isset($_POST["register"]))
 <html lang="en">
 <head>
 <title>Sun Shop</title>
+<script type="text/javascript" src="jquery.js"></script>
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -408,191 +409,29 @@ if(isset($_POST["register"]))
 				<div class="col text-center">
 					<div class="new_arrivals_sorting">
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">For Men</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women">For Women</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".kids">For Kids</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".about">About Us</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="ALL" value="ALL">ALL</li>
+							<?php
+									$querySelect = "SELECT * FROM kategori";
+									$result = mysqli_query($conn, $querySelect);
+
+									if($result->num_rows > 0){
+										$querySelect = "SELECT * FROM kategori";
+										$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
+
+										for ($i=0; $i < $result->num_rows; $i++) { ?>
+											<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="<?= $isiDB[$i][1]; ?>" value="<?= $isiDB[$i][1]; ?>"><?= $isiDB[$i][1]; ?></li>
+										<?php }
+									}
+							?>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col">
-					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
-
-						<!-- Product 1 -->
-
-						<div class="product-item men">
-							<div class="product discount product_filter">
-								<div class="product_image">
-									<img src="images/product_1.png" alt="">
-								</div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-20.000</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Brown Hoddie</a></h6>
-									<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Dress' name="namaproduk">
-								<input type="hidden" value="250.000" name="harga">
-								<input type="hidden" value="images/product_4.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-								<!-- <div type="submit" name="addtocart" class="red_button add_to_cart_button"><a href="single.html">add to cart</a></div> -->
-							</form>
-							
-						</div>
-
-						<!-- Product 2 -->
-
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_2.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Navy Dress</a></h6>
-									<div class="product_price">Rp 185.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 3 -->
-
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_3.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Yellow Gold Sweeter</a></h6>
-									<div class="product_price">Rp 125.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 4 -->
-
-						<div class="product-item accessories">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_4.png" alt="">
-								</div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Dress</a></h6>
-									<div class="product_price">Rp 250.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 5 -->
-
-						<div class="product-item women men">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_5.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html"> T-shirt</a></h6>
-									<div class="product_price">Rp 80.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 6 -->
-
-						<div class="product-item accessories">
-							<div class="product discount product_filter">
-								<div class="product_image">
-									<img src="images/product_6.png" alt="">
-								</div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-50%</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="#single.html">Jacket</a></h6>
-									<div class="product_price">Rp 75.000<span>$150.0000</span></div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 7 -->
-
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_7.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Sweeter Brown</a></h6>
-									<div class="product_price">Rp 85.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 8 -->
-
-						<div class="product-item accessories">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_8.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Red Women Dress</a></h6>
-									<div class="product_price">Rp 350.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 9 -->
-
-						<div class="product-item men">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_9.png" alt="">
-								</div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Jacket</a></h6>
-									<div class="product_price">Rp 125.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 10 -->
-
-						<div class="product-item men">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_10.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Grey Sweeter</a></h6>
-									<div class="product_price">Rp 100.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
+					<div id="product-grid" class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' style="display:flex;flex-wrap:wrap">
+						<!-- Product -->
+						
 					</div>
 				</div>
 			</div>
@@ -600,8 +439,14 @@ if(isset($_POST["register"]))
 	</div>
 
 	<!-- Deal of the week -->
+	<?php
+		$querySelect = "SELECT * FROM baju WHERE status = 1";
+		$result = mysqli_query($conn, $querySelect);
+		$geser = $result->num_rows / 3 * 300;
+		$geser = $geser."px";
+	?>
 
-	<div class="deal_ofthe_week">
+	<div class="deal_ofthe_week" style="transform: translateY(<?= $geser ?>)">
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-6">
@@ -637,6 +482,7 @@ if(isset($_POST["register"]))
 				</div>
 			</div>
 		</div>
+		<div style="height:300px"></div>
 	</div>
 
 	<!-- Best Sellers -->
@@ -646,7 +492,7 @@ if(isset($_POST["register"]))
 			<div class="row">
 				<div class="col text-center">
 					<div class="section_title new_arrivals_title">
-						<h2>Best Sellers</h2>
+						<!-- <h2>Best Sellers</h2> -->
 					</div>
 				</div>
 			</div>
@@ -657,7 +503,7 @@ if(isset($_POST["register"]))
 
 							<!-- Slide 1 -->
 
-							<div class="owl-item product_slider_item">
+							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item">
 									<div class="product discount">
 										<div class="product_image">
@@ -671,11 +517,11 @@ if(isset($_POST["register"]))
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<!-- Slide 2 -->
 
-							<div class="owl-item product_slider_item">
+							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item women">
 									<div class="product">
 										<div class="product_image">
@@ -689,11 +535,11 @@ if(isset($_POST["register"]))
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<!-- Slide 3 -->
 
-							<div class="owl-item product_slider_item">
+							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item women">
 									<div class="product">
 										<div class="product_image">
@@ -706,11 +552,11 @@ if(isset($_POST["register"]))
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<!-- Slide 4 -->
 
-							<div class="owl-item product_slider_item">
+							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item accessories">
 									<div class="product">
 										<div class="product_image">
@@ -724,11 +570,11 @@ if(isset($_POST["register"]))
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<!-- Slide 5 -->
 
-							<div class="owl-item product_slider_item">
+							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item women men">
 									<div class="product">
 										<div class="product_image">
@@ -741,11 +587,11 @@ if(isset($_POST["register"]))
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<!-- Slide 6 -->
 
-							<div class="owl-item product_slider_item">
+							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item accessories">
 									<div class="product discount">
 										<div class="product_image">
@@ -759,11 +605,11 @@ if(isset($_POST["register"]))
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<!-- Slide 7 -->
 
-							<div class="owl-item product_slider_item">
+							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item women">
 									<div class="product">
 										<div class="product_image">
@@ -776,11 +622,11 @@ if(isset($_POST["register"]))
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<!-- Slide 8 -->
 
-							<div class="owl-item product_slider_item">
+							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item accessories">
 									<div class="product">
 										<div class="product_image">
@@ -793,11 +639,11 @@ if(isset($_POST["register"]))
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<!-- Slide 9 -->
 
-							<div class="owl-item product_slider_item">
+							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item men">
 									<div class="product">
 										<div class="product_image">
@@ -811,11 +657,11 @@ if(isset($_POST["register"]))
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<!-- Slide 10 -->
 
-							<div class="owl-item product_slider_item">
+							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item men">
 									<div class="product">
 										<div class="product_image">
@@ -828,8 +674,8 @@ if(isset($_POST["register"]))
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
+							</div> -->
+						</div> 
 
 						<!-- Slider Navigation -->
 
@@ -845,29 +691,10 @@ if(isset($_POST["register"]))
 		</div>
 	</div>
 
-	<footer class="footer">
+	<footer class="footer" style="transform: translateY(100px)">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
-						<ul class="footer_nav">
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">FAQs</a></li>
-							<li><a href="contact.html">Contact us</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
-						<ul>
-							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
-				</div>
+			<div style="height:150px">
+
 			</div>
 			<div class="row">
 				<div class="col-lg-12">
@@ -904,71 +731,119 @@ if(isset($_POST["register"]))
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
-		<div class="modal-body">
-			<div class="container-login" id="container-login">
-				<div class="form-container sign-up-container">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<form action="Index.php" method="post" class="form-login">
-						<h3>Create Account</h3>
-						<br>
-						<input type="text" name ="nama" placeholder="Name" />
-						<input type="email" name ="email" placeholder="Email" />
-						<input type="password" name ="pass" placeholder="Password" />
-						<input type="password" name ="cpass" placeholder="Confirm Password" />
-						<br>
-						<button type="submit" name="register" class="button-login">Register</button>
-						<br>
-						<span>or use your account for login</span>
-						<div class="social-container">
-							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-							<a href="#" class="social"><i class="fa fa-google"></i></a>
-						</div>
-					</form>
-				</div>
-				<div class="form-container sign-in-container">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<form action="index.php" method="post" class="form-login">
-						<h3>Sign in</h3>
-						<br>
-						<input type="email" name ="Luser" placeholder="Email" />
-						<input type="password" name ="Lpass" placeholder="Password" />
-						<br>
-						<button type="submit" name ="login" class="button-login">Sign In</button>
-						<br>
-						<span>or use your account for login</span>
-						<div class="social-container">
-							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-							<a href="#" class="social"><i class="fa fa-google"></i></a>
-						</div>
-						<br>
-						<button type="button" class="btn btn-danger" id="exampleModal">Forgot your password?</button>
-					</form>
-				</div>
-				<div class="form-container forget-in-container">
-					<form action="index.php" method="post" class="form-login">
-						<h3>Forget Password</h3>
-						<br>
-						<input type="email" name ="forgetemail" placeholder="Email" />
-						<button typr="submit" name ="forgetpass" class="button-login">Send Email</button>
-						<br>
-					</form>
-				</div>
-				<div class="overlay-container">
-					<div class="overlay">
+			<div class="modal-body">
+				<div class="container-login" id="container-login">
+					<div class="form-container sign-up-container">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<div class="overlay-panel overlay-left">
-							<p>Keep connected with us</p>
-							<button class="button-login ghost" id="signIn">Sign In</button>
-						</div>
-						<div class="overlay-panel overlay-right">
-							<h1></h1>
-							<p>Enter your personal details and start journey with us</p>
-							<button class="button-login ghost" id="signUp">Register</button>
+						<form action="Index.php" method="post" class="form-login">
+							<h3>Create Account</h3>
+							<br>
+							<input type="text" name ="nama" placeholder="Name" />
+							<input type="email" name ="email" placeholder="Email" />
+							<input type="password" name ="pass" placeholder="Password" />
+							<input type="password" name ="cpass" placeholder="Confirm Password" />
+							<br>
+							<button type="submit" name="register" class="button-login">Register</button>
+							<br>
+							<span>or use your account for login</span>
+							<div class="social-container">
+								<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
+								<a href="#" class="social"><i class="fa fa-google"></i></a>
+							</div>
+						</form>
+					</div>
+					<div class="form-container sign-in-container">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<form action="index.php" method="post" class="form-login">
+							<h3>Sign in</h3>
+							<br>
+							<input type="email" name ="Luser" placeholder="Email" />
+							<input type="password" name ="Lpass" placeholder="Password" />
+							<br>
+							<button type="submit" name ="login" class="button-login">Sign In</button>
+							<br>
+							<span>or use your account for login</span>
+							<div class="social-container">
+								<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
+								<a href="#" class="social"><i class="fa fa-google"></i></a>
+							</div>
+							<br>
+							<button type="button" class="btn btn-danger" id="exampleModal">Forgot your password?</button>
+						</form>
+					</div>
+					<div class="form-container forget-in-container">
+						<form action="index.php" method="post" class="form-login">
+							<h3>Forget Password</h3>
+							<br>
+							<input type="email" name ="forgetemail" placeholder="Email" />
+							<button typr="submit" name ="forgetpass" class="button-login">Send Email</button>
+							<br>
+						</form>
+					</div>
+					<div class="overlay-container">
+						<div class="overlay">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<div class="overlay-panel overlay-left">
+								<p>Keep connected with us</p>
+								<button class="button-login ghost" id="signIn">Sign In</button>
+							</div>
+							<div class="overlay-panel overlay-right">
+								<h1></h1>
+								<p>Enter your personal details and start journey with us</p>
+								<button class="button-login ghost" id="signUp">Register</button>
+							</div>
 						</div>
 					</div>
+					<!-- <div class="detail-container">
+						<div id="gambar">
+
+						</div>
+						<div id="keterangan">
+
+						</div>
+						<form id="formDetail">
+							<br> <label id="size">Size : </label>
+							<br> <label id="color">Color : </label>
+							<br> <label>Count : </label>
+						</form>
+						<form id="addToCart">
+							<input type="submit" value="Add To Cart" name="btnAdd">
+						</form>
+					</div> -->
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
+
+<!-- modal detail -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true" >
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content-detail">
+			<div class="modal-body-detail">
+				<div class="container-detail" id="container-detail">
+					<div class="detail-container">
+						<div id="gambar">
+
+						</div>
+						<div id="keterangan">
+
+						</div>
+						<form id="formDetail">
+							<br> <label>Size : </label>
+							<p id="size"></p>
+							<br> <label>Color : </label>
+							<p id="color"></p>
+							<br> <label>Count : </label>
+							<!-- <input type="number" id="count" min="1"> -->
+							<input type="number" id="points" name="points" step="1">
+						</form>
+						<form id="addToCart">
+							<input type="submit" value="Add To Cart" name="btnAdd">
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -987,7 +862,14 @@ if(isset($_POST["register"]))
 
 
 <script>
-	
+	var jumlah = 0;
+	var tempSrc = "";
+
+	$(document).ready(function(){
+		//alert("jalan");
+		loadProduct();
+	});
+
 	const container = document.getElementById('container-login');
 
 	$('#btnToTop').fadeOut();
@@ -1034,16 +916,176 @@ if(isset($_POST["register"]))
 		$("#signUp").trigger( "click" );
 		$("#loginModal").modal("toggle");
 	}
+
+	function loadProduct(){
+		$("#product-grid").html('');
+		$.ajax({
+			method: "post",
+			url : "getAllProduct.php",
+			success : function(res){
+				var isiProduct = JSON.parse(res);
+				jumlah = isiProduct.length;
+				//console.log(isiProduct);
+				var ctr = 0; 
+				for (let index = 0; index < isiProduct.length; index++) {
+					$("#product-grid").append(`
+						<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
+							<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+							</div>
+							<div class="favorite favorite_left"></div>
+							<div class="product_info" style="height:95px">
+								<h6 class="product_name">${isiProduct[index][1]}</h6>
+								<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+							</div>
+							<div id="product-button${isiProduct[index][0]}"> </div>
+						</div>
+					`);
+					ambilHarga(isiProduct[index][0]);
+
+					// var img = new Image(100,100);
+					ambilGambar(isiProduct[index][0]);
+					// console.log(srcGambar["link_gambar"]);
+					// img.src=srcGambar["link_gambar"];
+					// document.getElementById('product-image'+isiProduct[index][0]).appendChild(img); 
+
+					var newElementDetail = $('<input type="submit" name="btnDetail" value="Show Detail" style="width: 195px; height:25px; background-color: red; color: white">');
+					newElementDetail.on("click", {"idx": isiProduct[index][0]}, fungsiBtnDetail);
+					$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+				}
+			}
+		})
+	};
+
+	function ambilGambar(id){
+		$.ajax({
+			method : "post",
+			url : "getOneImage.php",
+			data : `idx=${id}`,
+			success : function (result) {
+				var srcGambar = JSON.parse(result);
+				var temp = "./admin/uploads/produk/"+srcGambar+".";
+				console.log(temp);
+				var img = new Image(100,145);
+				img.src=srcGambar;
+				document.getElementById('product-image'+id).appendChild(img); 
+			}
+		})
+	}
+
+	function ambilHarga(ind){
+		var price = 0;
+		$.ajax({
+			method : "post",
+			url : "getOnePrice.php",
+			data : `idx=${ind}`,
+			success : function (result) {
+				var harga = JSON.parse(result);
+				price = harga['harga'] + 0;
+				$("#product_price"+ind).append(`<p> ${formatRupiah(price, "Rp.")}</p>`);
+			}
+		});
+	}
+
+	function formatRupiah(angka, prefix){
+		var number_string = angka.replace(/[^,\d]/g, '').toString(),
+		split   		= number_string.split(','),
+		sisa     		= split[0].length % 3,
+		rupiah     		= split[0].substr(0, sisa),
+		ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+	
+		// tambahkan titik jika yang di input sudah menjadi angka ribuan
+		if(ribuan){
+			separator = sisa ? '.' : '';
+			rupiah += separator + ribuan.join('.');
+		}
+	
+		rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+		return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+	}
+
+	function fungsiBtnDetail(e){
+		e.preventDefault();
+		var idxBtnDetail = e.data.idx;
+		var jumlahMax = 0;
+
+		$.ajax({
+			method : "post",
+			url : "getDeskripsi.php",
+			data : `idx = ${idxBtnDetail}`,
+			success : function (result) {
+				var detail = JSON.parse(result);
+				$("#detail-container").html('');
+				$("#detail-container").append(`
+					<p> descripsi : ${detail} </p>
+				`);
+			}
+		})
+		$("#detail-container").trigger( "click" );
+		$("#detailModal").modal("toggle");
+
+		addRbColor(idxBtnDetail);
+		addRbSize(idxBtnDetail);
+	}
+	
+	function addRbSize(ind){
+		$.ajax({
+			method : "post",
+			url : "getDetailSize.php",
+			data : `idx = ${idxBtnDetail}`,
+			success : function (result) {
+				var detail = JSON.parse(result);
+				
+				for (let index = 0; index < ukr.length; index++) {
+					$("#size").append(`
+						<input type="radio" name="ukuran" value="${detail[index][1]}">${detail[index][1]}
+					`);
+				}
+			}
+		})
+	}
+
+	function  addRbColor(ind) {
+		$.ajax({
+			method : "post",
+			url : "getDetailColor.php",
+			data : `idx = ${idxBtnDetail}`,
+			success : function (result) {
+				var detail = JSON.parse(result);
+				
+				for (let index = 0; index < wrn.length; index++) {
+					$("#color").append(`
+						<input type="radio" name="warna" value="${detail[index][1]}">${detail[index][1]}
+					`);
+				}
+			}
+		})
+	}
 </script>
 
 <script type="text/javascript">
-	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-	(function(){
-	var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-	s1.async=true;
-	s1.src='https://embed.tawk.to/5dedcbe1d96992700fcb5cbd/1drnchuei';
-	s1.charset='UTF-8';
-	s1.setAttribute('crossorigin','*');
-	s0.parentNode.insertBefore(s1,s0);
-	})();
+	
+
+	// 	$.ajax({
+	// 		method : "post",
+	// 		url : "getDetail.php",
+	// 		data : `idx = ${idxBtnDetail}`,
+	// 		success : function (result) {
+	// 			var detail = JSON.parse(result);
+	// 			var wrn = <?= $_SESSION['warna'] ?>;
+	// 			var ukr = <?= $_SESSION['size'] ?>;
+				
+	// 			for (let index = 0; index < ukr.length; index++) {
+	// 				$("#size").append(`
+	// 					<input type="radio" name="ukuran" value="${ukr[index]}">$ukr[index]}
+	// 				`);
+	// 			}
+
+	// 			for (let index = 0; index < wrn.length; index++) {
+	// 				$("#color").append(`
+	// 					<input type="radio" name="warna" value="${wrn[index]}">${wrn[index]}
+	// 				`);
+	// 			}
+	// 		}
+	// 	})
+	// }
 </script>

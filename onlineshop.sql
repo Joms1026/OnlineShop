@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2020 at 06:59 AM
+-- Generation Time: May 09, 2020 at 04:23 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -33,51 +33,52 @@ CREATE TABLE `baju` (
   `ID` int(11) NOT NULL,
   `NAMA` varchar(100) NOT NULL,
   `DESKRIPSI` text NOT NULL,
-  `STATUS` tinyint(1) NOT NULL
+  `STATUS` int(11) NOT NULL,
+  `ID_KATEGORI` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `barang`
+-- Dumping data for table `baju`
 --
 
-DROP TABLE IF EXISTS `barang`;
-CREATE TABLE `barang` (
-  `ID_BARANG` int(11) NOT NULL,
-  `NAMA_BARANG` varchar(50) NOT NULL,
-  `GAMBAR_BARANG` varchar(150) NOT NULL,
-  `DESKRIPSI_BARANG` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cart`
---
-
-DROP TABLE IF EXISTS `cart`;
-CREATE TABLE `cart` (
-  `ID_CART` int(11) NOT NULL,
-  `ID_USER` int(11) NOT NULL,
-  `ID_BARANG` int(11) NOT NULL,
-  `JUMLAH_BARANG` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `baju` (`ID`, `NAMA`, `DESKRIPSI`, `STATUS`, `ID_KATEGORI`) VALUES
+(12, 'Baju Koko', 'Baju Katun ', 1, 1),
+(13, '', '', 1, 1),
+(14, '', '', 1, 1),
+(15, 'asd', 'qwe1', 1, 1),
+(16, 'asd', 'qwe1', 1, 1),
+(17, 'asd', 'qwe1', 1, 1),
+(18, 'asd', 'qwe1', 1, 1),
+(19, 'asd', 'qwe1', 1, 1),
+(20, 'asd', 'qwe1', 1, 1),
+(21, 'asd', 'qwe1', 1, 1),
+(22, 'aasd', 'asd', 1, 2),
+(23, 'coba', 'aas', 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `chat`
+-- Table structure for table `confirm_email`
 --
 
-DROP TABLE IF EXISTS `chat`;
-CREATE TABLE `chat` (
-  `ID_CHAT` int(11) NOT NULL,
-  `ID_USER` int(11) NOT NULL,
-  `ISI_CHAT` varchar(200) NOT NULL,
-  `ID_ADMIN` int(11) DEFAULT NULL,
-  `TANGGAL_CHAT` datetime NOT NULL
+DROP TABLE IF EXISTS `confirm_email`;
+CREATE TABLE `confirm_email` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `code` varchar(20) NOT NULL,
+  `status` int(1) NOT NULL,
+  `insert_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `confirm_email`
+--
+
+INSERT INTO `confirm_email` (`id`, `id_user`, `code`, `status`, `insert_date`, `update_date`) VALUES
+(0, 4, 'a3uxt4bu6dxhp8csqbxt', 1, '2020-05-05 13:50:50', '2020-05-05 14:08:36'),
+(0, 5, 'bx5t6dajtdid922g9r86', 0, '2020-05-05 14:13:16', '0000-00-00 00:00:00'),
+(0, 6, 'pqnuyzq8iip4us9cykam', 0, '2020-05-05 14:21:29', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -119,8 +120,20 @@ CREATE TABLE `dtrans` (
 DROP TABLE IF EXISTS `gambar`;
 CREATE TABLE `gambar` (
   `ID_GAMBAR` int(11) NOT NULL,
-  `LINK_GAMBAR` varchar(200) NOT NULL
+  `LINK_GAMBAR` varchar(200) NOT NULL,
+  `ID_BAJU` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `gambar`
+--
+
+INSERT INTO `gambar` (`ID_GAMBAR`, `LINK_GAMBAR`, `ID_BAJU`) VALUES
+(1, '215eb2eb23b9446.png', 21),
+(2, '215eb2eb23baedd.jpg', 21),
+(3, '215eb2eb23bc899.jpg', 21),
+(4, '225eb2eb6835084.png', 22),
+(5, '235eb562497dd1a.jpg', 23);
 
 -- --------------------------------------------------------
 
@@ -308,9 +321,37 @@ CREATE TABLE `varian_baju` (
   `ID_BAJU` int(11) NOT NULL,
   `HARGA` int(11) NOT NULL,
   `STOK` int(11) NOT NULL DEFAULT '0',
-  `ID_WARNA` int(11) NOT NULL,
-  `ID_UKURAN` int(11) NOT NULL
+  `ID_WARNA` varchar(50) NOT NULL,
+  `ID_UKURAN` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `varian_baju`
+--
+
+INSERT INTO `varian_baju` (`ID_VARIAN`, `ID_BAJU`, `HARGA`, `STOK`, `ID_WARNA`, `ID_UKURAN`) VALUES
+(4, 12, 50000, 200, 'TW001', 'TS001'),
+(5, 12, 100000, 200, 'TW002', 'TS003'),
+(6, 12, 150000, 200, 'TW003', 'TS004'),
+(7, 12, 200000, 200, 'TW004', 'TS005'),
+(8, 15, 2, 1, 'TW007', 'TS002'),
+(9, 15, 2, 1, 'TW007', 'TS003'),
+(10, 16, 2, 1, 'TW007', 'TS002'),
+(11, 16, 2, 1, 'TW007', 'TS003'),
+(12, 17, 2, 1, 'TW007', 'TS002'),
+(13, 17, 2, 1, 'TW007', 'TS003'),
+(14, 18, 2, 1, 'TW007', 'TS002'),
+(15, 18, 2, 1, 'TW007', 'TS003'),
+(16, 19, 2, 1, 'TW007', 'TS002'),
+(17, 19, 2, 1, 'TW007', 'TS003'),
+(18, 20, 2, 1, 'TW007', 'TS002'),
+(19, 20, 2, 1, 'TW007', 'TS003'),
+(20, 21, 2, 1, 'TW007', 'TS002'),
+(21, 21, 2, 1, 'TW007', 'TS003'),
+(22, 22, 600000, 1, 'TW007', 'TS001'),
+(23, 22, 600000, 1, 'TW007', 'TS002'),
+(24, 23, 15000, 5, 'TW001', 'TS001'),
+(25, 23, 10000, 5, 'TW002', 'TS002');
 
 -- --------------------------------------------------------
 
@@ -334,24 +375,6 @@ CREATE TABLE `wishlist` (
 --
 ALTER TABLE `baju`
   ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `barang`
---
-ALTER TABLE `barang`
-  ADD PRIMARY KEY (`ID_BARANG`);
-
---
--- Indexes for table `cart`
---
-ALTER TABLE `cart`
-  ADD PRIMARY KEY (`ID_CART`);
-
---
--- Indexes for table `chat`
---
-ALTER TABLE `chat`
-  ADD PRIMARY KEY (`ID_CHAT`);
 
 --
 -- Indexes for table `dtrans`
@@ -403,6 +426,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `EMAIL_USER` (`EMAIL_USER`);
 
 --
+-- Indexes for table `varian_baju`
+--
+ALTER TABLE `varian_baju`
+  ADD PRIMARY KEY (`ID_VARIAN`);
+
+--
 -- Indexes for table `wishlist`
 --
 ALTER TABLE `wishlist`
@@ -413,20 +442,15 @@ ALTER TABLE `wishlist`
 --
 
 --
--- AUTO_INCREMENT for table `cart`
+-- AUTO_INCREMENT for table `baju`
 --
-ALTER TABLE `cart`
-  MODIFY `ID_CART` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `chat`
---
-ALTER TABLE `chat`
-  MODIFY `ID_CHAT` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `baju`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `gambar`
 --
 ALTER TABLE `gambar`
-  MODIFY `ID_GAMBAR` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_GAMBAR` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `kategori`
 --
@@ -437,6 +461,11 @@ ALTER TABLE `kategori`
 --
 ALTER TABLE `users`
   MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `varian_baju`
+--
+ALTER TABLE `varian_baju`
+  MODIFY `ID_VARIAN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
