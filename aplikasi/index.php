@@ -468,7 +468,7 @@ if(isset($_POST["register"]))
 			</div>
 			<div class="row">
 				<div class="col">
-					<div id="product-grid" class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' style="display:flex;flex-wrap:wrap">
+					<div id="product-grid" class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' style="display:flex;flex-wrap:wrap;  justify-content: center">
 						<!-- Product -->
 						
 					</div>
@@ -926,15 +926,17 @@ if(isset($_POST["register"]))
 				var ctr = 0; 
 				for (let index = 0; index < isiProduct.length; index++) {
 					$("#product-grid").append(`
-						<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
-							<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
-							</div>
-							<div class="favorite favorite_left"></div>
-							<div class="product_info" style="height:95px">
-								<h6 class="product_name">${isiProduct[index][1]}</h6>
-								<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
-							</div>
-							<div id="product-button${isiProduct[index][0]}"> </div>
+						<div id="product-wrap" style="width:205px; height:305px">
+							<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
+								<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+								</div>
+								<div class="favorite favorite_left"></div>
+								<div class="product_info" style="height:95px">
+									<h6 class="product_name">${isiProduct[index][1]}</h6>
+									<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+								</div>
+								<div id="product-button${isiProduct[index][0]}"> </div>
+							</div> 
 						</div>
 					`);
 					ambilHarga(isiProduct[index][0]);
