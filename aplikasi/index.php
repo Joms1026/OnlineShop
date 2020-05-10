@@ -521,7 +521,7 @@ if(isset($_POST["register"]))
 				</div>
 			</div>
 		</div>
-		<div style="height:300px"></div>
+		<div style="height:550px; background-color:white"></div>
 	</div>
 
 	<!-- Best Sellers -->

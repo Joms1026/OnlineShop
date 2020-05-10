@@ -326,7 +326,7 @@ if (isset($_POST['Logout'])) {
 				</div>
 			</div>
 		</div>
-		<div style="height:500px"></div>
+		<div style="height:550px"></div>
 	</div>
 
 	<!-- Best Sellers -->
