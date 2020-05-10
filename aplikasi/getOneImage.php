@@ -12,7 +12,7 @@
         $tempIsi = $isiDB['link_gambar'];
         $isiDB = "admin/uploads/produk/$id/$tempIsi";
     } else {
-        $isiDB = "admin/uploads/produk/5eb560e8577d9.jpg";
+        $isiDB = "none";
     }
     echo json_encode($isiDB);
 ?>

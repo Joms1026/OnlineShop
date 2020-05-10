@@ -3,22 +3,19 @@
     session_start();
 
     $id = $_POST['idx'];
-    $arrWarna = "";
+    $isiDB="";
 
-    $querySelect = "SELECT * FROM varian_baju WHERE id_baju=$id";
-    $result = mysqli_query($conn, $querySelect)->fetch_all();
+    $querySelect = "SELECT vb.ID_VARIAN, vb.HARGA, vb.STOK, tw.ID_WARNA ,tw.NAMA_WARNA
+    FROM varian_baju vb
+    LEFT OUTER JOIN tipe_warna tw ON  tw.ID_WARNA = vb.ID_WARNA
+    WHERE vb.ID_BAJU=$id";
+    $result = mysqli_query($conn, $querySelect);
 
-    $querySelect = "SELECT id_warna FROM varian_baju WHERE id_baju=$id";
-    $ctr = mysqli_query($conn, $querySelect);
-
-    $isiDB = mysqli_query($conn, $querySelect)->fetch_all();
-    $isiDB = array_unique($isiDB);
-
-    for ($i=0; $i < $ctr->num_rows; $i++) { 
-        $querySelect = "SELECT nama_warna FROM tipe_warna WHERE id_warna=$isiDB[index]";
-        $isiWarna = mysqli_query($conn, $querySelect)->fetch_all();
-        $isiWarna = array_unique($isiWarna);
+    if($result->num_rows > 0){
+        $isiDB = mysqli_query($conn, $querySelect)->fetch_all();
+    } else {
+        $isiDB="none";
     }
 
-    return json_encode($isiWarna);
+    echo json_encode($isiDB);
 ?>

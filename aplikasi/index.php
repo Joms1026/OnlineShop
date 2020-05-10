@@ -233,6 +233,46 @@ if(isset($_POST["register"]))
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Sun Shop">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	* {box-sizing: border-box}
+	.mySlides1, .mySlides2 {display: none}
+	img {vertical-align: middle;}
+
+	/* Slideshow container */
+	.slideshow-container {
+	max-width: 1000px;
+	position: relative;
+	margin: auto;
+	}
+
+	/* Next & previous buttons */
+	.prev, .next {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	width: auto;
+	padding: 16px;
+	margin-top: -22px;
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+	transition: 0.6s ease;
+	border-radius: 0 3px 3px 0;
+	user-select: none;
+	}
+
+	/* Position the "next button" to the right */
+	.next {
+	right: 0;
+	border-radius: 3px 0 0 3px;
+	}
+
+	/* On hover, add a grey background color */
+	.prev:hover, .next:hover {
+	background-color: #f1f1f1;
+	color: black;
+	}
+</style>
 <!--
 	Favicon
 -->
@@ -266,6 +306,7 @@ if(isset($_POST["register"]))
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/login.css">
 <link rel="stylesheet" type="text/css" href="styles/preloader.css">
+<link rel="stylesheet" type="text/css" href="styles/modal.css">
 </head>
 
 <body>
@@ -411,17 +452,17 @@ if(isset($_POST["register"]))
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
 							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="ALL" value="ALL">ALL</li>
 							<?php
-									$querySelect = "SELECT * FROM kategori";
-									$result = mysqli_query($conn, $querySelect);
+								$querySelect = "SELECT * FROM kategori WHERE status=1";
+								$result = mysqli_query($conn, $querySelect);
 
-									if($result->num_rows > 0){
-										$querySelect = "SELECT * FROM kategori";
-										$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
+								if($result->num_rows > 0){
+									$querySelect = "SELECT * FROM kategori WHERE status=1";
+									$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
 
-										for ($i=0; $i < $result->num_rows; $i++) { ?>
-											<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="<?= $isiDB[$i][1]; ?>" value="<?= $isiDB[$i][1]; ?>"><?= $isiDB[$i][1]; ?></li>
-										<?php }
-									}
+									for ($i=0; $i < $result->num_rows; $i++) { ?>
+										<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="<?= $isiDB[$i][1]; ?>" value="<?= $isiDB[$i][1]; ?>"><?= $isiDB[$i][1]; ?></li>
+									<?php }
+								}
 							?>
 						</ul>
 					</div>
@@ -711,16 +752,6 @@ if(isset($_POST["register"]))
 			<button type="button" class="btn btn-main btn-primary has-tooltip" data-placement="left" title="Menu"> <i class="fa fa-arrow-up"></i> </button>
 		</div>
 	</div>
-
-	<!-- The social media icon bar -->
-	<!--<div class="icon-bar">
-		<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-		<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-		<a href="#" class="google"><i class="fa fa-google"></i></a>
-		<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-		<a href="#" class="youtube"><i class="fa fa-youtube"></i></a>
-	</div>-->
-
 </div>
 <div class="box">
     <div class="navbox"></div>
@@ -794,55 +825,26 @@ if(isset($_POST["register"]))
 							</div>
 						</div>
 					</div>
-					<!-- <div class="detail-container">
-						<div id="gambar">
-
-						</div>
-						<div id="keterangan">
-
-						</div>
-						<form id="formDetail">
-							<br> <label id="size">Size : </label>
-							<br> <label id="color">Color : </label>
-							<br> <label>Count : </label>
-						</form>
-						<form id="addToCart">
-							<input type="submit" value="Add To Cart" name="btnAdd">
-						</form>
-					</div> -->
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<!-- modal detail -->
-<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true" >
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content-detail">
-			<div class="modal-body-detail">
-				<div class="container-detail" id="container-detail">
-					<div class="detail-container">
-						<div id="gambar">
-
-						</div>
-						<div id="keterangan">
-
-						</div>
-						<form id="formDetail">
-							<br> <label>Size : </label>
-							<p id="size"></p>
-							<br> <label>Color : </label>
-							<p id="color"></p>
-							<br> <label>Count : </label>
-							<!-- <input type="number" id="count" min="1"> -->
-							<input type="number" id="points" name="points" step="1">
-						</form>
-						<form id="addToCart">
-							<input type="submit" value="Add To Cart" name="btnAdd">
-						</form>
-					</div>
-				</div>
+<div id="modalDetail">
+ 	<div id="myModal" class="modal" style="background-color:white; width:300px; transform: translateX(75%);">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 id="modalHeader"></h2>
+				<button style="background:transparent" id="btnClose">&times;</button>
+			</div> <br/>
+			<div id="modalBody">
+				<div class="slideshow-container" id="slideshow-container" style="height: 210px"></div>
+				<p id="deskripsi"></p>
+				<p id="harga"></p>
+				<form id="formDetail"></form>
+				<form id="formBtn"></form>
 			</div>
 		</div>
 	</div>
@@ -862,9 +864,6 @@ if(isset($_POST["register"]))
 
 
 <script>
-	var jumlah = 0;
-	var tempSrc = "";
-
 	$(document).ready(function(){
 		//alert("jalan");
 		loadProduct();
@@ -924,7 +923,7 @@ if(isset($_POST["register"]))
 			url : "getAllProduct.php",
 			success : function(res){
 				var isiProduct = JSON.parse(res);
-				jumlah = isiProduct.length;
+				var jumlah = isiProduct.length;
 				//console.log(isiProduct);
 				var ctr = 0; 
 				for (let index = 0; index < isiProduct.length; index++) {
@@ -943,8 +942,8 @@ if(isset($_POST["register"]))
 					ambilHarga(isiProduct[index][0]);
 					ambilGambar(isiProduct[index][0]);
 
-					var newElementDetail = $('<input type="submit" name="btnDetail" value="Show Detail" style="width: 195px; height:25px; background-color: red; color: white">');
-					newElementDetail.on("click", {"idx": isiProduct[index][0]}, fungsiBtnDetail);
+					var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+					newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 					$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 				}
 			}
@@ -998,87 +997,142 @@ if(isset($_POST["register"]))
 
 	function fungsiBtnDetail(e){
 		e.preventDefault();
+		// alert("btn detail pressed");
 		var idxBtnDetail = e.data.idx;
-		var jumlahMax = 0;
+		var namaBrg = e.data.nama;
 
+		$("#myModal").show();
+		$("#modalHeader").html('');
+		$("#formDetail").html('');
+		$("#formBtn").html('');
+		$("#slideshow-container").html('');
+		$("#modalHeader").append(`${namaBrg}`);
+		
 		$.ajax({
 			method : "post",
 			url : "getDeskripsi.php",
-			data : `idx = ${idxBtnDetail}`,
-			success : function (result) {
-				var detail = JSON.parse(result);
-				$("#detail-container").html('');
-				$("#detail-container").append(`
-					<p> descripsi : ${detail} </p>
+			data : `idx=${idxBtnDetail}`,
+			success : function (r) {
+				var detail = JSON.parse(r);
+				$("#deskripsi").html('');
+				$("#deskripsi").append(`
+					&nbsp; &nbsp; &nbsp;
+					deskripsi : ${detail}
 				`);
 			}
 		})
-		$("#detail-container").trigger( "click" );
-		$("#detailModal").modal("toggle");
 
-		addRbColor(idxBtnDetail);
+		ambilSemuaGambar(idxBtnDetail);
 		addRbSize(idxBtnDetail);
+		addRbColor(idxBtnDetail);
+		add();
 	}
 	
+	function ambilSemuaGambar(id) {
+		$.ajax({
+			method : "post",
+			url : "getAllImage.php",
+			data : `idx=${id}`,
+			success : function (result) {
+				var gambar = JSON.parse(result);
+				for (let index = 0; index < gambar.length; index++) {
+					srcGambar = `admin/uploads/produk/${id}/${gambar[index]}`;
+					$("#slideshow-container").append(`
+						<div class="mySlides1" style="transform:translateX(75px)">
+							<img src=${srcGambar} style="width:150px; height:200px;">
+						</div>
+					`);
+				}
+				$("#slideshow-container").append(`
+					<a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+					<a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+				`);
+			}
+		})
+	}
+
 	function addRbSize(ind){
 		$.ajax({
 			method : "post",
 			url : "getDetailSize.php",
-			data : `idx = ${idxBtnDetail}`,
+			data : `idx=${ind}`,
 			success : function (result) {
 				var detail = JSON.parse(result);
-				
-				for (let index = 0; index < ukr.length; index++) {
-					$("#size").append(`
-						<input type="radio" name="ukuran" value="${detail[index][1]}">${detail[index][1]}
-					`);
+
+				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Size : ");
+				for (let index = 0; index < detail.length; index++) {
+					if(index == 0){
+						$("#formDetail").append(`
+							<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
+						`);
+					} else {
+						$("#formDetail").append(`
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+							<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
+						`);
+					}
 				}
+				$("#formDetail").append("<br/>");
 			}
-		})
+		});
 	}
 
 	function  addRbColor(ind) {
 		$.ajax({
 			method : "post",
 			url : "getDetailColor.php",
-			data : `idx = ${idxBtnDetail}`,
+			data : `idx=${ind}`,
 			success : function (result) {
 				var detail = JSON.parse(result);
 				
-				for (let index = 0; index < wrn.length; index++) {
-					$("#color").append(`
-						<input type="radio" name="warna" value="${detail[index][1]}">${detail[index][1]}
-					`);
+				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Color : ");
+				for (let index = 0; index < detail.length; index++) {
+					if(index == 0){
+						$("#formDetail").append(`
+							<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
+						`);
+					} else {
+						$("#formDetail").append(`
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+							<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
+						`);
+					}
 				}
+				$("#formDetail").append("<br/>");
 			}
 		})
 	}
-</script>
 
-<script type="text/javascript">
-	
+	function add() {
+		$("#formBtn").append(`
+			&nbsp; &nbsp; &nbsp;
+			Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
+			<br/> &nbsp; &nbsp; 
+			<input type="submit" name="btnAdd" value="Add to Cart" style="background-color:red; color:white; width:245px">
+		`)
+	}
 
-	// 	$.ajax({
-	// 		method : "post",
-	// 		url : "getDetail.php",
-	// 		data : `idx = ${idxBtnDetail}`,
-	// 		success : function (result) {
-	// 			var detail = JSON.parse(result);
-	// 			var wrn = <?= $_SESSION['warna'] ?>;
-	// 			var ukr = <?= $_SESSION['size'] ?>;
-				
-	// 			for (let index = 0; index < ukr.length; index++) {
-	// 				$("#size").append(`
-	// 					<input type="radio" name="ukuran" value="${ukr[index]}">$ukr[index]}
-	// 				`);
-	// 			}
+	$("#btnClose").click(function (params) {
+		$("#myModal").hide()
+	});
 
-	// 			for (let index = 0; index < wrn.length; index++) {
-	// 				$("#color").append(`
-	// 					<input type="radio" name="warna" value="${wrn[index]}">${wrn[index]}
-	// 				`);
-	// 			}
-	// 		}
-	// 	})
-	// }
+	var slideIndex = [1,1];
+	var slideId = ["mySlides1", "mySlides2"]
+	showSlides(1, 0);
+	showSlides(1, 1);
+
+	function plusSlides(n, no) {
+		showSlides(slideIndex[no] += n, no);
+	}
+
+	function showSlides(n, no) {
+		var i;
+		var x = document.getElementsByClassName(slideId[no]);
+		if (n > x.length) {slideIndex[no] = 1}    
+		if (n < 1) {slideIndex[no] = x.length}
+		for (i = 0; i < x.length; i++) {
+			x[i].style.display = "none";  
+		}
+		x[slideIndex[no]-1].style.display = "block"; 
+	}
 </script>

@@ -1,10 +1,12 @@
 <?php
+include("conn.php");
 session_start();
-$user=$_SESSION['username'];
+$user="ste";
+//$_SESSION['username'];
 
-if (!isset($_SESSION['username'])) {
+/*if (!isset($_SESSION['username'])) {
 	header('location:index.php');
-  }
+  }*/
 if (isset($_POST['Logout'])) {
     header('location:index.php');
     unset($_SESSION['username']);
@@ -19,6 +21,46 @@ if (isset($_POST['Logout'])) {
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Sun Shop">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	* {box-sizing: border-box}
+	.mySlides1, .mySlides2 {display: none}
+	img {vertical-align: middle;}
+
+	/* Slideshow container */
+	.slideshow-container {
+	max-width: 1000px;
+	position: relative;
+	margin: auto;
+	}
+
+	/* Next & previous buttons */
+	.prev, .next {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	width: auto;
+	padding: 16px;
+	margin-top: -22px;
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+	transition: 0.6s ease;
+	border-radius: 0 3px 3px 0;
+	user-select: none;
+	}
+
+	/* Position the "next button" to the right */
+	.next {
+	right: 0;
+	border-radius: 3px 0 0 3px;
+	}
+
+	/* On hover, add a grey background color */
+	.prev:hover, .next:hover {
+	background-color: #f1f1f1;
+	color: black;
+	}
+</style>
 <!--
 	Favicon
 -->
@@ -52,6 +94,7 @@ if (isset($_POST['Logout'])) {
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/login.css">
 <link rel="stylesheet" type="text/css" href="styles/preloader.css">
+<link rel="stylesheet" type="text/css" href="styles/modal.css">
 </head>
 
 <body>
@@ -216,17 +259,16 @@ if (isset($_POST['Logout'])) {
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
 							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="ALL" value="ALL">ALL</li>
 							<?php
-									$querySelect = "SELECT * FROM kategori";
-									$result = mysqli_query($conn, $querySelect);
+								$querySelect = "SELECT * FROM kategori WHERE status=1";
+								$result = mysqli_query($conn, $querySelect);
 
-									if($result->num_rows > 0){
-										$querySelect = "SELECT * FROM kategori";
-										$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
-
-										for ($i=0; $i < $result->num_rows; $i++) { ?>
-											<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="<?= $isiDB[$i][1]; ?>" value="<?= $isiDB[$i][1]; ?>"><?= $isiDB[$i][1]; ?></li>
-										<?php }
-									}
+								if($result->num_rows > 0){
+									$querySelect = "SELECT * FROM kategori WHERE status=1";
+									$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
+									for ($i=0; $i < $result->num_rows; $i++) { ?>
+										<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="<?= $isiDB[$i][1]; ?>" value="<?= $isiDB[$i][1]; ?>"><?= $isiDB[$i][1]; ?></li>
+									<?php }
+								}
 							?>
 						</ul>
 					</div>
@@ -234,172 +276,9 @@ if (isset($_POST['Logout'])) {
 			</div>
 			<div class="row">
 				<div class="col">
-					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
-
-						<!-- Product 1 -->
-
-						<div class="product-item men">
-							<div class="product discount product_filter">
-								<div class="product_image">
-									<img src="images/product_1.png" alt="">
-								</div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-20.000</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Brown Hoddie</a></h6>
-									<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 2 -->
-
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_2.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Navy Dress</a></h6>
-									<div class="product_price">Rp 185.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 3 -->
-
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_3.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Yellow Gold Sweeter</a></h6>
-									<div class="product_price">Rp 125.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 4 -->
-
-						<div class="product-item accessories">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_4.png" alt="">
-								</div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Dress</a></h6>
-									<div class="product_price">Rp 250.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 5 -->
-
-						<div class="product-item women men">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_5.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html"> T-shirt</a></h6>
-									<div class="product_price">Rp 80.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 6 -->
-
-						<div class="product-item accessories">
-							<div class="product discount product_filter">
-								<div class="product_image">
-									<img src="images/product_6.png" alt="">
-								</div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-50%</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="#single.html">Jacket</a></h6>
-									<div class="product_price">Rp 75.000<span>$150.0000</span></div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 7 -->
-
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_7.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Sweeter Brown</a></h6>
-									<div class="product_price">Rp 85.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 8 -->
-
-						<div class="product-item accessories">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_8.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Red Women Dress</a></h6>
-									<div class="product_price">Rp 350.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 9 -->
-
-						<div class="product-item men">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_9.png" alt="">
-								</div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Jacket</a></h6>
-									<div class="product_price">Rp 125.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
-
-						<!-- Product 10 -->
-
-						<div class="product-item men">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_10.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Grey Sweeter</a></h6>
-									<div class="product_price">Rp 100.000</div>
-								</div>
-							</div>
-							<div class="red_button add_to_cart_button"><a href="detail.html">add to cart</a></div>
-						</div>
+					<div id="product-grid" class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' style="display:flex;flex-wrap:wrap">
+						<!-- Product -->
+						
 					</div>
 				</div>
 			</div>
@@ -407,8 +286,14 @@ if (isset($_POST['Logout'])) {
 	</div>
 
 	<!-- Deal of the week -->
+	<?php
+		$querySelect = "SELECT * FROM baju WHERE status = 1";
+		$result = mysqli_query($conn, $querySelect);
+		$geser = $result->num_rows / 3 * 300;
+		$geser = $geser."px";
+	?>
 
-	<div class="deal_ofthe_week">
+	<div class="deal_ofthe_week" style="transform: translateY(<?= $geser ?>)">
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-6">
@@ -444,6 +329,7 @@ if (isset($_POST['Logout'])) {
 				</div>
 			</div>
 		</div>
+		<div style="height:500px"></div>
 	</div>
 
 	<!-- Best Sellers -->
@@ -461,182 +347,6 @@ if (isset($_POST['Logout'])) {
 				<div class="col">
 					<div class="product_slider_container">
 						<div class="owl-carousel owl-theme product_slider">
-
-							<!-- Slide 1 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item">
-									<div class="product discount">
-										<div class="product_image">
-											<img src="images/product_1.png" alt="">
-										</div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-20.000</span></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Brown Hoodie</a></h6>
-											<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 2 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item women">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_2.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Navy Dress</a></h6>
-											<div class="product_price">Rp 185.000</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 3 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item women">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_3.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Blue Yeti USB Microphone Blackout Edition</a></h6>
-											<div class="product_price">$120.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 4 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item accessories">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_4.png" alt="">
-										</div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">DYMO LabelWriter 450 Turbo Thermal Label Printer</a></h6>
-											<div class="product_price">$410.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 5 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item women men">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_5.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Pryma Headphones, Rose Gold & Grey</a></h6>
-											<div class="product_price">$180.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 6 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item accessories">
-									<div class="product discount">
-										<div class="product_image">
-											<img src="images/product_6.png" alt="">
-										</div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
-											<div class="product_price">$520.00<span>$590.00</span></div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 7 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item women">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_7.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Samsung CF591 Series Curved 27-Inch FHD Monitor</a></h6>
-											<div class="product_price">$610.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 8 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item accessories">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_8.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Blue Yeti USB Microphone Blackout Edition</a></h6>
-											<div class="product_price">$120.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 9 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item men">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_9.png" alt="">
-										</div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">DYMO LabelWriter 450 Turbo Thermal Label Printer</a></h6>
-											<div class="product_price">$410.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 10 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item men">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_10.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Pryma Headphones, Rose Gold & Grey</a></h6>
-											<div class="product_price">$180.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 
 						<!-- Slider Navigation -->
 
@@ -811,28 +521,6 @@ if (isset($_POST['Logout'])) {
 	<footer class="footer">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-6">
-					<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
-						<ul class="footer_nav">
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">FAQs</a></li>
-							<li><a href="contact.html">Contact us</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
-						<ul>
-							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col-lg-12">
 					<div class="footer_nav_container">
 						<div class="cr">©2020 <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Sun Shop</a></div>
@@ -847,16 +535,6 @@ if (isset($_POST['Logout'])) {
 			<button type="button" class="btn btn-main btn-primary has-tooltip" data-placement="left" title="Menu"> <i class="fa fa-arrow-up"></i> </button>
 		</div>
 	</div>
-
-	<!-- The social media icon bar -->
-	<!--<div class="icon-bar">
-		<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-		<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-		<a href="#" class="google"><i class="fa fa-google"></i></a>
-		<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-		<a href="#" class="youtube"><i class="fa fa-youtube"></i></a>
-	</div>-->
-
 </div>
 <div class="box">
     <div class="navbox"></div>
@@ -926,6 +604,25 @@ if (isset($_POST['Logout'])) {
 	</div>
 </div>
 
+<div id="modalDetail">
+ 	<div id="myModal" class="modal" style="background-color:white; width:300px; transform: translateX(75%);">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 id="modalHeader"></h2>
+				<button style="background:transparent" id="btnClose">&times;</button>
+			</div> <br/>
+			<div id="modalBody">
+				<div class="slideshow-container" id="slideshow-container" style="height: 210px"></div>
+				<p id="deskripsi"></p>
+				<p id="harga"></p>
+				<form id="formDetail"></form>
+				<form id="formBtn"></form>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>
@@ -940,6 +637,11 @@ if (isset($_POST['Logout'])) {
 
 
 <script>
+	$(document).ready(function(){
+		//alert("jalan");
+		loadProduct();
+	});
+
 	const container = document.getElementById('container-login');
 
 	$('#btnToTop').fadeOut();
@@ -977,8 +679,224 @@ if (isset($_POST['Logout'])) {
 		$("#signUp").trigger( "click" );
 		$("#loginModal").modal("toggle");
 	}
-</script>
 
-<script type="text/javascript">
+	function loadProduct(){
+		$("#product-grid").html('');
+		$.ajax({
+			method: "post",
+			url : "getAllProduct.php",
+			success : function(res){
+				var isiProduct = JSON.parse(res);
+				var jumlah = isiProduct.length;
+				//console.log(isiProduct);
+				var ctr = 0; 
+				for (let index = 0; index < isiProduct.length; index++) {
+					$("#product-grid").append(`
+						<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
+							<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+							</div>
+							<div class="favorite favorite_left"></div>
+							<div class="product_info" style="height:95px">
+								<h6 class="product_name">${isiProduct[index][1]}</h6>
+								<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+							</div>
+							<div id="product-button${isiProduct[index][0]}"> </div>
+						</div>
+					`);
+					ambilHarga(isiProduct[index][0]);
+					ambilGambar(isiProduct[index][0]);
+
+					var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+					newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+					$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+				}
+			}
+		})
+	};
+
+	function ambilGambar(id){
+		$.ajax({
+			method : "post",
+			url : "getOneImage.php",
+			data : `idx=${id}`,
+			success : function (result) {
+				var srcGambar = JSON.parse(result);
+				var img = new Image(100,145);
+				img.src=srcGambar;
+				document.getElementById('product-image'+id).appendChild(img); 
+			}
+		})
+	}
+
+	function ambilHarga(ind){
+		var price = 0;
+		$.ajax({
+			method : "post",
+			url : "getOnePrice.php",
+			data : `idx=${ind}`,
+			success : function (result) {
+				var harga = JSON.parse(result);
+				price = harga['harga'] + 0;
+				$("#product_price"+ind).append(`<p> ${formatRupiah(price, "Rp.")}</p>`);
+			}
+		});
+	}
+
+	function formatRupiah(angka, prefix){
+		var number_string = angka.replace(/[^,\d]/g, '').toString(),
+		split   		= number_string.split(','),
+		sisa     		= split[0].length % 3,
+		rupiah     		= split[0].substr(0, sisa),
+		ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
 	
+		// tambahkan titik jika yang di input sudah menjadi angka ribuan
+		if(ribuan){
+			separator = sisa ? '.' : '';
+			rupiah += separator + ribuan.join('.');
+		}
+	
+		rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+		return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+	}
+
+	function fungsiBtnDetail(e){
+		e.preventDefault();
+		// alert("btn detail pressed");
+		var idxBtnDetail = e.data.idx;
+		var namaBrg = e.data.nama;
+
+		$("#myModal").show();
+		$("#modalHeader").html('');
+		$("#formDetail").html('');
+		$("#formBtn").html('');
+		$("#slideshow-container").html('');
+		$("#modalHeader").append(`${namaBrg}`);
+		
+		$.ajax({
+			method : "post",
+			url : "getDeskripsi.php",
+			data : `idx=${idxBtnDetail}`,
+			success : function (r) {
+				var detail = JSON.parse(r);
+				$("#deskripsi").html('');
+				$("#deskripsi").append(`
+					&nbsp; &nbsp; &nbsp;
+					deskripsi : ${detail}
+				`);
+			}
+		})
+
+		ambilSemuaGambar(idxBtnDetail);
+		addRbSize(idxBtnDetail);
+		addRbColor(idxBtnDetail);
+		add();
+	}
+	
+	function ambilSemuaGambar(id) {
+		$.ajax({
+			method : "post",
+			url : "getAllImage.php",
+			data : `idx=${id}`,
+			success : function (result) {
+				var gambar = JSON.parse(result);
+				for (let index = 0; index < gambar.length; index++) {
+					srcGambar = `admin/uploads/produk/${id}/${gambar[index]}`;
+					$("#slideshow-container").append(`
+						<div class="mySlides1" style="transform:translateX(75px)">
+							<img src=${srcGambar} style="width:150px; height:200px;">
+						</div>
+					`);
+				}
+				$("#slideshow-container").append(`
+					<a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+					<a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+				`);
+			}
+		})
+	}
+
+	function addRbSize(ind){
+		$.ajax({
+			method : "post",
+			url : "getDetailSize.php",
+			data : `idx=${ind}`,
+			success : function (result) {
+				var detail = JSON.parse(result);
+
+				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Size : ");
+				for (let index = 0; index < detail.length; index++) {
+					if(index == 0){
+						$("#formDetail").append(`
+							<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
+						`);
+					} else {
+						$("#formDetail").append(`
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+							<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
+						`);
+					}
+				}
+				$("#formDetail").append("<br/>");
+			}
+		});
+	}
+
+	function  addRbColor(ind) {
+		$.ajax({
+			method : "post",
+			url : "getDetailColor.php",
+			data : `idx=${ind}`,
+			success : function (result) {
+				var detail = JSON.parse(result);
+				
+				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Color : ");
+				for (let index = 0; index < detail.length; index++) {
+					if(index == 0){
+						$("#formDetail").append(`
+							<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
+						`);
+					} else {
+						$("#formDetail").append(`
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+							<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
+						`);
+					}
+				}
+				$("#formDetail").append("<br/>");
+			}
+		})
+	}
+
+	function add() {
+		$("#formBtn").append(`
+			&nbsp; &nbsp; &nbsp;
+			Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
+			<br/> &nbsp; &nbsp; 
+			<input type="submit" name="btnAdd" value="Add to Cart" style="background-color:red; color:white; width:245px">
+		`)
+	}
+
+	$("#btnClose").click(function (params) {
+		$("#myModal").hide()
+	});
+
+	var slideIndex = [1,1];
+	var slideId = ["mySlides1", "mySlides2"]
+	showSlides(1, 0);
+	showSlides(1, 1);
+
+	function plusSlides(n, no) {
+		showSlides(slideIndex[no] += n, no);
+	}
+
+	function showSlides(n, no) {
+		var i;
+		var x = document.getElementsByClassName(slideId[no]);
+		if (n > x.length) {slideIndex[no] = 1}    
+		if (n < 1) {slideIndex[no] = x.length}
+		for (i = 0; i < x.length; i++) {
+			x[i].style.display = "none";  
+		}
+		x[slideIndex[no]-1].style.display = "block"; 
+	}
 </script>
