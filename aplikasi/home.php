@@ -1,12 +1,11 @@
 <?php
 include("conn.php");
 session_start();
-$user="ste";
-//$_SESSION['username'];
+$user=$_SESSION['username'];
 
-/*if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username'])) {
 	header('location:index.php');
-  }*/
+}
 if (isset($_POST['Logout'])) {
     header('location:index.php');
     unset($_SESSION['username']);
