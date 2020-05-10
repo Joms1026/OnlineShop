@@ -119,11 +119,9 @@ if (isset($_POST['Logout'])) {
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Home</a></li>
-								<li><a href="#">Term & Condition</a></li>
-								<li><a href="contact.html">contact</a></li>
+								<li><a href="chat.php">Chat</a></li>
 							</ul>
 							<ul class="navbar_user">
-								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
 								<li class="account">
 									<a>
