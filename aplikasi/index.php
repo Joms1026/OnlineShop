@@ -408,7 +408,7 @@ if(isset($_POST["register"]))
 							<br>
 							<h2>Get up to 30% Off New <br>Arrivals</h2>
 							<br>
-							<form role="form" id="form-buscar">
+							<form role="form" id="form-Search">
 								<div class="form-group">
 									<div class="input-group">
 										<input id="1" class="form-control" type="text" name="search" placeholder="What can I help you with today?" id="search-bar"/>
@@ -684,6 +684,47 @@ if(isset($_POST["register"]))
 		//alert("jalan");
 		loadProduct();
 	});
+
+	$("#form-Search").click(function (e) {
+		e.preventDefault();
+		$("#product-grid").html('');
+
+		$.ajax({
+			method: "post",
+			url : "search.php",
+			data : $("#form-Search").serialize(),
+			success : function(res){
+				var isiProduct = JSON.parse(res);
+				
+				if(isiProduct != "none"){
+					for (let index = 0; index < isiProduct.length; index++) {
+						$("#product-grid").append(`
+							<div id="product-wrap" style="width:205px; height:305px">
+								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
+									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+									</div>
+									<div class="favorite favorite_left"></div>
+									<div class="product_info" style="height:95px">
+										<h6 class="product_name">${isiProduct[index][1]}</h6>
+										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+									</div>
+									<div id="product-button${isiProduct[index][0]}"> </div>
+								</div> 
+							</div>
+						`);
+						ambilHarga(isiProduct[index][0]);
+						ambilGambar(isiProduct[index][0]);
+
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+					}
+				} else {
+					$("#product-grid").append("<h3> Coba kata kunci lainnya!</h3>");
+				}
+			}
+		})
+	})
 
 	const container = document.getElementById('container-login');
 
