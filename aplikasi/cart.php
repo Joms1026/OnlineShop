@@ -1,8 +1,5 @@
 <?php
 	session_start();
-	if(isset($_POST["continueshopping"])){
-		header("Location: home.php");
-	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -187,15 +184,9 @@
 										<td style="width: 10%;">Total</td>
 									</tr>
 								</thead>
-								<tbody id="tablecart">
+								<tbody>
 									<?php
-										if(!isset($_SESSION["cart"]) || count($_SESSION["cart"]) == 0){
-											echo '<td colspan="6"><div class="alert alert-danger" role="alert">
- 												 Tidak ada barang di dalam cart
-											</div></td>';
-										}
-										else{
-											$datacart = $_SESSION["cart"];
+										$datacart = $_SESSION["cart"];
 										foreach ($datacart as $key => $value) {
 										echo	"<tr>
 										<td>".($key + 1)."</td>
@@ -211,18 +202,14 @@
 											</div>
 										</td>
 										<td>L</td>
-										<td id='price".$key."'>".$value["harga"]."</td>
+										<td>".$value["harga"]."</td>
 										<td><div class='product_quantity ml-lg-auto mr-lg-auto text-center'>
-											<span class='product_text product_num' id='angka".$key."'>1</span>
-											<div class='qty_sub qty_button trans_200 text-center' id='minus".$key."'><span>-</span></div>
-											<div class='qty_add qty_button trans_200 text-center' id='plus".$key."'><span>+</span></div>
+											<span class='product_text product_num'>1</span>
+											<div class='qty_sub qty_button trans_200 text-center'><span>-</span></div>
+											<div class='qty_add qty_button trans_200 text-center'><span>+</span></div>
 										</div></td>
-										<td id='total".$key."'>
-											<script>
-												document.getElementById('total".$key."').innerHTML = document.getElementById('angka".$key."').innerHTML * ".$value['harga']." + '.000'
-											</script></td>
+										<td>$3.99</td>
 										</tr> <br>";
-										}
 										}
 									?>									 
 									<!-- <tr>
@@ -249,12 +236,53 @@
 									</tr> -->
 								</tbody>
 							</table>
+							
+							<!-- Cart Bar -->
+							<!-- <div class="cart_bar">
+								<ul class="cart_bar_list item_list d-flex flex-row align-items-center justify-content-end">
+									<li class="mr-auto">Product</li>
+									<li>Color</li>
+									<li>Size</li>
+									<li>Price</li>
+									<li>Quantity</li>
+									<li>Total</li>
+								</ul>
+							</div> -->
+
+							<!-- Cart Items -->
+							<!-- <div class="cart_items">
+								<ul class="cart_items_list">
+
+									<li class="cart_item item_list d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-end justify-content-start">
+										<div class="product d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start mr-auto">
+											<div><div class="product_number">1</div></div>
+											<div><div class="product_image"><img src="images/cart_item_1.jpg" alt=""></div></div>
+											<div class="product_name_container">
+												<div class="product_name"><a href="product.html">Cool Flufy Clothing without Stripes</a></div>
+												<div class="product_text">Second line for additional info</div>
+											</div>
+										</div>
+										<div class="product_color product_text"><span>Color: </span>beige</div>
+										<div class="product_size product_text"><span>Size: </span>L</div>
+										<div class="product_price product_text"><span>Price: </span>$3.99</div>
+										<div class="product_quantity_container">
+											<div class="product_quantity ml-lg-auto mr-lg-auto text-center">
+												<span class="product_text product_num">1</span>
+												<div class="qty_sub qty_button trans_200 text-center"><span>-</span></div>
+												<div class="qty_add qty_button trans_200 text-center"><span>+</span></div>
+											</div>
+										</div>
+										<div class="product_total product_text"><span>Total: </span>$3.99</div>
+									</li>
+
+								</ul>
+							</div> -->
 
 							<!-- Cart Buttons -->
 							<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
 								<div class="cart_buttons_inner ml-sm-auto d-flex flex-row align-items-start justify-content-start flex-wrap">
-									<form method="post" id="clearcart"><button type="submit" name="btnClear"><div class="button button_clear trans_200" name="clearcart"><a style="color:white">clear cart</a></div></button></form>
-									<form method="post"><button type="submit" name="continueshopping"><div class="button button_continue trans_200"><a style="color:white">continue shopping</a></div></button></form>
+									<div class="button button_clear trans_200"><a href="categories.html">clear cart</a></div>
+									<div class="button button_continue trans_200"><a href="categories.html">continue shopping</a></div>
 								</div>
 							</div>
 						</div>
@@ -275,32 +303,30 @@
 								<div class="shipping">
 									<div class="cart_extra_title">Shipping Method</div>
 									<ul>
-										<form name="shipping">
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_1" name="shipping_radio" class="shipping_radio" value="nd">
+												<input type="radio" id="radio_1" name="shipping_radio" class="shipping_radio">
 												<span class="radio_mark"></span>
 												<span class="radio_text">Next day delivery</span>
 											</label>
-											<div class="shipping_price ml-auto">100.000</div>
+											<div class="shipping_price ml-auto">$4.99</div>
 										</li>
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_2" name="shipping_radio" class="shipping_radio" value="sd">
+												<input type="radio" id="radio_2" name="shipping_radio" class="shipping_radio">
 												<span class="radio_mark"></span>
 												<span class="radio_text">Standard delivery</span>
 											</label>
-											<div class="shipping_price ml-auto">50.000</div>
+											<div class="shipping_price ml-auto">$1.99</div>
 										</li>
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_3" name="shipping_radio" class="shipping_radio" value="free" checked>
+												<input type="radio" id="radio_3" name="shipping_radio" class="shipping_radio" checked>
 												<span class="radio_mark"></span>
 												<span class="radio_text">Personal Pickup</span>
 											</label>
 											<div class="shipping_price ml-auto">Free</div>
 										</li>
-										</form>
 									</ul>
 								</div>
 							</div>
@@ -313,15 +339,15 @@
 								<ul class="cart_extra_total_list">
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Subtotal</div>
-										<div class="cart_extra_total_value ml-auto" id="subtotal"></div>
+										<div class="cart_extra_total_value ml-auto">$29.90</div>
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Shipping</div>
-										<div class="cart_extra_total_value ml-auto" id="shippingtype">Free</div>
+										<div class="cart_extra_total_value ml-auto">Free</div>
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Total</div>
-										<div class="cart_extra_total_value ml-auto" id="carttotal"></div>
+										<div class="cart_extra_total_value ml-auto">$29.90</div>
 									</li>
 								</ul>
 								<div class="checkout_button trans_200"><a href="checkout.html">proceed to checkout</a></div>
@@ -583,131 +609,6 @@
 		$("#signUp").trigger( "click" );
 		$("#loginModal").modal("toggle");
 	}
-
-	//simpantotalbelanja
-	function simpantotalnya(totalbelanja){
-			$.ajax({
-			method : "post", // metode ajax
-			url : "ajax/simpantotal.php", // tujuan request
-			data : {
-				total : totalbelanja
-			}, // data yang dikirim
-			success : function(res){
-				$('#subtotal').html('');
-				$('#subtotal').append(parseInt(res) + '.000');
-				hitung();
-			}
-			});
-	}
-
-	//hitung
-	function hitung(){
-		var total = parseInt(document.getElementById("subtotal").innerHTML);
-		var shipping = document.getElementById('shippingtype').innerHTML;
-		var shipping2 = 0;
-		if(shipping == "Free" || shipping == "free"){
-			shipping2 = 0;
-		}
-		else{
-			shipping2 = parseInt(shipping);
-		}
-		var result = total + parseInt(shipping2);
-		$("#carttotal").html('');
-		$("#carttotal").append(result+ ".000");
-	}
-
-	//buattotal
-	function refreshtotal(){
-		var totalbelanja = 0;
-		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
-			totalbelanja += parseInt(document.getElementById('total'+index.toString()).innerHTML);
-		}
-		simpantotalnya(totalbelanja);
-		hitung();
-	}
-
-	//shipppingtype
-	function shippingcek(shippingtype){
-		$.ajax({
-			method : "post", // metode ajax
-			url : "ajax/simpanshipping.php", // tujuan request
-			data : {
-				shipping : shippingtype
-			}, // data yang dikirim
-			success : function(res){
-				if(res == 0){
-					$("#shippingtype").html('');
-					$("#shippingtype").append("free");
-				}
-				else{
-					$("#shippingtype").html('');
-					$("#shippingtype").append(res + '.000');
-				}
-			}
-		});
-	}
-
-	//Ganti shipping
-	var shippingtype = "";
-	var radios = document.forms["shipping"].elements["shipping_radio"];
-	for(var i = 0, max = radios.length; i < max; i++) {
-    	radios[i].onclick = function() {
-        	shippingtype = this.value;
-			shippingcek(shippingtype);
-			refreshtotal();
-    	}
-	}
-
-	//bikin penambahan qty
-	try {
-		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
-			document.getElementById("minus"+index.toString()).addEventListener("click", function(){
-				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) - 1;
-				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
-				var hasil = angkanya * harganya;
-				document.getElementById("total"+index.toString()).innerHTML = hasil + '.000';
-				refreshtotal();
-			});
-		}
-		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
-			document.getElementById("plus"+index.toString()).addEventListener("click", function(){
-				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) + 1;
-				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
-				var hasil = angkanya * harganya;
-				document.getElementById("total"+index.toString()).innerHTML = hasil + '.000';
-				refreshtotal();
-			});
-		}
-	} catch (error) {
-		
-	}
-
-	$(document).ready(function(){
-		$("#clearcart").submit(function(e){
-			e.preventDefault();
-
-			$.ajax({
-          		method : "post", // metode ajax
-          		url : "ajax/clearcart.php", // tujuan request
-         	 	data : $("#clearcart").serialize(), // data yang dikirim
-          		success : function(res){
-					if(res.match("sukses")){
-						alert('Cart cleared');
-						$("#tablecart").html('');
-						$("#tablecart").append(`<td colspan="6">
-						<div class="alert alert-danger" role="alert>
-							Tidak ada barang dalam cart
-						</div>
-						</td>`);
-					}
-          		}
-        	});	
-		});		
-
-		refreshtotal();
-		//shippingcek(shippingtype);
-	});
-
 </script>
 
 <script type="text/javascript">
