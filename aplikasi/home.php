@@ -6,6 +6,7 @@ $user=$_SESSION['username'];
 if (!isset($_SESSION['username'])) {
 	header('location:index.php');
 }
+
 if (isset($_POST['Logout'])) {
     header('location:index.php');
     unset($_SESSION['username']);
@@ -291,7 +292,7 @@ if (isset($_POST['Logout'])) {
 	?>
 
 	<div class="deal_ofthe_week" style="transform:translateY(<?= $geser ?>)">
-		<div class="container">
+		<!-- <div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-6">
 					<div class="deal_ofthe_week_img">
@@ -325,7 +326,7 @@ if (isset($_POST['Logout'])) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	
 	<!-- Best Sellers -->
@@ -613,30 +614,32 @@ if (isset($_POST['Logout'])) {
 			url : "getAllProduct.php",
 			success : function(res){
 				var isiProduct = JSON.parse(res);
-				var jumlah = isiProduct.length;
-				//console.log(isiProduct);
-				var ctr = 0; 
-				for (let index = 0; index < isiProduct.length; index++) {
-					$("#product-grid").append(`
-						<div id="product-wrap" style="width:205px; height:310px">
-							<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
-								<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
-								</div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_info" style="height:95px">
-									<h6 class="product_name">${isiProduct[index][1]}</h6>
-									<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
-								</div>
-								<div id="product-button${isiProduct[index][0]}"> </div>
-							</div> 
-						</div>
-					`);
-					ambilHarga(isiProduct[index][0]);
-					ambilGambar(isiProduct[index][0]);
 
-					var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
-					newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
-					$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+				if(isiProduct != "none"){
+					for (let index = 0; index < isiProduct.length; index++) {
+						$("#product-grid").append(`
+							<div id="product-wrap" style="width:205px; height:305px">
+								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
+									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+									</div>
+									<div class="favorite favorite_left"></div>
+									<div class="product_info" style="height:95px">
+										<h6 class="product_name">${isiProduct[index][1]}</h6>
+										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+									</div>
+									<div id="product-button${isiProduct[index][0]}"> </div>
+								</div> 
+							</div>
+						`);
+						ambilHarga(isiProduct[index][0]);
+						ambilGambar(isiProduct[index][0]);
+
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+					}
+				} else {
+					$("#product-grid").append("<h3> Belum Ada Barang Tersedia! </h3>");
 				}
 			}
 		})

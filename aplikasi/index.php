@@ -434,7 +434,7 @@ if(isset($_POST["register"]))
 			<div class="row">
 				<div class="col text-center">
 					<div class="section_title new_arrivals_title">
-						<h2>New Arrivals</h2>
+						<!-- <h2>New Arrivals</h2> -->
 					</div>
 				</div>
 			</div>
@@ -578,71 +578,52 @@ if(isset($_POST["register"]))
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
-			<div class="modal-body">
-				<div class="container-login" id="container-login">
-					<div class="form-container sign-up-container">
+		<div class="modal-body">
+			<div class="container-login" id="container-login">
+				<div class="form-container sign-up-container">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<form action="#" class="form-login">
+						<h3>Create Account</h3>
+						<br>
+						<input type="text" placeholder="Name" />
+						<input type="email" placeholder="Email" />
+						<input type="password" placeholder="Password" />
+						<input type="password" placeholder="Confirm Password" />
+						<br>
+						<button class="button-login">Register</button>
+						<br>
+					</form>
+				</div>
+				<div class="form-container sign-in-container">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<form action="#" class="form-login">
+						<h3>Sign in</h3>
+						<br>
+						<input type="email" placeholder="Email" />
+						<input type="password" placeholder="Password" />
+						<br>
+						<button class="button-login">Sign In</button>
+						<br>
+						<br>
+						<a href="#">Forgot your password?</a>
+					</form>
+				</div>
+				<div class="overlay-container">
+					<div class="overlay">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<form action="Index.php" method="post" class="form-login">
-							<h3>Create Account</h3>
-							<br>
-							<input type="text" name ="nama" placeholder="Name" />
-							<input type="email" name ="email" placeholder="Email" />
-							<input type="password" name ="pass" placeholder="Password" />
-							<input type="password" name ="cpass" placeholder="Confirm Password" />
-							<br>
-							<button type="submit" name="register" class="button-login">Register</button>
-							<br>
-							<span>or use your account for login</span>
-							<div class="social-container">
-								<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-								<a href="#" class="social"><i class="fa fa-google"></i></a>
-							</div>
-						</form>
-					</div>
-					<div class="form-container sign-in-container">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<form action="index.php" method="post" class="form-login">
-							<h3>Sign in</h3>
-							<br>
-							<input type="email" name ="Luser" placeholder="Email" />
-							<input type="password" name ="Lpass" placeholder="Password" />
-							<br>
-							<button type="submit" name ="login" class="button-login">Sign In</button>
-							<br>
-							<span>or use your account for login</span>
-							<div class="social-container">
-								<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-								<a href="#" class="social"><i class="fa fa-google"></i></a>
-							</div>
-							<br>
-							<button type="button" class="btn btn-danger" id="exampleModal">Forgot your password?</button>
-						</form>
-					</div>
-					<div class="form-container forget-in-container">
-						<form action="index.php" method="post" class="form-login">
-							<h3>Forget Password</h3>
-							<br>
-							<input type="email" name ="forgetemail" placeholder="Email" />
-							<button typr="submit" name ="forgetpass" class="button-login">Send Email</button>
-							<br>
-						</form>
-					</div>
-					<div class="overlay-container">
-						<div class="overlay">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<div class="overlay-panel overlay-left">
-								<p>Keep connected with us</p>
-								<button class="button-login ghost" id="signIn">Sign In</button>
-							</div>
-							<div class="overlay-panel overlay-right">
-								<h1></h1>
-								<p>Enter your personal details and start journey with us</p>
-								<button class="button-login ghost" id="signUp">Register</button>
-							</div>
+						<div class="overlay-panel overlay-left">
+							<p>Keep connected with us</p>
+							<button class="button-login ghost" id="signIn">Sign In</button>
+						</div>
+						<div class="overlay-panel overlay-right">
+							<h1></h1>
+							<p>Enter your personal details and start journey with us</p>
+							<button class="button-login ghost" id="signUp">Register</button>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 		</div>
 	</div>
 </div>
@@ -868,28 +849,32 @@ if(isset($_POST["register"]))
 			url : "getAllProduct.php",
 			success : function(res){
 				var isiProduct = JSON.parse(res);
-				//console.log(isiProduct);
-				for (let index = 0; index < isiProduct.length; index++) {
-					$("#product-grid").append(`
-						<div id="product-wrap" style="width:205px; height:305px">
-							<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
-								<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
-								</div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_info" style="height:95px">
-									<h6 class="product_name">${isiProduct[index][1]}</h6>
-									<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
-								</div>
-								<div id="product-button${isiProduct[index][0]}"> </div>
-							</div> 
-						</div>
-					`);
-					ambilHarga(isiProduct[index][0]);
-					ambilGambar(isiProduct[index][0]);
 
-					var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
-					newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
-					$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+				if(isiProduct != "none"){
+					for (let index = 0; index < isiProduct.length; index++) {
+						$("#product-grid").append(`
+							<div id="product-wrap" style="width:205px; height:305px">
+								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
+									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+									</div>
+									<div class="favorite favorite_left"></div>
+									<div class="product_info" style="height:95px">
+										<h6 class="product_name">${isiProduct[index][1]}</h6>
+										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+									</div>
+									<div id="product-button${isiProduct[index][0]}"> </div>
+								</div> 
+							</div>
+						`);
+						ambilHarga(isiProduct[index][0]);
+						ambilGambar(isiProduct[index][0]);
+
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+					}
+				} else {
+					$("#product-grid").append("<h3> Belum Ada Barang Tersedia! </h3>");
 				}
 			}
 		})
