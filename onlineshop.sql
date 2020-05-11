@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2020 at 04:23 PM
+-- Generation Time: May 11, 2020 at 04:23 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -35,25 +35,7 @@ CREATE TABLE `baju` (
   `DESKRIPSI` text NOT NULL,
   `STATUS` int(11) NOT NULL,
   `ID_KATEGORI` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `baju`
---
-
-INSERT INTO `baju` (`ID`, `NAMA`, `DESKRIPSI`, `STATUS`, `ID_KATEGORI`) VALUES
-(12, 'Baju Koko', 'Baju Katun ', 1, 1),
-(13, '', '', 1, 1),
-(14, '', '', 1, 1),
-(15, 'asd', 'qwe1', 1, 1),
-(16, 'asd', 'qwe1', 1, 1),
-(17, 'asd', 'qwe1', 1, 1),
-(18, 'asd', 'qwe1', 1, 1),
-(19, 'asd', 'qwe1', 1, 1),
-(20, 'asd', 'qwe1', 1, 1),
-(21, 'asd', 'qwe1', 1, 1),
-(22, 'aasd', 'asd', 1, 2),
-(23, 'coba', 'aas', 1, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -70,15 +52,6 @@ CREATE TABLE `confirm_email` (
   `insert_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `confirm_email`
---
-
-INSERT INTO `confirm_email` (`id`, `id_user`, `code`, `status`, `insert_date`, `update_date`) VALUES
-(0, 4, 'a3uxt4bu6dxhp8csqbxt', 1, '2020-05-05 13:50:50', '2020-05-05 14:08:36'),
-(0, 5, 'bx5t6dajtdid922g9r86', 0, '2020-05-05 14:13:16', '0000-00-00 00:00:00'),
-(0, 6, 'pqnuyzq8iip4us9cykam', 0, '2020-05-05 14:21:29', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -122,18 +95,7 @@ CREATE TABLE `gambar` (
   `ID_GAMBAR` int(11) NOT NULL,
   `LINK_GAMBAR` varchar(200) NOT NULL,
   `ID_BAJU` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `gambar`
---
-
-INSERT INTO `gambar` (`ID_GAMBAR`, `LINK_GAMBAR`, `ID_BAJU`) VALUES
-(1, '215eb2eb23b9446.png', 21),
-(2, '215eb2eb23baedd.jpg', 21),
-(3, '215eb2eb23bc899.jpg', 21),
-(4, '225eb2eb6835084.png', 22),
-(5, '235eb562497dd1a.jpg', 23);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -293,21 +255,11 @@ CREATE TABLE `users` (
   `PASSWORD_USER` varchar(100) NOT NULL,
   `EMAIL_USER` varchar(50) NOT NULL,
   `ROLE` int(11) NOT NULL,
-  `code_verify` varchar(100) NOT NULL,
-  `verify_email` int(11) NOT NULL,
+  `token` varchar(100) NOT NULL,
+  `status` int(11) NOT NULL,
   `ALAMAT` varchar(150) DEFAULT NULL,
   `NO_TELEPON` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`ID_USER`, `USERNAME`, `PASSWORD_USER`, `EMAIL_USER`, `ROLE`, `code_verify`, `verify_email`, `ALAMAT`, `NO_TELEPON`) VALUES
-(8, 'Stefanie', '$2y$10$QTWp9AkzfQMr6scowFOZ/uoZbjXL6yXiAq/qmRH.pMp2Vg5D2wf96', 'stefanieangl@gmail.com', 1, '', 1, 'kapasari 50', 2147483647),
-(9, 'Stefanie', '$2y$10$XGX4MvszK3OuKexP1ljdjO3jXG0.3Alw.5raeov.17xUh8y8b0L7y', 'stefanie@gmail.com', 0, '', 1, 'kapasari 50', 2147483647),
-(10, 'jennifer', '$2y$10$qO0Y2Eucr6uV/5GXw0CHX.RLb7KUKRPnKNnHr1CnasTZLBnP8fYdC', 'jennifer@gmail.com', 1, '', 1, '', 0),
-(11, 'jens', '$2y$10$yhnCGbk06ezgGjsNRL6D1eZ8SaxkjP8nv3YNDS1e7.JUj2toI3pMm', 'jen@gmail.com', 1, '', 1, '', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -323,35 +275,7 @@ CREATE TABLE `varian_baju` (
   `STOK` int(11) NOT NULL DEFAULT '0',
   `ID_WARNA` varchar(50) NOT NULL,
   `ID_UKURAN` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `varian_baju`
---
-
-INSERT INTO `varian_baju` (`ID_VARIAN`, `ID_BAJU`, `HARGA`, `STOK`, `ID_WARNA`, `ID_UKURAN`) VALUES
-(4, 12, 50000, 200, 'TW001', 'TS001'),
-(5, 12, 100000, 200, 'TW002', 'TS003'),
-(6, 12, 150000, 200, 'TW003', 'TS004'),
-(7, 12, 200000, 200, 'TW004', 'TS005'),
-(8, 15, 2, 1, 'TW007', 'TS002'),
-(9, 15, 2, 1, 'TW007', 'TS003'),
-(10, 16, 2, 1, 'TW007', 'TS002'),
-(11, 16, 2, 1, 'TW007', 'TS003'),
-(12, 17, 2, 1, 'TW007', 'TS002'),
-(13, 17, 2, 1, 'TW007', 'TS003'),
-(14, 18, 2, 1, 'TW007', 'TS002'),
-(15, 18, 2, 1, 'TW007', 'TS003'),
-(16, 19, 2, 1, 'TW007', 'TS002'),
-(17, 19, 2, 1, 'TW007', 'TS003'),
-(18, 20, 2, 1, 'TW007', 'TS002'),
-(19, 20, 2, 1, 'TW007', 'TS003'),
-(20, 21, 2, 1, 'TW007', 'TS002'),
-(21, 21, 2, 1, 'TW007', 'TS003'),
-(22, 22, 600000, 1, 'TW007', 'TS001'),
-(23, 22, 600000, 1, 'TW007', 'TS002'),
-(24, 23, 15000, 5, 'TW001', 'TS001'),
-(25, 23, 10000, 5, 'TW002', 'TS002');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -445,12 +369,12 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `baju`
 --
 ALTER TABLE `baju`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `gambar`
 --
 ALTER TABLE `gambar`
-  MODIFY `ID_GAMBAR` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_GAMBAR` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `kategori`
 --
@@ -460,12 +384,12 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `varian_baju`
 --
 ALTER TABLE `varian_baju`
-  MODIFY `ID_VARIAN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `ID_VARIAN` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
