@@ -359,12 +359,6 @@ if(isset($_POST["register"]))
 										</div>
 									</ul>
 								</li>
-								<li class="checkout">
-									<a href="#">
-										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">2</span>
-									</a>
-								</li>
 							</ul>
 							<div class="hamburger_container">
 								<i class="fa fa-bars" aria-hidden="true"></i>
@@ -437,13 +431,6 @@ if(isset($_POST["register"]))
 
 	<div class="new_arrivals">
 		<div class="container">
-			<div class="row">
-				<div class="col text-center">
-					<div class="section_title new_arrivals_title">
-						<h2>New Arrivals</h2>
-					</div>
-				</div>
-			</div>
 			<div class="row align-items-center">
 				<div class="col text-center">
 					<div class="new_arrivals_sorting">
@@ -474,64 +461,17 @@ if(isset($_POST["register"]))
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-
-	<!-- Deal of the week -->
-	<?php
-		$querySelect = "SELECT * FROM baju WHERE status = 1";
-		$result = mysqli_query($conn, $querySelect);
-		$geser = $result->num_rows / 3 * 300;
-		$geser = $geser."px";
-	?>
-
-	<div class="deal_ofthe_week" style="transform: translateY(<?= $geser ?>)">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6">
-					<div class="deal_ofthe_week_img">
-						<img src="images/deal_ofthe_week.png" alt="">
-					</div>
-				</div>
-				<div class="col-lg-6 text-right deal_ofthe_week_col">
-					<div class="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
-						<div class="section_title">
-							<h2>Deal Of The Week</h2>
-						</div>
-						<ul class="timer">
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="day" class="timer_num">03</div>
-								<div class="timer_unit">Day</div>
-							</li>
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="hour" class="timer_num">15</div>
-								<div class="timer_unit">Hours</div>
-							</li>
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="minute" class="timer_num">45</div>
-								<div class="timer_unit">Mins</div>
-							</li>
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="second" class="timer_num">23</div>
-								<div class="timer_unit">Sec</div>
-							</li>
-						</ul>
-						<div class="red_button deal_ofthe_week_button"><a href="#">shop now</a></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div style="height:550px; background-color:white"></div>
-	</div>
-
-	<!-- Best Sellers -->
-
-	<div class="best_sellers">
-		<div class="container">
-			<div class="row">
+			<!-- <div id="new-arrivals"> 
+			<?php
+				// $querySelect = "SELECT * FROM baju WHERE status = 1";
+				// $result = mysqli_query($conn, $querySelect);
+				// $geser = $result->num_rows / 3 * 300;
+				// $geser = $geser."px";
+			?> -->
+			<!-- <div class="row" style="transform: translateY()">
 				<div class="col text-center">
 					<div class="section_title new_arrivals_title">
-						<!-- <h2>Best Sellers</h2> -->
+						<h2>New Arrivals</h2>
 					</div>
 				</div>
 			</div>
@@ -539,13 +479,11 @@ if(isset($_POST["register"]))
 				<div class="col">
 					<div class="product_slider_container">
 						<div class="owl-carousel owl-theme product_slider">
-
-							<!-- Slide 1 -->
-
+							<!-- Slide New Arrival -->
 							<!-- <div class="owl-item product_slider_item">
 								<div class="product-item">
-									<div class="product discount">
-										<div class="product_image">
+									<div class="product discount" id="product-new"> -->
+										<!-- <div class="product_image">
 											<img src="images/product_1.png" alt="">
 										</div>
 										<div class="favorite favorite_left"></div>
@@ -554,171 +492,13 @@ if(isset($_POST["register"]))
 											<h6 class="product_name"><a href="single.html">Brown Hoodie</a></h6>
 											<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
 										</div>
-									</div>
-								</div>
-							</div> -->
-
-							<!-- Slide 2 -->
-
-							<!-- <div class="owl-item product_slider_item">
-								<div class="product-item women">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_2.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Navy Dress</a></h6>
-											<div class="product_price">Rp 185.000</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-
-							<!-- Slide 3 -->
-
-							<!-- <div class="owl-item product_slider_item">
-								<div class="product-item women">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_3.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Blue Yeti USB Microphone Blackout Edition</a></h6>
-											<div class="product_price">$120.00</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-
-							<!-- Slide 4 -->
-
-							<!-- <div class="owl-item product_slider_item">
-								<div class="product-item accessories">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_4.png" alt="">
-										</div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">DYMO LabelWriter 450 Turbo Thermal Label Printer</a></h6>
-											<div class="product_price">$410.00</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-
-							<!-- Slide 5 -->
-
-							<!-- <div class="owl-item product_slider_item">
-								<div class="product-item women men">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_5.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Pryma Headphones, Rose Gold & Grey</a></h6>
-											<div class="product_price">$180.00</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-
-							<!-- Slide 6 -->
-
-							<!-- <div class="owl-item product_slider_item">
-								<div class="product-item accessories">
-									<div class="product discount">
-										<div class="product_image">
-											<img src="images/product_6.png" alt="">
-										</div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
-											<div class="product_price">$520.00<span>$590.00</span></div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-
-							<!-- Slide 7 -->
-
-							<!-- <div class="owl-item product_slider_item">
-								<div class="product-item women">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_7.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Samsung CF591 Series Curved 27-Inch FHD Monitor</a></h6>
-											<div class="product_price">$610.00</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-
-							<!-- Slide 8 -->
-
-							<!-- <div class="owl-item product_slider_item">
-								<div class="product-item accessories">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_8.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Blue Yeti USB Microphone Blackout Edition</a></h6>
-											<div class="product_price">$120.00</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-
-							<!-- Slide 9 -->
-
-							<!-- <div class="owl-item product_slider_item">
-								<div class="product-item men">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_9.png" alt="">
-										</div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">DYMO LabelWriter 450 Turbo Thermal Label Printer</a></h6>
-											<div class="product_price">$410.00</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-
-							<!-- Slide 10 -->
-
-							<!-- <div class="owl-item product_slider_item">
-								<div class="product-item men">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_10.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Pryma Headphones, Rose Gold & Grey</a></h6>
-											<div class="product_price">$180.00</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-						</div> 
-
+									<!-- </div> -->
+								<!-- </div>
+							</div>
+						</div>  --> 
+						
 						<!-- Slider Navigation -->
-
-						<div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
+						<!-- <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
 							<i class="fa fa-chevron-left" aria-hidden="true"></i>
 						</div>
 						<div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
@@ -727,7 +507,8 @@ if(isset($_POST["register"]))
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
+		<div style="height:<?= $geser ?>"></div>
 	</div>
 
 	<footer class="footer" style="transform: translateY(100px)">
@@ -914,6 +695,40 @@ if(isset($_POST["register"]))
 		$("#loginModal").modal("toggle");
 	}
 
+	// function loadNewArrivals(){
+	// 	$("#product-new").html('');
+	// 	$.ajax({
+	// 		method: "post",
+	// 		url : "getNewArrival.php",
+	// 		success : function(res){
+	// 			var isiProduct = JSON.parse(res);
+	// 			var jumlah = isiProduct.length;
+	// 			//console.log(isiProduct);
+	// 			var ctr = 0; 
+	// 			for (let index = 0; index < isiProduct.length; index++) {
+	// 				$("#product-new").append(`
+					
+	// 					<div class="product_image">
+	// 						<img src="images/product_1.png" alt="">
+	// 					</div>
+	// 					<div class="favorite favorite_left"></div>
+	// 						<div class="product_info">
+	// 							<h6 class="product_name"><a href="single.html">Brown Hoodie</a></h6>
+	// 							<div class="product_price">Rp 65.000</div>
+	// 						</div>
+	// 					</div>
+	// 				`);
+	// 				ambilHarga(isiProduct[index][0]);
+	// 				ambilGambar(isiProduct[index][0]);
+
+	// 				var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+	// 				newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+	// 				$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+	// 			}
+	// 		}
+	// 	})
+	// }
+
 	function loadProduct(){
 		$("#product-grid").html('');
 		$.ajax({
@@ -1052,6 +867,8 @@ if(isset($_POST["register"]))
 	}
 
 	function addRbSize(ind){
+		var arrSize = [];
+
 		$.ajax({
 			method : "post",
 			url : "getDetailSize.php",
@@ -1061,15 +878,25 @@ if(isset($_POST["register"]))
 
 				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Size : ");
 				for (let index = 0; index < detail.length; index++) {
-					if(index == 0){
-						$("#formDetail").append(`
-							<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
-						`);
-					} else {
-						$("#formDetail").append(`
-							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-							<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
-						`);
+					var masuk = true;
+					for (let i = 0; i < arrSize.length; i++) {
+						if(arrSize[i] == detail[index][4]){
+							masuk = false;
+						}
+					}
+					if(masuk == true){
+						arrSize.push(detail[index][4]);
+
+						if(index == 0){
+							$("#formDetail").append(`
+								<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
+							`);
+						} else {
+							$("#formDetail").append(`
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+								<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
+							`);
+						}
 					}
 				}
 				$("#formDetail").append("<br/>");
@@ -1078,6 +905,8 @@ if(isset($_POST["register"]))
 	}
 
 	function  addRbColor(ind) {
+		var arrColor = [];
+		
 		$.ajax({
 			method : "post",
 			url : "getDetailColor.php",
@@ -1087,16 +916,26 @@ if(isset($_POST["register"]))
 				
 				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Color : ");
 				for (let index = 0; index < detail.length; index++) {
-					if(index == 0){
-						$("#formDetail").append(`
-							<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
-						`);
-					} else {
-						$("#formDetail").append(`
-							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-							<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
-						`);
+					var masuk = true;
+					for (let i = 0; i < arrColor.length; i++) {
+						if(arrColor[i] == detail[index][4]){
+							masuk = false;
+						}
 					}
+					if(masuk == true){
+						arrColor.push(detail[index][4]);
+
+						if(index == 0){
+							$("#formDetail").append(`
+								<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
+							`);
+						} else {
+							$("#formDetail").append(`
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+								<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
+							`);
+						}
+					}	
 				}
 				$("#formDetail").append("<br/>");
 			}
