@@ -1,40 +1,16 @@
-<<<<<<< HEAD:aplikasi/home.php
-<<<<<<< HEAD:aplikasi/index.php
-<?php 
-	session_start();
-	//unset($_SESSION["cart"]);
-	//nanti saat user logout atau melakukan buy , session akan di unset
-	if(isset($_POST["addtocart"])){
-		echo "<script>alert('Berhasil')</script>";
-		$arrtemp = array(
-			"namaproduk" =>  $_POST["namaproduk"],
-			"harga" => $_POST["harga"],
-			"gambar" => $_POST["gambar"],
-		);
-		if(!isset($_SESSION["cart"])){
-			$datacart = array();
-			array_push($datacart , $arrtemp);
-			$_SESSION["cart"] = $datacart;
-			header("Location: cart.php");
-		}
-		else{
-			$datacart = $_SESSION["cart"];
-			array_push($datacart , $arrtemp);
-			$_SESSION["cart"] = $datacart;
-			header("Location: cart.php");
-		}
-	}
-=======
-=======
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:1. Desain/index.html
 <?php
+include("conn.php");
+session_start();
+$user=$_SESSION['username'];
 
+if (!isset($_SESSION['username'])) {
+	header('location:index.php');
+}
 
-
-<<<<<<< HEAD:aplikasi/home.php
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:aplikasi/home.php
-=======
->>>>>>> 54193dc3869312fb61b5285261012ec3bf0b9aff:1. Desain/index.html
+if (isset($_POST['Logout'])) {
+    header('location:index.php');
+    unset($_SESSION['username']);
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,6 +21,46 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Sun Shop">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	* {box-sizing: border-box}
+	.mySlides1, .mySlides2 {display: none}
+	img {vertical-align: middle;}
+
+	/* Slideshow container */
+	.slideshow-container {
+	max-width: 1000px;
+	position: relative;
+	margin: auto;
+	}
+
+	/* Next & previous buttons */
+	.prev, .next {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	width: auto;
+	padding: 16px;
+	margin-top: -22px;
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+	transition: 0.6s ease;
+	border-radius: 0 3px 3px 0;
+	user-select: none;
+	}
+
+	/* Position the "next button" to the right */
+	.next {
+	right: 0;
+	border-radius: 3px 0 0 3px;
+	}
+
+	/* On hover, add a grey background color */
+	.prev:hover, .next:hover {
+	background-color: #f1f1f1;
+	color: black;
+	}
+</style>
 <!--
 	Favicon
 -->
@@ -78,6 +94,7 @@
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/login.css">
 <link rel="stylesheet" type="text/css" href="styles/preloader.css">
+<link rel="stylesheet" type="text/css" href="styles/modal.css">
 </head>
 
 <body>
@@ -103,31 +120,32 @@
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Home</a></li>
-								<li><a href="#">Term & Condition</a></li>
-								<li><a href="contact.html">contact</a></li>
+								<li><a href="chat.php">Chat</a></li>
 							</ul>
 							<ul class="navbar_user">
-								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
 								<li class="account">
 									<a>
 										<i class="fa fa-user" aria-hidden="true"></i>
 									</a>
 									<ul class="account_selection">
-										<div class="widgets_div" onclick="showLoginModal()">
+										<div class="widgets_div" >
 											<div class="icon_div">
-												<span><i class="fa fa-sign-in"></i></span>
+												<span><i class="fa fa-user"></i></span>
 											</div>
 											<div class="text_div">
-												<span>Sign In</span>
+												<span><?php  echo($user); ?></span>
 											</div>
 										</div>
-										<div class="widgets_div" onclick="showRegisterModal()">
+										<div class="widgets_div" >
 											<div class="icon_div">
-												<span><i class="fa fa-user-plus"></i></span>
+												<span><i class="fa fa-sign-out"></i></span>
 											</div>
 											<div class="text_div">
-												<span>Register</span>
+											<form action="home.php" method="POST"  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<button name = "Logout" type="submit"   ><span style="margin-left:-15px; margin-top:13px">Logout</span></button>  
+          									</form>	
+											
 											</div>
 										</div>
 									</ul>
@@ -135,16 +153,7 @@
 								<li class="checkout">
 									<a href="#">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">
-										<?php
-											if(isset($_SESSION["cart"])){
-												echo count($_SESSION["cart"]);
-											}
-											else{
-												echo "0";
-											}
-										?>
-										</span>
+										<span id="checkout_items" class="checkout_items">2</span>
 									</a>
 								</li>
 							</ul>
@@ -196,13 +205,13 @@
 							<br>
 							<h2>Get up to 30% Off New <br>Arrivals</h2>
 							<br>
-							<form role="form" id="form-buscar">
+							<form role="form" id="form-search">
 								<div class="form-group">
 									<div class="input-group">
-										<input id="1" class="form-control" type="text" name="search" placeholder="What can I help you with today?" id="search-bar"/>
+										<input class="form-control" type="text" name="search" placeholder="What can I help you with today?" id="search-bar"/>
 										<span class="input-group-btn">
-											<button class="btn btn-brown" type="submit">
-												<i class="fa fa-search" aria-hidden="true"></i>
+											<button class="btn btn-brown" type="submit" id="search-btn">
+												<i class="fa fa-search" aria-hidden="true" id="search-btn1"></i>
 											</button>
 										</span>
 									</div>
@@ -220,7 +229,7 @@
 	<!-- Banner -->
 
 	<!--<div class="banner">
-		 <div class="container"> -->
+		<!-- <div class="container"> -->
                 <!--<div class="row rowbanner">
 					<div class="col-md-1"></div>
                     <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar2.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
@@ -246,253 +255,44 @@
 				<div class="col text-center">
 					<div class="new_arrivals_sorting">
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">For Men</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women">For Women</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".kids">For Kids</li>
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".about">About Us</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" id="ALL" value="ALL">ALL</li>
+							<?php
+								$querySelect = "SELECT * FROM kategori WHERE status=1";
+								$result = mysqli_query($conn, $querySelect);
+
+								if($result->num_rows > 0){
+									$querySelect = "SELECT * FROM kategori WHERE status=1";
+									$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
+
+									for ($i=0; $i < $result->num_rows; $i++) { ?>
+										<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" onclick="btnFilter(<?= $isiDB[$i][0]; ?>)"><?= $isiDB[$i][1]; ?></li>
+									<?php }
+								}
+							?>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col">
-					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
-
-						<!-- Product 1 -->
-						<!-- nanti di load dari database-->
-						<div class="product-item men">
-							<div class="product discount product_filter">
-								<div class="product_image">
-									<img src="images/product_1.png" alt="">
-								</div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-20.000</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Brown Hoddie</a></h6>
-									<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya , nama nya , dan nama gambar untuk di masukkan ke session cart -->
-								<input type="hidden" value='Brown hoddie' name="namaproduk">
-								<input type="hidden" value="65.000" name="harga">
-								<input type="hidden" value="images/product_1.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-						</div>
-
-						<!-- Product 2 -->
-
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_2.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Navy Dress</a></h6>
-									<div class="product_price">Rp 185.000</div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Navy Dress' name="namaproduk">
-								<input type="hidden" value="185.000" name="harga">
-								<input type="hidden" value="images/product_2.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-						</div>
-
-						<!-- Product 3 -->
-
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_3.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Yellow Gold Sweeter</a></h6>
-									<div class="product_price">Rp 125.000</div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Yellow Gold Sweater' name="namaproduk">
-								<input type="hidden" value="125.000" name="harga">
-								<input type="hidden" value="images/product_3.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-						</div>
-
-						<!-- Product 4 -->
-
-						<div class="product-item accessories">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_4.png" alt="">
-								</div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Dress</a></h6>
-									<div class="product_price">Rp 250.000</div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Dress' name="namaproduk">
-								<input type="hidden" value="250.000" name="harga">
-								<input type="hidden" value="images/product_4.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-						</div>
-
-						<!-- Product 5 -->
-
-						<div class="product-item women men">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_5.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html"> T-shirt</a></h6>
-									<div class="product_price">Rp 80.000</div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='T-Shirt' name="namaproduk">
-								<input type="hidden" value="80.000" name="harga">
-								<input type="hidden" value="images/product_5.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-						</div>
-
-						<!-- Product 6 -->
-
-						<div class="product-item accessories">
-							<div class="product discount product_filter">
-								<div class="product_image">
-									<img src="images/product_6.png" alt="">
-								</div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-50%</span></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="#single.html">Jacket</a></h6>
-									<div class="product_price">Rp 75.000<span>$150.0000</span></div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Jacket' name="namaproduk">
-								<input type="hidden" value="75.000" name="harga">
-								<input type="hidden" value="images/product_6.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-						</div>
-
-						<!-- Product 7 -->
-
-						<div class="product-item women">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_7.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Sweeter Brown</a></h6>
-									<div class="product_price">Rp 85.000</div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Sweeter Brown' name="namaproduk">
-								<input type="hidden" value="85.000" name="harga">
-								<input type="hidden" value="images/product_7.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-						</div>
-
-						<!-- Product 8 -->
-
-						<div class="product-item accessories">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_8.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Red Women Dress</a></h6>
-									<div class="product_price">Rp 350.000</div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Red Women Dress' name="namaproduk">
-								<input type="hidden" value="350.000" name="harga">
-								<input type="hidden" value="images/product_8.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-						</div>
-
-						<!-- Product 9 -->
-
-						<div class="product-item men">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_9.png" alt="">
-								</div>
-								<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-								<div class="favorite favorite_left"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Jacket</a></h6>
-									<div class="product_price">Rp 125.000</div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Jacket' name="namaproduk">
-								<input type="hidden" value="125.000" name="harga">
-								<input type="hidden" value="images/product_9.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-						</div>
-
-						<!-- Product 10 -->
-
-						<div class="product-item men">
-							<div class="product product_filter">
-								<div class="product_image">
-									<img src="images/product_10.png" alt="">
-								</div>
-								<div class="favorite"></div>
-								<div class="product_info">
-									<h6 class="product_name"><a href="single.html">Grey Sweeter</a></h6>
-									<div class="product_price">Rp 100.000</div>
-								</div>
-							</div>
-							<form method="post">
-								<!-- Untuk menyimpan harga nya untuk di masukkan ke session cart -->
-								<input type="hidden" value='Grey Sweeter' name="namaproduk">
-								<input type="hidden" value="100.000" name="harga">
-								<input type="hidden" value="images/product_10.png" name="gambar">
-								<div class="red_button add_to_cart_button"><button type="submit" name="addtocart" class="btn btn-link" style="color:white"> add to cart</button></div>
-							</form>
-						</div>
+					<div id="product-grid" class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' style="display:flex;flex-wrap:wrap;  justify-content: center">
+						<!-- Product -->
+						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- Deal of the week -->
+	<?php
+		$querySelect = "SELECT * FROM baju WHERE status = 1";
+		$result = mysqli_query($conn, $querySelect);
+		$geser = $result->num_rows / 3 * 300;
+		$geser = $geser."px";
+	?>
 
-	<div class="deal_ofthe_week">
-		<div class="container">
+	<div class="deal_ofthe_week" style="transform:translateY(<?= $geser ?>)">
+		<!-- <div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-6">
 					<div class="deal_ofthe_week_img">
@@ -526,9 +326,9 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
-
+	
 	<!-- Best Sellers -->
 
 	<div class="best_sellers">
@@ -536,7 +336,7 @@
 			<div class="row">
 				<div class="col text-center">
 					<div class="section_title new_arrivals_title">
-						<h2>Best Sellers</h2>
+						<!-- <h2>Best Sellers</h2> -->
 					</div>
 				</div>
 			</div>
@@ -544,182 +344,6 @@
 				<div class="col">
 					<div class="product_slider_container">
 						<div class="owl-carousel owl-theme product_slider">
-
-							<!-- Slide 1 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item">
-									<div class="product discount">
-										<div class="product_image">
-											<img src="images/product_1.png" alt="">
-										</div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-20.000</span></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Brown Hoodie</a></h6>
-											<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 2 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item women">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_2.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Navy Dress</a></h6>
-											<div class="product_price">Rp 185.000</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 3 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item women">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_3.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Blue Yeti USB Microphone Blackout Edition</a></h6>
-											<div class="product_price">$120.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 4 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item accessories">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_4.png" alt="">
-										</div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">DYMO LabelWriter 450 Turbo Thermal Label Printer</a></h6>
-											<div class="product_price">$410.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 5 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item women men">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_5.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Pryma Headphones, Rose Gold & Grey</a></h6>
-											<div class="product_price">$180.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 6 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item accessories">
-									<div class="product discount">
-										<div class="product_image">
-											<img src="images/product_6.png" alt="">
-										</div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Fujifilm X100T 16 MP Digital Camera (Silver)</a></h6>
-											<div class="product_price">$520.00<span>$590.00</span></div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 7 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item women">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_7.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Samsung CF591 Series Curved 27-Inch FHD Monitor</a></h6>
-											<div class="product_price">$610.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 8 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item accessories">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_8.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Blue Yeti USB Microphone Blackout Edition</a></h6>
-											<div class="product_price">$120.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 9 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item men">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_9.png" alt="">
-										</div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">DYMO LabelWriter 450 Turbo Thermal Label Printer</a></h6>
-											<div class="product_price">$410.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Slide 10 -->
-
-							<div class="owl-item product_slider_item">
-								<div class="product-item men">
-									<div class="product">
-										<div class="product_image">
-											<img src="images/product_10.png" alt="">
-										</div>
-										<div class="favorite"></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Pryma Headphones, Rose Gold & Grey</a></h6>
-											<div class="product_price">$180.00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 
 						<!-- Slider Navigation -->
 
@@ -735,186 +359,10 @@
 		</div>
 	</div>
 
-	<!-- Benefit -->
-
-	<!--<div class="benefit">
-		<div class="container">
-			<div class="row benefit_row">
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>free shipping</h6>
-							<p>Suffered Alteration in Some Form</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>cach on delivery</h6>
-							<p>The Internet Tend To Repeat</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-undo" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>45 days return</h6>
-							<p>Making it Look Like Readable</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 benefit_col">
-					<div class="benefit_item d-flex flex-row align-items-center">
-						<div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
-						<div class="benefit_content">
-							<h6>opening all week</h6>
-							<p>8AM - 09PM</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>-->
-
-	<!-- Blogs -->
-
-	<!--<div class="blogs">
-		<div class="container">
-			<div class="row">
-				<div class="col text-center">
-					<div class="section_title">
-						<h2>Latest Blogs</h2>
-					</div>
-				</div>
-			</div>
-			<div class="row blogs_container">
-				<div class="product_slider_container">
-					<div class="owl-carousel owl-theme product_slider">
-						<div class="col-lg-4 blog_item_col">
-								<div class="blog_item">
-									<div class="blog_background" style="background-image:url(images/blog_jambi.jpg)"></div>
-									<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-										<h4 class="blog_title">Batik Jambi</h4>
-										<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-										<a class="blog_more" href="#">Read more</a>
-									</div>
-								</div>			
-						</div>
-						<div class="col-lg-4 blog_item_col">
-								<div class="blog_item">
-									<div class="blog_background" style="background-image:url(images/blog_madura.jpg)"></div>
-									<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-										<h4 class="blog_title">Batik Madura</h4>
-										<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-										<a class="blog_more" href="#">Read more</a>
-									</div>
-								</div>
-						</div>
-						<div class="col-lg-4 blog_item_col">
-								<div class="blog_item">
-									<div class="blog_background" style="background-image:url(images/blog_sumatra.jpg)"></div>
-									<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-										<h4 class="blog_title">Batik Sumatra</h4>
-										<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-										<a class="blog_more" href="#">Read more</a>
-									</div>
-								</div>
-						</div>
-						<div class="col-lg-4 blog_item_col">
-								<div class="blog_item">
-									<div class="blog_background" style="background-image:url(images/blog_sumatra.jpg)"></div>
-									<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-										<h4 class="blog_title">Batik Sumatra</h4>
-										<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-										<a class="blog_more" href="#">Read more</a>
-									</div>
-								</div>
-						</div>
-						<div class="col-lg-4 blog_item_col">
-							<div class="blog_item">
-								<div class="blog_background" style="background-image:url(images/blog_sumatra.jpg)"></div>
-								<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-									<h4 class="blog_title">Batik Sumatra</h4>
-									<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-									<a class="blog_more" href="#">Read more</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 blog_item_col">
-							<div class="blog_item">
-								<div class="blog_background" style="background-image:url(images/blog_sumatra.jpg)"></div>
-								<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-									<h4 class="blog_title">Batik Sumatra</h4>
-									<span class="blog_meta">by Giovanno Battista | dec 10, 2019</span>
-									<a class="blog_more" href="#">Read more</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
-						<i class="fa fa-chevron-left" aria-hidden="true"></i>
-					</div>
-					<div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
-						<i class="fa fa-chevron-right" aria-hidden="true"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>-->
-
-	<!-- Newsletter -->
-
-	<!--<div class="newsletter">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-						<h4>Newsletter</h4>
-						<p>Subscribe to our newsletter and get 20% off your first purchase</p>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<form action="post">
-						<div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
-							<input id="newsletter_email" type="email" placeholder="Your email" required="required" data-error="Valid email is required.">
-							<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">subscribe</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>-->
-
 	<!-- Footer -->
 
 	<footer class="footer">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
-						<ul class="footer_nav">
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">FAQs</a></li>
-							<li><a href="contact.html">Contact us</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
-						<ul>
-							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="footer_nav_container">
@@ -930,16 +378,6 @@
 			<button type="button" class="btn btn-main btn-primary has-tooltip" data-placement="left" title="Menu"> <i class="fa fa-arrow-up"></i> </button>
 		</div>
 	</div>
-
-	<!-- The social media icon bar -->
-	<!--<div class="icon-bar">
-		<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-		<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-		<a href="#" class="google"><i class="fa fa-google"></i></a>
-		<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-		<a href="#" class="youtube"><i class="fa fa-youtube"></i></a>
-	</div>-->
-
 </div>
 <div class="box">
     <div class="navbox"></div>
@@ -1009,6 +447,25 @@
 	</div>
 </div>
 
+<div id="modalDetail">
+ 	<div id="myModal" class="modal" style="background-color:white; width:300px; transform: translateX(75%);">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 id="modalHeader"></h2>
+				<button style="background:transparent" id="btnClose">&times;</button>
+			</div> <br/>
+			<div id="modalBody">
+				<div class="slideshow-container" id="slideshow-container" style="height: 210px"></div>
+				<p id="deskripsi"></p>
+				<p id="harga"></p>
+				<form id="formDetail"></form>
+				<form id="formBtn"></form>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>
@@ -1023,6 +480,95 @@
 
 
 <script>
+	$(document).ready(function(){
+		//alert("jalan");
+		loadProduct();
+	});
+
+	$('#ALL').click(function () {
+		loadProduct();
+	});
+
+	function btnFilter(kategori){
+		$("#product-grid").html('');
+		$.ajax({
+			method: "post",
+			url : "getFilter.php",
+			data : `idx=${kategori}`,
+			success : function(res){
+				var isiProduct = JSON.parse(res);
+
+				if(isiProduct != "none"){
+					for (let index = 0; index < isiProduct.length; index++) {
+						$("#product-grid").append(`
+							<div id="product-wrap" style="width:205px; height:305px">
+								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
+									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+									</div>
+									<div class="favorite favorite_left"></div>
+									<div class="product_info" style="height:95px">
+										<h6 class="product_name">${isiProduct[index][1]}</h6>
+										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+									</div>
+									<div id="product-button${isiProduct[index][0]}"> </div>
+								</div> 
+							</div>
+						`);
+						ambilHarga(isiProduct[index][0]);
+						ambilGambar(isiProduct[index][0]);
+
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+					}
+				} else {
+					$("#product-grid").append("<h3> Data yang Anda Cari Belum Tersedia untuk Saat Ini!</h3>");
+				}
+			}
+		})
+	}
+
+	$("#form-Search").click(function (e) {
+		e.preventDefault();
+		$("#product-grid").html('');
+
+		$.ajax({
+			method: "post",
+			url : "search.php",
+			data : $("#form-Search").serialize(),
+			success : function(res){
+				var isiProduct = JSON.parse(res);
+				
+				if(isiProduct != "none"){
+					for (let index = 0; index < isiProduct.length; index++) {
+						$("#product-grid").append(`
+							<div id="product-wrap" style="width:205px; height:305px">
+								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
+									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+									</div>
+									<div class="favorite favorite_left"></div>
+									<div class="product_info" style="height:95px">
+										<h6 class="product_name">${isiProduct[index][1]}</h6>
+										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+									</div>
+									<div id="product-button${isiProduct[index][0]}"> </div>
+								</div> 
+							</div>
+						`);
+						ambilHarga(isiProduct[index][0]);
+						ambilGambar(isiProduct[index][0]);
+
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+					}
+				} else {
+					$("#product-grid").append("<h3> Coba kata kunci lainnya!</h3>");
+				}
+			}
+		})
+	})
+
 	const container = document.getElementById('container-login');
 
 	$('#btnToTop').fadeOut();
@@ -1060,16 +606,250 @@
 		$("#signUp").trigger( "click" );
 		$("#loginModal").modal("toggle");
 	}
-</script>
 
-<script type="text/javascript">
-	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-	(function(){
-	var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-	s1.async=true;
-	s1.src='https://embed.tawk.to/5dedcbe1d96992700fcb5cbd/1drnchuei';
-	s1.charset='UTF-8';
-	s1.setAttribute('crossorigin','*');
-	s0.parentNode.insertBefore(s1,s0);
-	})();
+	function loadProduct(){
+		$("#product-grid").html('');
+		$.ajax({
+			method: "post",
+			url : "getAllProduct.php",
+			success : function(res){
+				var isiProduct = JSON.parse(res);
+
+				if(isiProduct != "none"){
+					for (let index = 0; index < isiProduct.length; index++) {
+						$("#product-grid").append(`
+							<div id="product-wrap" style="width:205px; height:305px">
+								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
+									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+									</div>
+									<div class="favorite favorite_left"></div>
+									<div class="product_info" style="height:95px">
+										<h6 class="product_name">${isiProduct[index][1]}</h6>
+										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+									</div>
+									<div id="product-button${isiProduct[index][0]}"> </div>
+								</div> 
+							</div>
+						`);
+						ambilHarga(isiProduct[index][0]);
+						ambilGambar(isiProduct[index][0]);
+
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+					}
+				} else {
+					$("#product-grid").append("<h3> Belum Ada Barang Tersedia! </h3>");
+				}
+			}
+		})
+	};
+
+	function ambilGambar(id){
+		$.ajax({
+			method : "post",
+			url : "getOneImage.php",
+			data : `idx=${id}`,
+			success : function (result) {
+				var srcGambar = JSON.parse(result);
+				var img = new Image(100,145);
+				img.src=srcGambar;
+				document.getElementById('product-image'+id).appendChild(img); 
+			}
+		})
+	}
+
+	function ambilHarga(ind){
+		var price = 0;
+		$.ajax({
+			method : "post",
+			url : "getOnePrice.php",
+			data : `idx=${ind}`,
+			success : function (result) {
+				var harga = JSON.parse(result);
+				price = harga['harga'] + 0;
+				$("#product_price"+ind).append(`<p> ${formatRupiah(price, "Rp.")}</p>`);
+			}
+		});
+	}
+
+	function formatRupiah(angka, prefix){
+		var number_string = angka.replace(/[^,\d]/g, '').toString(),
+		split   		= number_string.split(','),
+		sisa     		= split[0].length % 3,
+		rupiah     		= split[0].substr(0, sisa),
+		ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+	
+		// tambahkan titik jika yang di input sudah menjadi angka ribuan
+		if(ribuan){
+			separator = sisa ? '.' : '';
+			rupiah += separator + ribuan.join('.');
+		}
+	
+		rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+		return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+	}
+
+	function fungsiBtnDetail(e){
+		e.preventDefault();
+		// alert("btn detail pressed");
+		var idxBtnDetail = e.data.idx;
+		var namaBrg = e.data.nama;
+
+		$("#myModal").show();
+		$("#modalHeader").html('');
+		$("#formDetail").html('');
+		$("#formBtn").html('');
+		$("#slideshow-container").html('');
+		$("#modalHeader").append(`${namaBrg}`);
+		
+		$.ajax({
+			method : "post",
+			url : "getDeskripsi.php",
+			data : `idx=${idxBtnDetail}`,
+			success : function (r) {
+				var detail = JSON.parse(r);
+				$("#deskripsi").html('');
+				$("#deskripsi").append(`
+					&nbsp; &nbsp; &nbsp;
+					deskripsi : ${detail}
+				`);
+			}
+		})
+
+		ambilSemuaGambar(idxBtnDetail);
+		addRbSize(idxBtnDetail);
+		addRbColor(idxBtnDetail);
+		add();
+	}
+	
+	function ambilSemuaGambar(id) {
+		$.ajax({
+			method : "post",
+			url : "getAllImage.php",
+			data : `idx=${id}`,
+			success : function (result) {
+				var gambar = JSON.parse(result);
+				for (let index = 0; index < gambar.length; index++) {
+					srcGambar = `admin/uploads/produk/${id}/${gambar[index]}`;
+					$("#slideshow-container").append(`
+						<div class="mySlides1" style="transform:translateX(75px)">
+							<img src=${srcGambar} style="width:150px; height:200px;">
+						</div>
+					`);
+				}
+				$("#slideshow-container").append(`
+					<a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+					<a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+				`);
+			}
+		})
+	}
+
+	function addRbSize(ind){
+		var arrSize = [];
+
+		$.ajax({
+			method : "post",
+			url : "getDetailSize.php",
+			data : `idx=${ind}`,
+			success : function (result) {
+				var detail = JSON.parse(result);
+
+				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Size : ");
+				for (let index = 0; index < detail.length; index++) {
+					var masuk = true;
+					for (let i = 0; i < arrSize.length; i++) {
+						if(arrSize[i] == detail[index][4]){
+							masuk = false;
+						}
+					}
+					if(masuk == true){
+						arrSize.push(detail[index][4]);
+
+						if(index == 0){
+							$("#formDetail").append(`
+								<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
+							`);
+						} else {
+							$("#formDetail").append(`
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+								<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
+							`);
+						}
+					}
+				}
+			}
+		});
+	}
+
+	function  addRbColor(ind) {
+		var arrColor = [];
+		
+		$.ajax({
+			method : "post",
+			url : "getDetailColor.php",
+			data : `idx=${ind}`,
+			success : function (result) {
+				var detail = JSON.parse(result);
+				
+				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Color : ");
+				for (let index = 0; index < detail.length; index++) {
+					var masuk = true;
+					for (let i = 0; i < arrColor.length; i++) {
+						if(arrColor[i] == detail[index][4]){
+							masuk = false;
+						}
+					}
+					if(masuk == true){
+						arrColor.push(detail[index][4]);
+
+						if(index == 0){
+							$("#formDetail").append(`
+								<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
+							`);
+						} else {
+							$("#formDetail").append(`
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+								<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
+							`);
+						}
+					}	
+				}
+			}
+		})
+	}
+
+	function add() {
+		$("#formBtn").append(`
+			&nbsp; &nbsp; &nbsp;
+			Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
+			<br/> &nbsp; &nbsp; 
+			<input type="submit" name="btnAdd" value="Add to Cart" style="background-color:red; color:white; width:245px">
+		`)
+	}
+
+	$("#btnClose").click(function (params) {
+		$("#myModal").hide()
+	});
+
+	var slideIndex = [1,1];
+	var slideId = ["mySlides1", "mySlides2"]
+	showSlides(1, 0);
+	showSlides(1, 1);
+
+	function plusSlides(n, no) {
+		showSlides(slideIndex[no] += n, no);
+	}
+
+	function showSlides(n, no) {
+		var i;
+		var x = document.getElementsByClassName(slideId[no]);
+		if (n > x.length) {slideIndex[no] = 1}    
+		if (n < 1) {slideIndex[no] = x.length}
+		for (i = 0; i < x.length; i++) {
+			x[i].style.display = "none";  
+		}
+		x[slideIndex[no]-1].style.display = "block"; 
+	}
 </script>
