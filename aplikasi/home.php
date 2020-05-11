@@ -3,7 +3,7 @@ include("conn.php");
 session_start();
 $user=$_SESSION['username'];
 
-if (!isset($_SESSION['username'])) {
+if(!isset($_SESSION['username'])){
 	header('location:index.php');
 }
 
@@ -246,9 +246,9 @@ if (isset($_POST['Logout'])) {
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<div class="section_title new_arrivals_title">
+					<!-- <div class="section_title new_arrivals_title">
 						<h2>New Arrivals</h2>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="row align-items-center">
@@ -287,8 +287,13 @@ if (isset($_POST['Logout'])) {
 	<?php
 		$querySelect = "SELECT * FROM baju WHERE status = 1";
 		$result = mysqli_query($conn, $querySelect);
-		$geser = $result->num_rows / 3 * 300;
-		$geser = $geser."px";
+		$geser = "0";
+		if($result->num_rows < 5){
+			$geser = "400px";
+		} else {
+			$geser = $result->num_rows / 3 * 300;
+			$geser = $geser."px";
+		}
 	?>
 
 	<div class="deal_ofthe_week" style="transform:translateY(<?= $geser ?>)">
@@ -327,6 +332,7 @@ if (isset($_POST['Logout'])) {
 				</div>
 			</div>
 		</div> -->
+		<div id="shadow" style="height:<?= $geser ?>; background-color:white"></div>
 	</div>
 	
 	<!-- Best Sellers -->
@@ -342,18 +348,16 @@ if (isset($_POST['Logout'])) {
 			</div>
 			<div class="row">
 				<div class="col">
-					<div class="product_slider_container">
-						<div class="owl-carousel owl-theme product_slider">
-
-						<!-- Slider Navigation -->
+					<!-- <div class="product_slider_container">
+						<div class="owl-carousel owl-theme product_slider"> 
 
 						<div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
 							<i class="fa fa-chevron-left" aria-hidden="true"></i>
 						</div>
 						<div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
 							<i class="fa fa-chevron-right" aria-hidden="true"></i>
-						</div>
-					</div>
+						</div> 
+					</div> -->
 				</div>
 			</div>
 		</div>
