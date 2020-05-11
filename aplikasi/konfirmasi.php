@@ -15,10 +15,10 @@
  <?php
    include "conn.php";
    $token=$_GET['t'];
-   $sql = "select * from user where token='$token' and status=0" ;
+   $sql = "select * from users where token='$token' and status=0" ;
    $result = $conn->query($sql);
         if ($result->num_rows > 0) {
-            $sqlupdate = "update user set status=1 where token='$token' and status=0";
+            $sqlupdate = "update users set status=1 where token='$token' and status=0";
 						if (mysqli_query($conn, $sqlupdate)) {
                             echo '<div class="alert alert-success"> Akun email anda sudah terivikasi, silahkan <a href="index.php">Mengujungi SunShop</a>
                             </div>';
