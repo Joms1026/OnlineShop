@@ -431,11 +431,18 @@ if(isset($_POST["register"]))
 
 	<div class="new_arrivals">
 		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_title new_arrivals_title">
+						<h2>New Arrivals</h2>
+					</div>
+				</div>
+			</div>
 			<div class="row align-items-center">
 				<div class="col text-center">
 					<div class="new_arrivals_sorting">
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="ALL" value="ALL">ALL</li>
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" id="ALL" value="ALL">ALL</li>
 							<?php
 								$querySelect = "SELECT * FROM kategori WHERE status=1";
 								$result = mysqli_query($conn, $querySelect);
@@ -445,7 +452,7 @@ if(isset($_POST["register"]))
 									$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
 
 									for ($i=0; $i < $result->num_rows; $i++) { ?>
-										<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" name="<?= $isiDB[$i][1]; ?>" value="<?= $isiDB[$i][1]; ?>"><?= $isiDB[$i][1]; ?></li>
+										<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" onclick="btnFilter(<?= $isiDB[$i][0]; ?>)"><?= $isiDB[$i][1]; ?></li>
 									<?php }
 								}
 							?>
@@ -461,17 +468,64 @@ if(isset($_POST["register"]))
 					</div>
 				</div>
 			</div>
-			<!-- <div id="new-arrivals"> 
-			<?php
-				// $querySelect = "SELECT * FROM baju WHERE status = 1";
-				// $result = mysqli_query($conn, $querySelect);
-				// $geser = $result->num_rows / 3 * 300;
-				// $geser = $geser."px";
-			?> -->
-			<!-- <div class="row" style="transform: translateY()">
+		</div>
+		
+	</div>
+
+	<?php
+		$querySelect = "SELECT * FROM baju WHERE status = 1";
+		$result = mysqli_query($conn, $querySelect);
+		$geser = $result->num_rows / 3 * 300;
+		$geser = $geser."px";
+	?>
+
+	<div class="deal_ofthe_week" style="transform:translateY(<?= $geser ?>)">
+		<!-- <div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<div class="deal_ofthe_week_img">
+						<img src="images/deal_ofthe_week.png" alt="">
+					</div>
+				</div>
+				<div class="col-lg-6 text-right deal_ofthe_week_col">
+					<div class="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
+						<div class="section_title">
+							<h2>Deal Of The Week</h2>
+						</div>
+						<ul class="timer">
+							<li class="d-inline-flex flex-column justify-content-center align-items-center">
+								<div id="day" class="timer_num">03</div>
+								<div class="timer_unit">Day</div>
+							</li>
+							<li class="d-inline-flex flex-column justify-content-center align-items-center">
+								<div id="hour" class="timer_num">15</div>
+								<div class="timer_unit">Hours</div>
+							</li>
+							<li class="d-inline-flex flex-column justify-content-center align-items-center">
+								<div id="minute" class="timer_num">45</div>
+								<div class="timer_unit">Mins</div>
+							</li>
+							<li class="d-inline-flex flex-column justify-content-center align-items-center">
+								<div id="second" class="timer_num">23</div>
+								<div class="timer_unit">Sec</div>
+							</li>
+						</ul>
+						<div class="red_button deal_ofthe_week_button"><a href="#">shop now</a></div>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div id="shadow" style="height:<?= $geser ?>; background-color:white"></div>
+	</div>
+	
+	<!-- Best Sellers -->
+
+	<div class="best_sellers">
+		<div class="container">
+			<div class="row">
 				<div class="col text-center">
 					<div class="section_title new_arrivals_title">
-						<h2>New Arrivals</h2>
+						<!-- <h2>Best Sellers</h2> -->
 					</div>
 				</div>
 			</div>
@@ -479,26 +533,10 @@ if(isset($_POST["register"]))
 				<div class="col">
 					<div class="product_slider_container">
 						<div class="owl-carousel owl-theme product_slider">
-							<!-- Slide New Arrival -->
-							<!-- <div class="owl-item product_slider_item">
-								<div class="product-item">
-									<div class="product discount" id="product-new"> -->
-										<!-- <div class="product_image">
-											<img src="images/product_1.png" alt="">
-										</div>
-										<div class="favorite favorite_left"></div>
-										<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-20.000</span></div>
-										<div class="product_info">
-											<h6 class="product_name"><a href="single.html">Brown Hoodie</a></h6>
-											<div class="product_price">Rp 65.000<span>Rp 85.000</span></div>
-										</div>
-									<!-- </div> -->
-								<!-- </div>
-							</div>
-						</div>  --> 
-						
+
 						<!-- Slider Navigation -->
-						<!-- <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
+
+						<div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
 							<i class="fa fa-chevron-left" aria-hidden="true"></i>
 						</div>
 						<div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
@@ -507,8 +545,7 @@ if(isset($_POST["register"]))
 					</div>
 				</div>
 			</div>
-		</div> -->
-		<div style="height:<?= $geser ?>"></div>
+		</div>
 	</div>
 
 	<footer class="footer" style="transform: translateY(100px)">
@@ -650,6 +687,61 @@ if(isset($_POST["register"]))
 
 	const container = document.getElementById('container-login');
 
+	$('#ALL').click(function () {
+		loadProduct();
+	});
+
+	$("#formBtn").click(function (e) {
+		e.preventDefault();
+
+		$.ajax({
+			method: "post",
+			url : "#",
+			success : function(res){
+				alert('Silahkan Login Terlebih Dahulu!');
+			}
+		})
+	})
+
+	function btnFilter(kategori){
+		$("#product-grid").html('');
+		$.ajax({
+			method: "post",
+			url : "getFilter.php",
+			data : `idx=${kategori}`,
+			success : function(res){
+				var isiProduct = JSON.parse(res);
+
+				if(isiProduct != "none"){
+					for (let index = 0; index < isiProduct.length; index++) {
+						$("#product-grid").append(`
+							<div id="product-wrap" style="width:205px; height:305px">
+								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
+									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+									</div>
+									<div class="favorite favorite_left"></div>
+									<div class="product_info" style="height:95px">
+										<h6 class="product_name">${isiProduct[index][1]}</h6>
+										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+									</div>
+									<div id="product-button${isiProduct[index][0]}"> </div>
+								</div> 
+							</div>
+						`);
+						ambilHarga(isiProduct[index][0]);
+						ambilGambar(isiProduct[index][0]);
+
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+					}
+				} else {
+					$("#product-grid").append("<h3> Data yang Anda Cari Belum Tersedia untuk Saat Ini!</h3>");
+				}
+			}
+		})
+	}
+
 	$('#btnToTop').fadeOut();
 
 	$( "#signUp" ).click(function() {
@@ -702,7 +794,6 @@ if(isset($_POST["register"]))
 	// 		url : "getNewArrival.php",
 	// 		success : function(res){
 	// 			var isiProduct = JSON.parse(res);
-	// 			var jumlah = isiProduct.length;
 	// 			//console.log(isiProduct);
 	// 			var ctr = 0; 
 	// 			for (let index = 0; index < isiProduct.length; index++) {
@@ -736,9 +827,7 @@ if(isset($_POST["register"]))
 			url : "getAllProduct.php",
 			success : function(res){
 				var isiProduct = JSON.parse(res);
-				var jumlah = isiProduct.length;
 				//console.log(isiProduct);
-				var ctr = 0; 
 				for (let index = 0; index < isiProduct.length; index++) {
 					$("#product-grid").append(`
 						<div id="product-wrap" style="width:205px; height:305px">
@@ -899,7 +988,6 @@ if(isset($_POST["register"]))
 						}
 					}
 				}
-				$("#formDetail").append("<br/>");
 			}
 		});
 	}
@@ -937,7 +1025,6 @@ if(isset($_POST["register"]))
 						}
 					}	
 				}
-				$("#formDetail").append("<br/>");
 			}
 		})
 	}
