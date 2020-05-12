@@ -595,7 +595,7 @@ if(isset($_POST["register"]))
 						<input type="password" placeholder="Password" />
 						<input type="password" placeholder="Confirm Password" />
 						<br>
-						<button class="button-login">Register</button>
+						<button class="button-login" name="register">Register</button>
 						<br>
 					</form>
 				</div>
@@ -607,7 +607,7 @@ if(isset($_POST["register"]))
 						<input type="email" placeholder="Email" />
 						<input type="password" placeholder="Password" />
 						<br>
-						<button class="button-login">Sign In</button>
+						<button class="button-login" name="login">Sign In</button>
 						<br>
 						<br>
 						<a href="#">Forgot your password?</a>

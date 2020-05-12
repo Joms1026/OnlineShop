@@ -8,11 +8,11 @@
         $email = $_POST['email'];
         $pass = $_POST['pass'];
 
-        $querySelect = "SELECT * FROM users WHERE email_user = '$email' AND role=0";
+        $querySelect = "SELECT * FROM users WHERE email_user = '$email' AND role=1";
         $result = mysqli_query($conn, $querySelect);
 
         if($result){
-            $querySelect = "SELECT * FROM users WHERE email_user = '$email' AND role=0";
+            $querySelect = "SELECT * FROM users WHERE email_user = '$email' AND role=1";
             $isiDB = mysqli_query($conn, $querySelect)->fetch_assoc();
             
             if(password_verify($pass, $isiDB['PASSWORD_USER'])){
