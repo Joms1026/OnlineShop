@@ -479,7 +479,7 @@ if(isset($_POST["register"]))
 		if($result->num_rows < 5){
 			$geser = "400px";
 		} else {
-			$geser = $result->num_rows / 3 * 300;
+			$geser = $result->num_rows / 3 * 350;
 			$geser = $geser."px";
 		}
 	?>
