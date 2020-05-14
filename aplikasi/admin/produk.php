@@ -72,6 +72,18 @@
         $hapus = $_POST['delete'];
         $hapusbarang = executeNonQuery("UPDATE baju set STATUS = 1-STATUS where ID=$hapus");
     }
+    if(isset($_POST['updatebaju'])){
+        $updatebaju = $_POST['updatebaju'];
+        $editnamaproduk=    $_POST['editnamaproduk'];
+        $editkategori=   $_POST['editkategori'];
+        $editdeskripsiproduk=    $_POST['editdeskripsiproduk'];
+        $edituploadgambar=   $_POST['edituploadgambar'];
+        $editIdProduk = $_POST['editIdProduk'];
+        $updatebajuproduk = executeNonQuery("UPDATE baju set NAMA='$editnamaproduk', DESKRIPSI='$editdeskripsiproduk' where ID=$editIdProduk ");
+    }
+    if (isset($_POST['updatevarian'])) {
+        # code...
+    }
 ?>
 <!-- Head -->
 <!DOCTYPE html>
@@ -89,6 +101,7 @@
     <link rel="stylesheet" href="vendor-admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="vendor-admin/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="./assets/css/produk.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -137,32 +150,31 @@
                                   <textarea class="form-control" name="editdeskripsiproduk" id="editdeskripsiproduk" rows="3"></textarea>
                                 </div>
                                 <div class="form-group">
-                                  <label for="uploadgambar">Upload Gambar</label>
+                                    <label>Gambar Lama</label>   
+                                    <div class="row" id="gambarLamaEdit">
+                                        <div class="col-4">
+                                            <div class="ratio69 div-image border rounded" placeholder-image="default"></div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="ratio69 div-image border rounded" placeholder-image="default"></div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="ratio69 div-image border rounded" placeholder-image="default"></div>
+                                        </div>
+                                    </div>   
+                                    
+                                </div>
+                                <div class="form-group">
+                                  <label for="uploadgambar">Upload Gambar Pengganti</label>
                                   <input type="file" multiple class="form-control-file" name="edituploadgambar[]" id="edituploadgambar" placeholder="uploadgambar" aria-describedby="uploadgambarHint">
                                   <small id="edituploadgambarHint" class="form-text text-muted">Pastikan format gambar benar</small>
                                 </div>
-                                <button type="button" onclick='updatebaju()' class="btn btn-primary">Update General Baju</button>
+                                <button type="submit" class="btn btn-primary" name="updatebaju">Update General Baju</button>
                             </form>
                         </div>
                         <hr>
                         <h4>Varian</h4>
-                        <div class="row mb-2">
-                            <div class="varianMessage col-12" style="display: none"></div>
-                            <table class="table" id="editTableProduk">
-                                <thead>
-                                    <tr>
-                                        <th>Ukuran</th>
-                                        <th>Kategori</th>
-                                        <th>Harga</th>
-                                        <th>Stok</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="editisiVarian">
-                                    
-                                </tbody>
-                            </table>
-                        </div>
+                        
                         <!-- Dalam 1 Row ada 12 Kolom -->
                         <div class="row"> 
                             <div class="col-3">
@@ -201,13 +213,12 @@
                                 </div>
                             </div>
                             <div class="col-1">
-                                <button type="button" onclick="tambahVarian();" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                <button type="button" onclick="tambahVarianEdit();" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
                             </div>
                         </div>
-                        
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="varianMessage col-12" style="display: none"></div>
-                            <table class="table" id="editAddTableProduk">
+                            <table class="table" id="editTableProduk">
                                 <thead>
                                     <tr>
                                         <th>Ukuran</th>
@@ -217,11 +228,10 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="editAddIsiVarian">
+                                <tbody class="editisiVarian">
                                     
                                 </tbody>
                             </table>
-                            <button type="button" class="btn btn-primary">Add Varians</button>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -371,8 +381,8 @@
                     Add Produk
                     </button>
                     <?php $ambilproduk = executeQuery("
-                        SELECT b.ID as ID, k.NAMA_KATEGORI as KATEGORI, b.NAMA as PRODUK, COUNT(v.ID_VARIAN) as VARIAN,
-                        SUM(v.STOK) as STOK, b.STATUS as STATUS
+                        SELECT b.ID as ID, k.NAMA_KATEGORI as KATEGORI, b.NAMA as PRODUK,SUM(CASE WHEN v.STATUS=1 THEN 1 ELSE 0 END) as VARIAN,
+                        SUM(CASE WHEN v.STATUS=1 THEN v.STOK ELSE 0 END) as STOK, b.STATUS as STATUS
                         FROM baju b
                         INNER JOIN kategori k ON k.ID_KATEGORI = b.ID_KATEGORI
                         LEFT OUTER JOIN varian_baju v ON v.ID_BAJU = b.ID 
