@@ -1,4 +1,5 @@
 let varians = {};
+let variansedit = {};
 
 function tambahVarian() { 
     let kodeukuranproduk = $("#ukuranproduk").val();
@@ -38,9 +39,94 @@ function tambahVarian() {
         $(".varianMessage").slideUp(); // Menghilangkan Varian Message (Error message yang dikeluarin di line 19)
     }
 }
+function updatebaju() { 
+    let idbaju = $('#editIdProduk').val();
+    var data = $('#formnya').serializeArray();
+    // data = [
+    //     {name:"nama", value:"Baju KOKO"},
+    //     {name:"deskripsi", value:"Baju KOKO"}
+    // ]; serialize array membuat seperti ini
+    data.push({name:'update', value:idbaju});
+    // data = [
+    //     {name:"nama", value:"Baju KOKO"},
+    //     {name:"deskripsi", value:"Baju KOKO"},
+    //     {name:'update', value:idbaju}
+    // ];
 
+    // Bentuk di ajax
+    // data = [
+    //     {name:"nama", value:"Baju KOKO"},
+    //     {name:"deskripsi", value:"Baju KOKO"},
+    //     {name:'update', value:idbaju}
+    // ];
+    // Bentuk di php
+    // $_POST['nama'] = "ju KOK"
+    // $_POST['deskripsi'] = "ju KOK"
+    // $_POST['update'] = "dbaju"
+
+    // Step pertama : Menyiapkan data yang dikirim -> sebelum ajax Js
+    // Step kedua : ngerjain PHP nya -> php
+    // Step ketiga : melakukan hal tertentu setelah ajax -> hasil (success) js
+    $.ajax({
+        type: "POST",
+        url: "ajax/edit-ajax.php",
+        data: data,
+        success: function (response) {
+            
+
+        }
+    });
+ }
 function hapusVarian(element, varianData){
     delete varians[varianData];
     $(".varianMessage").slideUp(); // Menghilangkan Varian Message (Error message yang dikeluarin di line 19)
     $(element).parent().parent().remove();
 }
+function ajaxLoadEdit(idbaju){
+    console.log(idbaju);
+    var data = [{name: 'load', value: idbaju}];
+    $.ajax({
+        type: "POST",
+        url: "ajax/edit-ajax.php",
+        data: data,
+        success: function (response) {
+            variansedit = {};
+            let {baju, varian} = JSON.parse(response);
+            // Baju = Object, Varian = Array of Varian
+            $('#editIdProduk').val(idbaju);
+            $("#editnamaproduk").val(baju.NAMA);
+            $("#editkategori").val(baju.ID_KATEGORI);
+            $('#editdeskripsi').val(baju.DESKRIPSI);
+
+            let dom = '';
+            varian.forEach(e => {
+                console.log(e);
+                dom += `    <tr>
+                                <form class="editVarians" data-id="${e.VARIAN}">
+                                    <td>${e.UKURAN} 
+                                    </td>
+                                    <td>${e.WARNA}</td>
+                                    <td><input value="${e.HARGA}" type="number" name="hargaproduk" class="form-control" placeholder="Masukkan Harga" aria-describedby="hargaprodukHint"></td>
+                                    <td><input value="${e.STOK}" type="number" name="stokProduk" class="form-control" placeholder="Masukkan Stok" aria-describedby="stokProdukHint"></td>
+                                    <td>
+                                        <button type="button" onclick="hapusVarianEdit(this,'${e.UKURAN+e.WARNA}')" class="btn-sm btn btn-danger">
+                                            <i class="fa fa-trash fa-sm" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" onclick="submitVarianEdit(this,'${e.UKURAN+e.WARNA}')" class="btn-sm btn btn-info">
+                                            <i class="far fa-save"></i>
+                                        </button>
+                                    </td>
+                                </form>
+                            </tr>
+                `;
+            });
+            variansedit[ukuranproduk + warna] = true;
+        $(".editisiVarian").html(dom);
+            $('#editProductModal').modal('show');
+
+        }
+    });
+}
+$(document).ready( function () {
+    $('#tableProduk').DataTable();
+} );
