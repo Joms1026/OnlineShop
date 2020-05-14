@@ -206,24 +206,7 @@ if(isset($_POST["register"]))
 	}
 
 	if(isset($_POST["addtocart"])){
-		echo "<script>alert('Berhasil')</script>";
-		$arrtemp = array(
-			"namaproduk" =>  $_POST["namaproduk"],
-			"harga" => $_POST["harga"],
-			"gambar" => $_POST["gambar"],
-		);
-		if(!isset($_SESSION["cart"])){
-			$datacart = array();
-			array_push($datacart , $arrtemp);
-			$_SESSION["cart"] = $datacart;
-			header("Location: cart.php");
-		}
-		else{
-			$datacart = $_SESSION["cart"];
-			array_push($datacart , $arrtemp);
-			$_SESSION["cart"] = $datacart;
-			header("Location: cart.php");
-		}
+		echo '<script>alert("naisu")</script>';
 	}
 ?>
 <!DOCTYPE html>
@@ -482,7 +465,7 @@ if(isset($_POST["register"]))
 		if($result->num_rows < 5){
 			$geser = "400px";
 		} else {
-			$geser = $result->num_rows / 3 * 300;
+			$geser = $result->num_rows / 3 * 350;
 			$geser = $geser."px";
 		}
 	?>
@@ -931,7 +914,7 @@ if(isset($_POST["register"]))
 			data : `idx=${ind}`,
 			success : function (result) {
 				var harga = JSON.parse(result);
-				price = harga['harga'] + 0;
+				price = harga['harga'] + "";
 				$("#product_price"+ind).append(`<p> ${formatRupiah(price, "Rp.")}</p>`);
 			}
 		});
