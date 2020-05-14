@@ -203,24 +203,7 @@ if(isset($_POST["register"]))
 	}
 
 	if(isset($_POST["addtocart"])){
-		echo "<script>alert('Berhasil')</script>";
-		$arrtemp = array(
-			"namaproduk" =>  $_POST["namaproduk"],
-			"harga" => $_POST["harga"],
-			"gambar" => $_POST["gambar"],
-		);
-		if(!isset($_SESSION["cart"])){
-			$datacart = array();
-			array_push($datacart , $arrtemp);
-			$_SESSION["cart"] = $datacart;
-			header("Location: cart.php");
-		}
-		else{
-			$datacart = $_SESSION["cart"];
-			array_push($datacart , $arrtemp);
-			$_SESSION["cart"] = $datacart;
-			header("Location: cart.php");
-		}
+		echo '<script>alert("naisu")</script>';
 	}
 ?>
 <!DOCTYPE html>
