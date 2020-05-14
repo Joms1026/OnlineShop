@@ -68,6 +68,22 @@
             }
         }
     }
+    if (isset($_POST['delete'])) {
+        $hapus = $_POST['delete'];
+        $hapusbarang = executeNonQuery("UPDATE baju set STATUS = 1-STATUS where ID=$hapus");
+    }
+    if(isset($_POST['updatebaju'])){
+        $updatebaju = $_POST['updatebaju'];
+        $editnamaproduk=    $_POST['editnamaproduk'];
+        $editkategori=   $_POST['editkategori'];
+        $editdeskripsiproduk=    $_POST['editdeskripsiproduk'];
+        // $edituploadgambar=   $_POST['edituploadgambar'];
+        $editIdProduk = $_POST['editIdProduk'];
+        $updatebajuproduk = executeNonQuery("UPDATE baju set NAMA='$editnamaproduk', DESKRIPSI='$editdeskripsiproduk' where ID=$editIdProduk ");
+    }
+    if (isset($_POST['updatevarian'])) {
+        # code...
+    }
 ?>
 <!-- Head -->
 <!DOCTYPE html>
@@ -78,13 +94,14 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title>MASTER PRODUK</title>
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="vendor-admin/plugins/fontawesome-free/css/all.min.css">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="vendor-admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="vendor-admin/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="./assets/css/produk.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -97,6 +114,133 @@
         <?php include('page-part-admin/admin-side-nav.php'); ?>
 
         <!-- Modal -->
+        
+        <!-- Modal -->
+        <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="EditProdukLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Produk</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-8 offset-2">
+                            <form id="formEditProduk" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="editIdProduk" id="editIdProduk">
+                                <div class="form-group">
+                                    <label for="">Nama Produk</label>
+                                    <input type="text" name="editnamaproduk" id="editnamaproduk" class="form-control" placeholder="Masukan nama produk" aria-describedby="namaProdukHint">
+                                    <small id="editnamaProdukHint" class="text-muted">Pastikan nama produk benar</small>
+                                </div>
+                                <div class="form-group">
+                                  <label for="kategori">Kategori</label>
+                                  <select class="form-control" name="editkategori" id="editkategori">
+                                      <?php $ambilkategori = executeQuery("SELECT ID_KATEGORI,NAMA_KATEGORI from kategori where STATUS=1");
+                                      for ($i=0; $i < count($ambilkategori); $i++) { ?>              
+                                          <option value="<?=$ambilkategori[$i]['ID_KATEGORI']?>">
+                                          <?= $ambilkategori[$i]['NAMA_KATEGORI']?></option>
+                                    <?php  }
+                                      ?>
+                                  </select>
+                                </div>
+                                <div class="form-group">
+                                  <label for="deskripsiproduk">Deskripsi Produk</label>
+                                  <textarea class="form-control" name="editdeskripsiproduk" id="editdeskripsiproduk" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Gambar Lama</label>   
+                                    <div class="row" id="gambarLamaEdit">
+                                        <div class="col-4">
+                                            <div class="ratio69 div-image border rounded" placeholder-image="default"></div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="ratio69 div-image border rounded" placeholder-image="default"></div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="ratio69 div-image border rounded" placeholder-image="default"></div>
+                                        </div>
+                                    </div>   
+                                    
+                                </div>
+                                <div class="form-group">
+                                  <label for="uploadgambar">Upload Gambar Pengganti</label>
+                                  <input type="file" multiple class="form-control-file" name="edituploadgambar[]" id="edituploadgambar" placeholder="uploadgambar" aria-describedby="uploadgambarHint">
+                                  <small id="edituploadgambarHint" class="form-text text-muted">Pastikan format gambar benar</small>
+                                </div>
+                                <button type="submit" class="btn btn-primary" name="updatebaju">Update General Baju</button>
+                            </form>
+                        </div>
+                        <hr>
+                        <h4>Varian</h4>
+                        
+                        <!-- Dalam 1 Row ada 12 Kolom -->
+                        <div class="row"> 
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <select class="form-control" id="editukuranproduk">
+                                        <option selected disabled>Pilih Ukuran</option>
+                                        <option value="TS001">XS</option>
+                                        <option value="TS002">S</option>
+                                        <option value="TS003">M</option>
+                                        <option value="TS004">L</option>
+                                        <option value="TS005">XL</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <select class="form-control" id="editwarna" aria-describedby="warnaProdukHint">
+                                        <option disabled selected>Pilih warna</option>
+                                        <?php $ambilwarna = executeQuery("SELECT ID_WARNA,NAMA_WARNA from tipe_warna");
+                                        for ($i=0; $i <count($ambilwarna) ; $i++) {?>
+                                            <option value="<?= $ambilwarna[$i]['ID_WARNA']?>" ><?= $ambilwarna[$i]['NAMA_WARNA'] ?></option>
+                                            
+                                        <?php }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <input type="number" name="edithargaproduk" id="edithargaproduk" class="form-control" placeholder="Masukkan Harga" aria-describedby="hargaprodukHint">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <input type="number" name="editstokProduk" id="editstokProduk" class="form-control" placeholder="Masukkan Stok" aria-describedby="stokProdukHint">
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <button type="button" onclick="tambahVarianEdit();" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="varianMessage col-12" style="display: none"></div>
+                            <table class="table" id="editTableProduk">
+                                <thead>
+                                    <tr>
+                                        <th>Ukuran</th>
+                                        <th>Warna</th>
+                                        <th>Harga</th>
+                                        <th>Stok</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="editisiVarian">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <!-- <button type="submit" form="formEditProduk" class="btn btn-primary" id="editproduk" name="editproduk">Submit</button>   -->
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- Modal -->
         <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="AddProdukLabel" aria-hidden="true">
@@ -183,11 +327,10 @@
                             </div>
                             <div class="row">
                                 <div class="varianMessage col-12" style="display: none"></div>
-                                <table class="table">
+                                <table class="table" id="TableProduk">
                                     <thead>
                                         <tr>
                                             <th>Ukuran</th>
-                                            <th>Kategori</th>
                                             <th>Harga</th>
                                             <th>Stok</th>
                                             <th>Action</th>
@@ -202,7 +345,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" form="formAddProduk" class="btn btn-primary" id="addproduk" name="addproduk">Submit</button>
+                        <button type="submit" form="formAddProduk" class="btn btn-primary" id="addproduk" name="addproduk">Submit</button>  
                     </div>
                 </div>
             </div>
@@ -233,9 +376,55 @@
                     <?php // Ganti halaman mu disini 
                     // var_dump($cobaselect);?>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addProductModal">
                     Add Produk
                     </button>
+                    <?php $ambilproduk = executeQuery("
+                        SELECT b.ID as ID, k.NAMA_KATEGORI as KATEGORI, b.NAMA as PRODUK,SUM(CASE WHEN v.STATUS=1 THEN 1 ELSE 0 END) as VARIAN,
+                        SUM(CASE WHEN v.STATUS=1 THEN v.STOK ELSE 0 END) as STOK, b.STATUS as STATUS
+                        FROM baju b
+                        INNER JOIN kategori k ON k.ID_KATEGORI = b.ID_KATEGORI
+                        LEFT OUTER JOIN varian_baju v ON v.ID_BAJU = b.ID 
+                        GROUP BY b.ID;
+
+                    ") ;
+                    // var_dump($ambilproduk);
+                    ?>
+                    <table class="table" id="tableProduk">
+                        <thead>
+                            <tr>
+                                <th>Kategori</th>
+                                <th>Nama Produk</th>
+                                <th>Varian</th>
+                                <th>Jumlah Stok</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php for ($i=0; $i <count($ambilproduk) ; $i++) { ?>
+                                <tr>
+                                    <td><?=$ambilproduk[$i]['KATEGORI']?></td>
+                                    <td><?=$ambilproduk[$i]['PRODUK']?></td>
+                                    <td><?=$ambilproduk[$i]['VARIAN']?></td>
+                                    <td><?=$ambilproduk[$i]['STOK']?></td>
+                                    <td><?= ($ambilproduk[$i]['STATUS']=='1') ?  'Aktif': 'Nonaktif'; ?></td>
+                                    <td>
+                                        <form method="POST">
+                                            <button name="delete" value=<?= $ambilproduk[$i]['ID']?> class="btn btn-<?= ($ambilproduk[$i]['STATUS']=='1') ? 'danger' : 'primary'; ?> btn-sm" role="button">
+                                            <?php if($ambilproduk[$i]['STATUS']=='1') {?>
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            <?php } else{?>
+                                                <i class="fas fa-undo" aria-hidden="true"></i>
+                                            <?php }?>
+                                            </button>
+                                            <button onclick="ajaxLoadEdit(<?= $ambilproduk[$i]['ID']?>)" name="edit"  class="btn btn-info btn-sm" type="button"><i class="fas fa-edit text-white"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                           <?php } ?>
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </div>
@@ -243,6 +432,7 @@
 
     <!-- REQUIRED SCRIPTS -->
     <?php include('page-part-admin/admin-required-script.php'); ?>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="./assets/js/produk.js"></script>
     <!-- Optional Scripts -->
     
