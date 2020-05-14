@@ -1,4 +1,5 @@
 <?php
+	include("conn.php");
 	session_start();
 	if(isset($_POST["continueshopping"])){
 		header("Location: home.php");
@@ -189,7 +190,13 @@
 								</thead>
 								<tbody id="tablecart">
 									<?php
-										if(!isset($_SESSION["cart"]) || count($_SESSION["cart"]) == 0){
+										$us = $_SESSION["username"];
+										$querynama = "SELECT ID_USER FROM USERS WHERE NAMA = '$us'";
+										$idus = mysqli_query($conn , $querynama);
+										//echo $idus;
+										$querystring = "SELECT * FROM KERANJANG WHERE ID_USER = $idus";
+										$res = mysqli_query($conn , $querystring);
+										if(mysqli_num_rows($res) == 0){
 											echo '<td colspan="6"><div class="alert alert-danger" role="alert">
  												 Tidak ada barang di dalam cart
 											</div></td>';
