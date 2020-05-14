@@ -1,17 +1,20 @@
 <?php
 	include "conn.php";
+	session_start();
 	$token=$_GET['t'];
 	$email=$_GET['e'];
-	
 	if(isset($_GET["login"])) {
+		$_SESSION['token']=  $_GET["token11"];
+		$_SESSION['email']= $_GET["email11"];;
 		if ($_GET["pass"] == $_GET["cp"])
 		{
+			$emails= $_SESSION['email'];
+			$passh= $_SESSION['token'];
 			$pass1 = password_hash($_GET["pass"], PASSWORD_DEFAULT);
-			$emails= $_GET["email11"];
-			$passh= $_GET["pass11"];
-			$sqlupdate = "UPDATE users SET ALAMAT='COBA' WHERE EMAIL_USER='$emails' AND TOKEN='$passh'";
+			$sqlupdate = "UPDATE users SET PASSWORD_USER='$pass1' WHERE EMAIL_USER='$emails' AND TOKEN='$passh'";
 			if (mysqli_query($conn, $sqlupdate)) {
 				echo "<script>alert('Password Anda Telah berhasil direset');</script>";
+				echo "<script>alert('$emails');</script>";
 			 }
 			 else {
 				echo "<script>alert('gagal reset password! silahkan forget lagi');</script>";
@@ -94,15 +97,16 @@
 							Reset Password
 						</button>
 					</div>
-
+					
 					<div class="text-center w-full p-t-25 p-b-230">
 						<a class="txt1" href="Index.php">
 							Create new account
 							<i class="fa fa-long-arrow-right"></i>						
 						</a>
+						<input name="token11" value='<?php echo $_GET['t'];?>' type="hidden" >
+	                <input name="email11" value='<?php echo $_GET['e'];?>' type="hidden">
 					</div>
-					<input name="email11" value='<?php echo $_GET['t'];?>' type="hidden">
-	                <input name="pass11" value='<?php echo $_GET['e'];?>' type="hidden">
+					
 				</form>
 			</div>
 		</div>
