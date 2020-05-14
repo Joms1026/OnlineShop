@@ -189,13 +189,14 @@
 								</thead>
 								<tbody id="tablecart">
 									<?php
-										if(!isset($_SESSION["cart"]) || count($_SESSION["cart"]) == 0){
-											echo '<td colspan="6"><div class="alert alert-danger" role="alert">
- 												 Tidak ada barang di dalam cart
-											</div></td>';
-										}
-										else{
-											$datacart = $_SESSION["cart"];
+										$querystring = ""
+										// if(!isset($_SESSION["cart"]) || count($_SESSION["cart"]) == 0){
+										// 	echo '<td colspan="6"><div class="alert alert-danger" role="alert">
+ 										// 		 Tidak ada barang di dalam cart
+										// 	</div></td>';
+										// }
+										// else{
+										// 	$datacart = $_SESSION["cart"];
 										foreach ($datacart as $key => $value) {
 										echo	"<tr>
 										<td>".($key + 1)."</td>

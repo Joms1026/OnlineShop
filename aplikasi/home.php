@@ -10,7 +10,8 @@ if(!isset($_SESSION['username'])){
 if (isset($_POST['Logout'])) {
     header('location:index.php');
     unset($_SESSION['username']);
-  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -153,7 +154,13 @@ if (isset($_POST['Logout'])) {
 								<li class="checkout">
 									<a href="#">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">2</span>
+										<span id="checkout_items" class="checkout_items">
+											<?php
+												$querystring = "SELECT * FROM KERANJANG";
+												$res = mysqli_query($conn , $querystring);
+												echo mysqli_num_rows($res);
+											?>
+										</span>
 									</a>
 								</li>
 							</ul>
@@ -463,8 +470,9 @@ if (isset($_POST['Logout'])) {
 				<div class="slideshow-container" id="slideshow-container" style="height: 210px"></div>
 				<p id="deskripsi"></p>
 				<p id="harga"></p>
-				<form id="formDetail"></form>
-				<form id="formBtn"></form>
+				<form id="formDetail">
+				
+				</form>
 			</div>
 		</div>
 	</div>
@@ -724,8 +732,20 @@ if (isset($_POST['Logout'])) {
 		ambilSemuaGambar(idxBtnDetail);
 		addRbSize(idxBtnDetail);
 		addRbColor(idxBtnDetail);
-		add();
+		//add();
 	}
+
+	$('#formDetail').submit(function(){
+		e.prefentDefault();
+		$.ajax({
+			method : "post",
+			url : "addToCart.php",
+			data : $("#formDetail").serialize(),
+			success : function(res) {
+				alert($res);
+			}
+		});
+	});
 	
 	function ambilSemuaGambar(id) {
 		$.ajax({
@@ -759,7 +779,6 @@ if (isset($_POST['Logout'])) {
 			data : `idx=${ind}`,
 			success : function (result) {
 				var detail = JSON.parse(result);
-
 				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Size : ");
 				for (let index = 0; index < detail.length; index++) {
 					var masuk = true;
@@ -811,11 +830,19 @@ if (isset($_POST['Logout'])) {
 						if(index == 0){
 							$("#formDetail").append(`
 								<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
+								&nbsp; &nbsp; &nbsp;
+								Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
+								<br/> &nbsp; &nbsp; 
+								<button type="submit" name="btnAdd" style="background-color:red; color:white; width:245px">Add To Cart</buton>
 							`);
 						} else {
 							$("#formDetail").append(`
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 								<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
+								&nbsp; &nbsp; &nbsp;
+								Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
+								<br/> &nbsp; &nbsp; 
+								<button type="submit" name="btnAdd" style="background-color:red; color:white; width:245px">Add To Cart</button
 							`);
 						}
 					}	
@@ -825,12 +852,9 @@ if (isset($_POST['Logout'])) {
 	}
 
 	function add() {
-		$("#formBtn").append(`
-			&nbsp; &nbsp; &nbsp;
-			Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
-			<br/> &nbsp; &nbsp; 
-			<input type="submit" name="btnAdd" value="Add to Cart" style="background-color:red; color:white; width:245px">
-		`)
+		// $("#formBtn").append(`
+
+		// `)
 	}
 
 	$("#btnClose").click(function (params) {
