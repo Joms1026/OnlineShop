@@ -735,14 +735,14 @@ if (isset($_POST['Logout'])) {
 		//add();
 	}
 
-	$('#formDetail').submit(function(){
-		e.prefentDefault();
+	$("#formDetail").submit(function(){
 		$.ajax({
 			method : "post",
 			url : "addToCart.php",
 			data : $("#formDetail").serialize(),
 			success : function(res) {
-				alert($res);
+				var result = JSON
+				alert(result);
 			}
 		});
 	});
@@ -830,22 +830,22 @@ if (isset($_POST['Logout'])) {
 						if(index == 0){
 							$("#formDetail").append(`
 								<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
-								&nbsp; &nbsp; &nbsp;
-								Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
-								<br/> &nbsp; &nbsp; 
-								<button type="submit" name="btnAdd" style="background-color:red; color:white; width:245px">Add To Cart</buton>
 							`);
 						} else {
 							$("#formDetail").append(`
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 								<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
-								&nbsp; &nbsp; &nbsp;
-								Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
-								<br/> &nbsp; &nbsp; 
-								<button type="submit" name="btnAdd" style="background-color:red; color:white; width:245px">Add To Cart</button
 							`);
 						}
 					}	
+					if(index == detail.length-1){
+						$("#formDetail").append(`
+							&nbsp; &nbsp; &nbsp;
+							Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
+							<br/> &nbsp; &nbsp; 
+							<button type="submit" name="btnAdd" style="background-color:red; color:white; width:245px">Add To Cart</buton>
+						`);
+					}
 				}
 			}
 		})
