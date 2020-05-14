@@ -1,12 +1,15 @@
 <?php
 	include "conn.php";
-	if(isset($_POST["login"])) {
-		if ($_POST["pass"] == $_POST["cp"])
+	$token=$_GET['t'];
+	$email=$_GET['e'];
+	
+	if(isset($_GET["login"])) {
+		if ($_GET["pass"] == $_GET["cp"])
 		{
-			$token=$_GET['t'];
-			$email=$_GET['e'];
-			$pass1 = password_hash($_POST["pass"], PASSWORD_DEFAULT);
-			$sqlupdate = "update user set PASSWORD_USER='$pass1' where TOKEN='$token' and EMAIL='$email'";
+			$pass1 = password_hash($_GET["pass"], PASSWORD_DEFAULT);
+			$emails= $_GET["email11"];
+			$passh= $_GET["pass11"];
+			$sqlupdate = "UPDATE users SET ALAMAT='COBA' WHERE EMAIL_USER='$emails' AND TOKEN='$passh'";
 			if (mysqli_query($conn, $sqlupdate)) {
 				echo "<script>alert('Password Anda Telah berhasil direset');</script>";
 			 }
@@ -18,7 +21,6 @@
 		}
 		else{
 			echo "<script>alert('New Password dan Confrim Password tdk sama');</script>";
-			header("location: index.php");
 		}
 	}
 	
@@ -64,7 +66,7 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('fg/images/img-01.jpg');">
 			<div class="wrap-login100 p-t-190 p-b-30">
-				<form action="forget.php" method="POST" class="login100-form validate-form" style = "margin-top:-95px">
+				<form action="forget.php" method="GET" class="login100-form validate-form" style = "margin-top:-95px">
 					<div class="login100-form-avatar">
 						<img src="fg/images/avatar-02.jpg" alt="AVATAR">
 					</div>
@@ -99,6 +101,8 @@
 							<i class="fa fa-long-arrow-right"></i>						
 						</a>
 					</div>
+					<input name="email11" value='<?php echo $_GET['t'];?>' type="hidden">
+	                <input name="pass11" value='<?php echo $_GET['e'];?>' type="hidden">
 				</form>
 			</div>
 		</div>

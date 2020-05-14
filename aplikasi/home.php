@@ -142,8 +142,8 @@ if (isset($_POST['Logout'])) {
 												<span><i class="fa fa-sign-out"></i></span>
 											</div>
 											<div class="text_div">
-											<form action="home.php" method="POST"  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												<button name = "Logout" type="submit"   ><span style="margin-left:-15px; margin-top:13px">Logout</span></button>  
+											<form action="home.php" method="POST" style="margin-left:-22px; margin-top:-12px ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<button name = "Logout" type="submit" ><span style="margin-left:-10px;">Logout</span></button>  
           									</form>	
 											
 											</div>

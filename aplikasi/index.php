@@ -8,7 +8,7 @@ if(isset($_POST["login"]))
 	{
 		$user = $_POST["Luser"];
         $pass = $_POST["Lpass"];
-        $sql = "select * from users where email='$user'";
+        $sql = "select * from users where EMAIL_USER='$user'";
         $result = $conn->query($sql);
     
         if ($result->num_rows > 0) {
@@ -20,13 +20,14 @@ if(isset($_POST["login"]))
 						}
 						else if ($row["STATUS"] == "1") {
 							if ($row["ROLE"] == "0") {
-								$_SESSION['username']= $row["username"];
+								$_SESSION['username']= $row["NAMA"];
 								$user=$_SESSION['username'];
 								echo "<script>alert('$user')</script>";
 								header("location: home.php");
 							} else if ($row["ROLE"] == "1") {
-								$_SESSION['username']= $row["username"];
-								header("location: admin.php");
+								$_SESSION['username']= $row["NAMA"];
+								header("location: admin/dashboard.php");
+								
 							} 
 						}
 					} else {
@@ -37,6 +38,8 @@ if(isset($_POST["login"]))
             echo "<script>alert('username tidak ada')</script>";
         }
 	}
+
+
 if(isset($_POST["register"]))
 	{
 		if($_POST["nama"]<>'' && $_POST["email"]<>'' && $_POST["pass"]<>'' && $_POST["cpass"]<>'')
@@ -44,7 +47,7 @@ if(isset($_POST["register"]))
 			if ($_POST["pass"]==$_POST["cpass"])
 			{
 				$email=$_POST["email"];
-				$sql = "Select count(email) as 'jumlah' from users where email='$email'";
+				$sql = "Select count(email) as 'jumlah' from users where EMAIL_USER='$email'";
 				$result = $conn->query($sql);
 				if($result->num_rows > 0)
 				{	while($row = $result->fetch_assoc())
@@ -59,7 +62,7 @@ if(isset($_POST["register"]))
 						$nama=$_POST["nama"];
 						$pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
 						$token=hash('sha256', md5(date('Y-m-d'))) ;
-						$sql = "insert into users(email_user,password_user,username,role,status,token) values('$email','$pass','$nama',0,0,'$token')";
+						$sql = "insert into users(EMAIL_USER,PASSWORD_USER,NAMA,ROLE,TOKEN,STATUS) values('$email','$pass','$nama',0,'$token',0)";
 						if (mysqli_query($conn, $sql)) {
 							echo "<script>alert('Register berhasil segera check email buat mengaktifkan akun');</script>";
 							//Send Email
@@ -133,14 +136,14 @@ if(isset($_POST["register"]))
 		if($_POST["forgetemail"]<>'' )
 		{
 			$email=$_POST["forgetemail"];
-			$sql = "Select count(email_user) as 'jumlah',username,token from user where email_user='$email'";
+			$sql = "Select count(EMAIL_USER) as 'jumlah',NAMA,TOKEN from users where EMAIL_USER='$email'";
 			$result = $conn->query($sql);
 				if($result->num_rows > 0)
 				{	while($row = $result->fetch_assoc())
 					{
 						$hasil= $row["jumlah"];
-						$namauser= $row["usename"];
-						$tokenuser= $row["token"];
+						$namauser= $row["NAMA"];
+						$tokenuser= $row["TOKEN"];
 					}
 					if ($hasil==1){
 						if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -153,7 +156,7 @@ if(isset($_POST["register"]))
 							<strong>User telah Forget Password Sunshop.com jika anda benar ingin mereset Password segera reset password dengan  melakukan mengganti password baru dengan mengklik url dibawah ini</strong><br>
 							<b>Nama Anda : </b>".$namauser."<br>
 							<b>Email : </b>".$email."<br>
-							<b>URL Konfirmasi : </b><a href='http://localhost/OnlineShop/forget.php?t=".$tokenuser."&e=".$email."'>http://localhost/OnlineShop/forget.php?t=".$tokenuser."&e=".$email."'</a><br>
+							<b>URL Konfirmasi : </b><a href='http://localhost/OnlineShop/aplikasi/forget.php?t=".$tokenuser."&e=".$email."'>http://localhost/OnlineShop/aplikasi/forget.php?t=".$tokenuser."&e=".$email."'</a><br>
 							<br>
 							</div>
 							</body>";
@@ -587,30 +590,49 @@ if(isset($_POST["register"]))
 			<div class="container-login" id="container-login">
 				<div class="form-container sign-up-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<form action="#" class="form-login">
+					<form action="Index.php" method="post" class="form-login">
 						<h3>Create Account</h3>
 						<br>
-						<input type="text" placeholder="Name" />
-						<input type="email" placeholder="Email" />
-						<input type="password" placeholder="Password" />
-						<input type="password" placeholder="Confirm Password" />
+						<input type="text" name ="nama" placeholder="Name" />
+						<input type="email" name ="email" placeholder="Email" />
+						<input type="password" name ="pass" placeholder="Password" />
+						<input type="password" name ="cpass" placeholder="Confirm Password" />
 						<br>
-						<button class="button-login" name="register">Register</button>
+						<button type="submit" name="register" class="button-login">Register</button>
 						<br>
+						<span>or use your account for login</span>
+						<div class="social-container">
+							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
+							<a href="#" class="social"><i class="fa fa-google"></i></a>
+						</div>
 					</form>
 				</div>
 				<div class="form-container sign-in-container">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<form action="#" class="form-login">
+					<form action="index.php" method="post" class="form-login">
 						<h3>Sign in</h3>
 						<br>
-						<input type="email" placeholder="Email" />
-						<input type="password" placeholder="Password" />
+						<input type="email" name ="Luser" placeholder="Email" />
+						<input type="password" name ="Lpass" placeholder="Password" />
 						<br>
-						<button class="button-login" name="login">Sign In</button>
+						<button type="submit" name ="login" class="button-login">Sign In</button>
 						<br>
+						<span>or use your account for login</span>
+						<div class="social-container">
+							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
+							<a href="#" class="social"><i class="fa fa-google"></i></a>
+						</div>
 						<br>
-						<a href="#">Forgot your password?</a>
+						<button type="button" class="btn btn-danger" id="exampleModal">Forgot your password?</button>
+					</form>
+				</div>
+				<div class="form-container forget-in-container">
+					<form action="index.php" method="post" class="form-login">
+						<h3>Forget Password</h3>
+						<br>
+						<input type="email" name ="forgetemail" placeholder="Email" />
+						<button typr="submit" name ="forgetpass" class="button-login">Send Email</button>
+						<br>
 					</form>
 				</div>
 				<div class="overlay-container">
@@ -742,25 +764,27 @@ if(isset($_POST["register"]))
 				if(isiProduct != "none"){
 					for (let index = 0; index < isiProduct.length; index++) {
 						$("#product-grid").append(`
-							<div id="product-wrap" style="width:205px; height:305px">
-								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
-									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
-									</div>
-									<div class="favorite favorite_left"></div>
-									<div class="product_info" style="height:95px">
-										<h6 class="product_name">${isiProduct[index][1]}</h6>
-										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
-									</div>
-									<div id="product-button${isiProduct[index][0]}"> </div>
-								</div> 
+						<div class="product-item"id="product${isiProduct[index][0]}" >
+							<div class="product product_filter" >
+								<div class="product_image" >
+									<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
+								</div>
+								<div class="favorite"></div>
+								<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
+								<div class="product_info">
+									<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
+									<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+								</div>
 							</div>
+							<div class="red_button add_to_cart_button"style="margin-top : -10px;"><a href="detail.html">add to cart</a><div>
+						</div>
 						`);
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
-						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
-						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+						// var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						// newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						// $("#product-button"+isiProduct[index][0]).append(newElementDetail);
 					}
 				} else {
 					$("#product-grid").append("<h3> Data yang Anda Cari Belum Tersedia untuk Saat Ini!</h3>");
