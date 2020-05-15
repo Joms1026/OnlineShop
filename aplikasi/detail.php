@@ -1,15 +1,18 @@
 <?php
 include("conn.php");
 session_start();
-// $user=$_SESSION['username'];
 
-// if(!isset($_SESSION['username'])){
-// 	header('location:index.php');
-// }
-
+$idx="";
 if (isset($_POST['Logout'])) {
     header('location:index.php');
     unset($_SESSION['username']);
+}
+
+if(isset($_GET['idx'])){
+    $idx = $_GET['idx'];
+    // echo "<script>alert($idx); </script>";
+} else {
+    // echo "<script>alert('none'); </script>";
 }
 
 ?>
@@ -24,42 +27,45 @@ if (isset($_POST['Logout'])) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 	* {box-sizing: border-box}
-	.mySlides1, .mySlides2 {display: none}
+	.mySlides1, .mySlides2 {display:none}
 	img {vertical-align: middle;}
 
 	/* Slideshow container */
 	.slideshow-container {
-	max-width: 1000px;
-	position: relative;
-	margin: auto;
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
 	}
 
 	/* Next & previous buttons */
 	.prev, .next {
-	cursor: pointer;
-	position: absolute;
-	top: 50%;
-	width: auto;
-	padding: 16px;
-	margin-top: -22px;
-	color: white;
-	font-weight: bold;
-	font-size: 18px;
-	transition: 0.6s ease;
-	border-radius: 0 3px 3px 0;
-	user-select: none;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+        display: flex;
+        justify-content: center;
+        transform: translateY(100px);
 	}
 
 	/* Position the "next button" to the right */
 	.next {
-	right: 0;
-	border-radius: 3px 0 0 3px;
+        right: 0;
+        border-radius: 3px 0 0 3px;
 	}
 
 	/* On hover, add a grey background color */
 	.prev:hover, .next:hover {
-	background-color: #f1f1f1;
-	color: black;
+        background-color: #f1f1f1;
+        color: black;
 	}
 </style>
 <!--
@@ -99,10 +105,6 @@ if (isset($_POST['Logout'])) {
 </head>
 
 <body>
-<div class="preloader-full-height" id="preloading">
-	<img id="me" src="images/logo-icon.png" style= "margin-top : -145px">
-	<h4 style= "color: white; margin-top : -125px" >LOADING ...</h4>
-</div>
 
 <div class="super_container">
 
@@ -120,49 +122,7 @@ if (isset($_POST['Logout'])) {
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
-								<li><a href="#" class="actived">Home</a></li>
-								<li><a href="chat.php">Chat</a></li>
-							</ul>
-							<ul class="navbar_user">
-								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
-								<li class="account">
-									<a>
-										<i class="fa fa-user" aria-hidden="true"></i>
-									</a>
-									<ul class="account_selection">
-										<div class="widgets_div" >
-											<div class="icon_div">
-												<span><i class="fa fa-user"></i></span>
-											</div>
-											<div class="text_div">
-												<span><?php  echo($user); ?></span>
-											</div>
-										</div>
-										<div class="widgets_div" >
-											<div class="icon_div">
-												<span><i class="fa fa-sign-out"></i></span>
-											</div>
-											<div class="text_div">
-											<form action="home.php" method="POST" style="margin-left:-22px; margin-top:-12px ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-												<button name = "Logout" type="submit" ><span style="margin-left:-10px;">Logout</span></button>  
-          									</form>	
-											
-											</div>
-										</div>
-									</ul>
-								</li>
-								<li class="checkout">
-									<a href="cart.php">
-										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-										<span id="checkout_items" class="checkout_items">
-											<?php
-												$querystring = "SELECT * FROM KERANJANG K , USERS U WHERE U.NAMA='$user' AND K.ID_USER = U.ID_USER";
-												$res = mysqli_query($conn , $querystring);
-												echo mysqli_num_rows($res);
-											?>
-										</span>
-									</a>
-								</li>
+								<li><a href="index.php" class="actived">Home</a></li>
 							</ul>
 							<div class="hamburger_container">
 								<i class="fa fa-bars" aria-hidden="true"></i>
@@ -201,38 +161,9 @@ if (isset($_POST['Logout'])) {
 		<div class="hamburger_footer"><img src="images/logo.jpg" width="160px"></div>
 	</div>
 
-	<!-- Slider -->
-
-	<div class="main_slider">
-		<div class="main_slider_banner" style="background-image:url(images/gambar1-fade.jpg);">
-			<div class="container fill_height">
-				<div class="row align-items-center fill_height">
-					<div class="col">
-						<div class="main_slider_content">
-							<br>
-							<h2>Get up to 30% Off New <br>Arrivals</h2>
-							<br>
-							<form role="form" id="form-Search">
-								<div class="form-group">
-									<div class="input-group">
-										<input id="1" class="form-control" type="text" name="search" placeholder="What can I help you with today?" id="search-bar"/>
-										<span class="input-group-btn">
-											<button class="btn btn-brown" type="submit">
-												<i class="fa fa-search" aria-hidden="true"></i>
-											</button>
-										</span>
-									</div>
-								</div>
-							</form>
-						</div>
-						<br>
-						<br>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
+	<form id="formShadow">
+        <input type="hidden" value="<?= $idx ?>" name="idx">
+    </form>
 	<!-- Banner -->
 
 	<!--<div class="banner">
@@ -260,32 +191,19 @@ if (isset($_POST['Logout'])) {
 			</div>
 			<div class="row align-items-center">
 				<div class="col text-center">
-					<div class="new_arrivals_sorting">
-						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
-							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" id="ALL" value="ALL">ALL</li>
-							<?php
-								$querySelect = "SELECT * FROM kategori WHERE status=1";
-								$result = mysqli_query($conn, $querySelect);
-
-								if($result->num_rows > 0){
-									$querySelect = "SELECT * FROM kategori WHERE status=1";
-									$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
-
-									for ($i=0; $i < $result->num_rows; $i++) { ?>
-										<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" onclick="btnFilter(<?= $isiDB[$i][0]; ?>)"><?= $isiDB[$i][1]; ?></li>
-									<?php }
-								}
-							?>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col">
-					<div id="product-grid" class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' style="display:flex;flex-wrap:wrap;  justify-content: center">
-						<!-- Product -->
-						
-					</div>
+                    <div class="detail-content">
+                        <div class="content-header">
+                            <h2 id="modalHeader"></h2>
+                        </div> <br/>
+                        <div id="modalBody">
+                            <div class="slideshow-container" id="slideshow-container" style="height: 210px;"></div>
+                            <p id="deskripsi" style="transform: translateY(110px)"></p>
+                            <p id="harga" style="transform: translateY(110px)"></p>
+                            <form id="formDetail" style="transform: translateY(110px)">
+                            
+                            </form>
+                        </div>
+                    </div>
 				</div>
 			</div>
 		</div>
@@ -394,70 +312,6 @@ if (isset($_POST['Logout'])) {
     <div class="navbox"></div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-		<div class="modal-body">
-			<div class="container-login" id="container-login">
-				<div class="form-container sign-up-container">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<form action="#" class="form-login">
-						<h3>Create Account</h3>
-						<br>
-						<input type="text" placeholder="Name" />
-						<input type="email" placeholder="Email" />
-						<input type="password" placeholder="Password" />
-						<input type="password" placeholder="Confirm Password" />
-						<br>
-						<button class="button-login">Register</button>
-						<br>
-						<span>or use your account for login</span>
-						<div class="social-container">
-							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-							<a href="#" class="social"><i class="fa fa-google"></i></a>
-						</div>
-					</form>
-				</div>
-				<div class="form-container sign-in-container">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<form action="#" class="form-login">
-						<h3>Sign in</h3>
-						<br>
-						<input type="email" placeholder="Email" />
-						<input type="password" placeholder="Password" />
-						<br>
-						<button class="button-login">Sign In</button>
-						<br>
-						<span>or use your account for login</span>
-						<div class="social-container">
-							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-							<a href="#" class="social"><i class="fa fa-google"></i></a>
-						</div>
-						<br>
-						<a href="#">Forgot your password?</a>
-					</form>
-				</div>
-				<div class="overlay-container">
-					<div class="overlay">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<div class="overlay-panel overlay-left">
-							<p>Keep connected with us</p>
-							<button class="button-login ghost" id="signIn">Sign In</button>
-						</div>
-						<div class="overlay-panel overlay-right">
-							<h1></h1>
-							<p>Enter your personal details and start journey with us</p>
-							<button class="button-login ghost" id="signUp">Register</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</div>
-	</div>
-</div>
-
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>
@@ -473,109 +327,12 @@ if (isset($_POST['Logout'])) {
 
 <script>
 	$(document).ready(function(){
-		//alert("jalan");
-		loadProduct();
-	});
-
-	$('#ALL').click(function () {
-		loadProduct();
-	});
-
-	function btnFilter(kategori){
-		$("#product-grid").html('');
-		$.ajax({
-			method: "post",
-			url : "getFilter.php",
-			data : `idx=${kategori}`,
-			success : function(res){
-				var isiProduct = JSON.parse(res);
-
-				if(isiProduct != "none"){
-					for (let index = 0; index < isiProduct.length; index++) {
-						$("#product-grid").append(`
-							<div id="product-wrap" style="width:205px; height:305px">
-								<div id="product${isiProduct[index][0]}" style="width:200px; height:300px">
-									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
-									</div>
-									<div class="favorite favorite_left"></div>
-									<div class="product_info" style="height:95px">
-										<h6 class="product_name">${isiProduct[index][1]}</h6>
-										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
-									</div>
-									<div id="product-button${isiProduct[index][0]}"> </div>
-								</div> 
-							</div>
-						`);
-						ambilHarga(isiProduct[index][0]);
-						ambilGambar(isiProduct[index][0]);
-
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
-						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
-						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
-					}
-				} else {
-					$("#product-grid").append("<h3> Data yang Anda Cari Belum Tersedia untuk Saat Ini!</h3>");
-				}
-			}
-		})
-	}
-
-	$("#form-Search").click(function (e) {
-		e.preventDefault();
-		$("#product-grid").html('');
-
-		$.ajax({
-			method: "post",
-			url : "search.php",
-			data : $("#form-Search").serialize(),
-			success : function(res){
-				var isiProduct = JSON.parse(res);
-				
-				if(isiProduct != "none"){
-					for (let index = 0; index < isiProduct.length; index++) {
-						$("#product-grid").append(`
-							<div id="product-wrap" style="width:205px; height:305px">
-								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
-									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
-									</div>
-									<div class="favorite favorite_left"></div>
-									<div class="product_info" style="height:95px">
-										<h6 class="product_name">${isiProduct[index][1]}</h6>
-										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
-									</div>
-									<div id="product-button${isiProduct[index][0]}"> </div>
-								</div> 
-							</div>
-						`);
-						ambilHarga(isiProduct[index][0]);
-						ambilGambar(isiProduct[index][0]);
-
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
-						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
-						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
-					}
-				} else {
-					$("#product-grid").append("<h3> Coba kata kunci lainnya!</h3>");
-				}
-			}
-		})
-	})
+		loadDetail();
+    });
 
 	const container = document.getElementById('container-login');
 
 	$('#btnToTop').fadeOut();
-
-	$( "#signUp" ).click(function() {
-		$(".sign-in-container").hide();
-		$(".sign-up-container").show();
-		container.classList.add("right-panel-active");
-	});
-
-	$( "#signIn" ).click(function() {
-		$(".sign-in-container").show();
-		$(".sign-up-container").hide();
-		container.classList.remove("right-panel-active");
-	});
 
 	$(window).scroll(function() {
 		if ($(this).scrollTop()) {
@@ -588,55 +345,6 @@ if (isset($_POST['Logout'])) {
 	function scrollToTop(){
 		$('html, body').animate({scrollTop: '0px'}, 300);
 	}
-	
-	function showLoginModal(){
-		$("#signIn").trigger( "click" );
-		$("#loginModal").modal("toggle");
-	}
-	
-	function showRegisterModal(){
-		$("#signUp").trigger( "click" );
-		$("#loginModal").modal("toggle");
-	}
-
-	function loadProduct(){
-		$("#product-grid").html('');
-		$.ajax({
-			method: "post",
-			url : "getAllProduct.php",
-			success : function(res){
-				var isiProduct = JSON.parse(res);
-
-				if(isiProduct != "none"){
-					for (let index = 0; index < isiProduct.length; index++) {
-						$("#product-grid").append(`
-							<div class="product-item"id="product${isiProduct[index][0]}" >
-								<div class="product product_filter" >
-									<div class="product_image" >
-										<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
-									</div>
-									<div class="favorite"></div>
-									<div class="product_info">
-										<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
-										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
-									</div>
-								</div>
-								<div id="product-button${isiProduct[index][0]}"> </div>
-							</div>
-						`);
-						ambilHarga(isiProduct[index][0]);
-						ambilGambar(isiProduct[index][0]);
-
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
-						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
-						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
-					}
-				} else {
-					$("#product-grid").append("<h3> Belum Ada Barang Tersedia! </h3>");
-				}
-			}
-		})
-	};
 
 	function ambilGambar(id){
 		$.ajax({
@@ -683,21 +391,32 @@ if (isset($_POST['Logout'])) {
 		return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 	}
 
-	function fungsiBtnDetail(e){
-		var idxBtnDetail = e.data.idx;
-		window.location.href = `detailLogin.php?idx=${idxBtnDetail}`;
-	}
-
-	$('#formDetail').submit(function(e){
-		$.ajax({
+	function loadDetail(e){
+        var idxBtnDetail = "";
+        $.ajax({
 			method : "post",
-			url : "addToCart.php",
-			data : $("#formDetail").serialize(),
-			success : function(res) {
-				alert("berhasil ditambahkan");
+			url : "getDeskripsi.php",
+			data : $("#formShadow").serialize(),
+			success : function (r) {
+                var detail = JSON.parse(r);
+                idxBtnDetail = detail['id'];
+
+				$("#deskripsi").append(`
+					&nbsp; &nbsp; &nbsp;
+					deskripsi : ${detail["deskripsi"]}
+                `);
+                
+                ambilSemuaGambar(idxBtnDetail);
+                addRbSize(idxBtnDetail);
+                addRbColor(idxBtnDetail);
+                $("#formDetail").append('<input type="hidden" name="id" value="'+idxBtnDetail+'">');
 			}
-		});
-		e.preventDefault();
+		})	
+    }
+    
+	$('#formDetail').submit(function(e){
+        e.preventDefault();
+        alert("silahkan login dulu!");
 	});
 	
 	function ambilSemuaGambar(id) {
@@ -710,7 +429,7 @@ if (isset($_POST['Logout'])) {
 				for (let index = 0; index < gambar.length; index++) {
 					srcGambar = `admin/uploads/produk/${id}/${gambar[index]}`;
 					$("#slideshow-container").append(`
-						<div class="mySlides1" style="transform:translateX(75px)">
+						<div class="mySlides1" style="transform:translateY(100px)">
 							<img src=${srcGambar} style="width:150px; height:200px;">
 						</div>
 					`);
@@ -802,20 +521,10 @@ if (isset($_POST['Logout'])) {
 				}
 			}
 		})
-	}
-
-	function add() {
-		// $("#formBtn").append(`
-
-		// `)
-	}
-
-	$("#btnClose").click(function (params) {
-		$("#myModal").hide()
-	});
+    }
 
 	var slideIndex = [1,1];
-	var slideId = ["mySlides1", "mySlides2"]
+	var slideId = ["mySlides1"]
 	showSlides(1, 0);
 	showSlides(1, 1);
 

@@ -762,10 +762,6 @@ if(isset($_POST["register"]))
 			}
 		})
 	}
-
-	// $("btnShowDetailB").click(function(e){
-
-	// });
 	
 	$('#btnToTop').fadeOut();
 
@@ -856,23 +852,24 @@ if(isset($_POST["register"]))
 				if(isiProduct != "none"){
 					for (let index = 0; index < isiProduct.length; index++) {
 						$("#product-grid").append(`
-							<div id="product-wrap" style="width:205px; height:305px">
-								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
-									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+							<div class="product-item"id="product${isiProduct[index][0]}" >
+								<div class="product product_filter" >
+									<div class="product_image" >
+										<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
 									</div>
-									<div class="favorite favorite_left"></div>
-									<div class="product_info" style="height:95px">
-										<h6 class="product_name">${isiProduct[index][1]}</h6>
+									<div class="favorite"></div>
+									<div class="product_info">
+										<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
 										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
 									</div>
-									<div id="product-button${isiProduct[index][0]}"> </div>
-								</div> 
+								</div>
+								<div id="product-button${isiProduct[index][0]}"> </div>
 							</div>
 						`);
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 					}
@@ -929,36 +926,8 @@ if(isset($_POST["register"]))
 	}
 
 	function fungsiBtnDetail(e){
-		e.preventDefault();
-		// alert("btn detail pressed");
 		var idxBtnDetail = e.data.idx;
-		var namaBrg = e.data.nama;
-
-		$("#myModal").show();
-		$("#modalHeader").html('');
-		$("#formDetail").html('');
-		$("#formBtn").html('');
-		$("#slideshow-container").html('');
-		$("#modalHeader").append(`${namaBrg}`);
-		
-		$.ajax({
-			method : "post",
-			url : "getDeskripsi.php",
-			data : `idx=${idxBtnDetail}`,
-			success : function (r) {
-				var detail = JSON.parse(r);
-				$("#deskripsi").html('');
-				$("#deskripsi").append(`
-					&nbsp; &nbsp; &nbsp;
-					deskripsi : ${detail}
-				`);
-			}
-		})
-
-		ambilSemuaGambar(idxBtnDetail);
-		addRbSize(idxBtnDetail);
-		addRbColor(idxBtnDetail);
-		add();
+		window.location.href = `detail.php?idx=${idxBtnDetail}`;
 	}
 	
 	function ambilSemuaGambar(id) {
