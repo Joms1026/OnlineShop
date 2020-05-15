@@ -191,10 +191,9 @@
 								<tbody id="tablecart">
 									<?php
 										$us = $_SESSION["username"];
-										$querynama = "SELECT ID_USER FROM USERS WHERE NAMA = '$us'";
-										$idus = mysqli_query($conn , $querynama);
-										//echo $idus;
-										$querystring = "SELECT * FROM KERANJANG WHERE ID_USER = $idus";
+										$querystring = "SELECT DISTINCT K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , U.ID_USER , G.LINK_GAMBAR , B.NAMA
+										FROM KERANJANG K , USERS U , BAJU B , GAMBAR G
+										WHERE U.NAMA = '$us' AND K.ID_USER=U.ID_USER AND G.ID_BAJU = K.ID_BARANG AND B.ID = K.ID_BARANG AND B.ID = G.ID_BAJU";
 										$res = mysqli_query($conn , $querystring);
 										if(mysqli_num_rows($res) == 0){
 											echo '<td colspan="6"><div class="alert alert-danger" role="alert">
@@ -202,58 +201,36 @@
 											</div></td>';
 										}
 										else{
-											$datacart = $_SESSION["cart"];
-										foreach ($datacart as $key => $value) {
+										$ctr = 0;
+										while ($row = mysqli_fetch_assoc($res)) {
 										echo	"<tr>
-										<td>".($key + 1)."</td>
+										<td>".($ctr + 1)."</td>
 										<td>
 											<div class='row'>
 												<div class='col-lg-2'>
-													<img src='".$value["gambar"]."' alt=''>
+													<img src='images/".$row["LINK_GAMBAR"]."' alt=''>
 												</div>
 												<div class='col-lg-10'>
-													<div class='product_name'><a href='product.html'>".$value["namaproduk"]."</a></div>
+													<div class='product_name'><a href='product.html'>".$row["NAMA"]."</a></div>
 													<div class='product_text'>Second line for additional info</div>
 												</div>
 											</div>
 										</td>
-										<td>L</td>
-										<td id='price".$key."'>".$value["harga"]."</td>
+										<td>".$row['SIZE']."</td>
+										<td id='price".$ctr."'>".$row["HARGA_BARANG"]."</td>
 										<td><div class='product_quantity ml-lg-auto mr-lg-auto text-center'>
-											<span class='product_text product_num' id='angka".$key."'>1</span>
-											<div class='qty_sub qty_button trans_200 text-center' id='minus".$key."'><span>-</span></div>
-											<div class='qty_add qty_button trans_200 text-center' id='plus".$key."'><span>+</span></div>
+											<span class='product_text product_num' id='angka".$ctr."'>".$row["JUMLAH_BARANG"]."</span>
+											<div class='qty_sub qty_button trans_200 text-center' id='minus".$ctr."'><span>-</span></div>
+											<div class='qty_add qty_button trans_200 text-center' id='plus".$ctr."'><span>+</span></div>
 										</div></td>
-										<td id='total".$key."'>
+										<td id='total".$ctr."'>
 											<script>
-												document.getElementById('total".$key."').innerHTML = document.getElementById('angka".$key."').innerHTML * ".$value['harga']." + '.000'
+												document.getElementById('total".$ctr."').innerHTML = document.getElementById('angka".$ctr."').innerHTML * ".$row['HARGA_BARANG']."
 											</script></td>
 										</tr> <br>";
 										}
 										}
 									?>									 
-									<!-- <tr>
-										<td>2</td>
-										<td>
-											<div class="row">
-												<div class="col-lg-2">
-													<img src="images/cart_item_1.jpg" alt="">
-												</div>
-												<div class="col-lg-10">
-													<div class="product_name"><a href="product.html">Cool Flufy Clothing without Stripes</a></div>
-													<div class="product_text">Second line for additional info</div>
-												</div>
-											</div>
-										</td>
-										<td>L</td>
-										<td>$3.99</td>
-										<td><div class="product_quantity ml-lg-auto mr-lg-auto text-center">
-											<span class="product_text product_num">1</span>
-											<div class="qty_sub qty_button trans_200 text-center"><span>-</span></div>
-											<div class="qty_add qty_button trans_200 text-center"><span>+</span></div>
-										</div></td>
-										<td>$3.99</td>
-									</tr> -->
 								</tbody>
 							</table>
 
@@ -601,7 +578,7 @@
 			}, // data yang dikirim
 			success : function(res){
 				$('#subtotal').html('');
-				$('#subtotal').append(parseInt(res) + '.000');
+				$('#subtotal').append(parseInt(res));
 				hitung();
 			}
 			});
@@ -620,13 +597,13 @@
 		}
 		var result = total + parseInt(shipping2);
 		$("#carttotal").html('');
-		$("#carttotal").append(result+ ".000");
+		$("#carttotal").append(result);
 	}
 
 	//buattotal
 	function refreshtotal(){
 		var totalbelanja = 0;
-		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
+		for (let index = 0; index < <?=mysqli_num_rows($res)?>; index++) {
 			totalbelanja += parseInt(document.getElementById('total'+index.toString()).innerHTML);
 		}
 		simpantotalnya(totalbelanja);
@@ -667,22 +644,44 @@
 
 	//bikin penambahan qty
 	try {
-		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
+		for (let index = 0; index < <?=mysqli_num_rows($res);?>; index++) {
 			document.getElementById("minus"+index.toString()).addEventListener("click", function(){
 				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) - 1;
 				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
 				var hasil = angkanya * harganya;
-				document.getElementById("total"+index.toString()).innerHTML = hasil + '.000';
+				document.getElementById("total"+index.toString()).innerHTML = hasil;
 				refreshtotal();
+				$.ajax({
+					method : "post", // metode ajax
+					url : "editqtycart.php", // tujuan request
+					data : {
+						a : angkanya,
+						h : harganya,
+					}, // data yang dikirim
+					success : function(res){
+						//alert(res);
+					}
+				});
 			});
 		}
-		for (let index = 0; index < <?=count($_SESSION["cart"])?>; index++) {
+		for (let index = 0; index < <?=mysqli_num_rows($res)?>; index++) {
 			document.getElementById("plus"+index.toString()).addEventListener("click", function(){
 				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) + 1;
 				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
 				var hasil = angkanya * harganya;
-				document.getElementById("total"+index.toString()).innerHTML = hasil + '.000';
+				document.getElementById("total"+index.toString()).innerHTML = hasil;
 				refreshtotal();
+				$.ajax({
+					method : "post", // metode ajax
+					url : "editqtycart.php", // tujuan request
+					data : {
+						a : angkanya,
+						h : harganya,
+					}, // data yang dikirim
+					success : function(res){
+						//alert(res);
+					}
+				});
 			});
 		}
 	} catch (error) {
@@ -710,9 +709,9 @@
           		}
         	});	
 		});		
-
+			//alert('halo');
 		refreshtotal();
-		//shippingcek(shippingtype);
+		shippingcek(shippingtype);
 	});
 
 </script>

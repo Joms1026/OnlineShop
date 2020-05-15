@@ -735,7 +735,7 @@ if (isset($_POST['Logout'])) {
 		//add();
 	}
 
-	$("#formDetail").submit(function(){
+	$('#formDetail').submit(function(){
 		$.ajax({
 			method : "post",
 			url : "addToCart.php",
@@ -745,6 +745,7 @@ if (isset($_POST['Logout'])) {
 				alert(result);
 			}
 		});
+		e.prefentDefault();
 	});
 	
 	function ambilSemuaGambar(id) {
