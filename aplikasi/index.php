@@ -582,12 +582,6 @@ if(isset($_POST["register"]))
 						<input type="password" name ="cpass" placeholder="Confirm Password" />
 						<br>
 						<button type="submit" name="register" class="button-login">Register</button>
-						<br>
-						<span>or use your account for login</span>
-						<div class="social-container">
-							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-							<a href="#" class="social"><i class="fa fa-google"></i></a>
-						</div>
 					</form>
 				</div>
 				<div class="form-container sign-in-container">
