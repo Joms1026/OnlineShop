@@ -309,7 +309,7 @@
 										<div class="cart_extra_total_value ml-auto" id="carttotal"></div>
 									</li>
 								</ul>
-								<div class="checkout_button trans_200"><a href="checkout.html">proceed to checkout</a></div>
+								<div class="checkout_button trans_200"><a href="checkout.php">proceed to checkout</a></div>
 							</div>
 						</div>
 					</div>
