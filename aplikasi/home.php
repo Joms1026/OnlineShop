@@ -735,13 +735,13 @@ if (isset($_POST['Logout'])) {
 		//add();
 	}
 
-	$('#formDetail').submit(function(){
+	$('#formDetail').submit(function(e){
 		$.ajax({
 			method : "post",
 			url : "addToCart.php",
 			data : $("#formDetail").serialize(),
 			success : function(res) {
-				var result = JSON
+				var result = JSON.parse(res);
 				alert(result);
 			}
 		});
