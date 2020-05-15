@@ -753,7 +753,6 @@ if(isset($_POST["register"]))
 									<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
 								</div>
 								<div class="favorite"></div>
-								<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
 								<div class="product_info">
 									<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
 									<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
