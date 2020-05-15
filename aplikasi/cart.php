@@ -578,6 +578,24 @@
 		var result = total + parseInt(shipping2);
 		$("#carttotal").html('');
 		$("#carttotal").append(result);
+		$.ajax({
+			method : "post", // metode ajax
+			url : "ajax/simpanshipping.php", // tujuan request
+			data : {
+				shipping : shipping2,
+				total : result,
+			}, // data yang dikirim
+			success : function(res){
+				if(res == 0){
+					$("#shippingtype").html('');
+					$("#shippingtype").append("free");
+				}
+				else{
+					$("#shippingtype").html('');
+					$("#shippingtype").append(res + '.000');
+				}
+			}
+		});
 	}
 
 	//buattotal
