@@ -600,12 +600,6 @@ if(isset($_POST["register"]))
 						<br>
 						<button type="submit" name ="login" class="button-login">Sign In</button>
 						<br>
-						<span>or use your account for login</span>
-						<div class="social-container">
-							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-							<a href="#" class="social"><i class="fa fa-google"></i></a>
-						</div>
-						<br>
 						<button type="button" class="btn btn-danger" id="exampleModal">Forgot your password?</button>
 					</form>
 				</div>
