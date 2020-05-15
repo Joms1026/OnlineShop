@@ -228,6 +228,7 @@
 												document.getElementById('total".$ctr."').innerHTML = document.getElementById('angka".$ctr."').innerHTML * ".$row['HARGA_BARANG']."
 											</script></td>
 										</tr> <br>";
+										$ctr++;
 										}
 										}
 									?>									 

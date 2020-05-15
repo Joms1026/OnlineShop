@@ -152,11 +152,11 @@ if (isset($_POST['Logout'])) {
 									</ul>
 								</li>
 								<li class="checkout">
-									<a href="#">
+									<a href="cart.php">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 										<span id="checkout_items" class="checkout_items">
 											<?php
-												$querystring = "SELECT * FROM KERANJANG";
+												$querystring = "SELECT * FROM KERANJANG K , USERS U WHERE U.NAMA='$user' AND K.ID_USER = U.ID_USER";
 												$res = mysqli_query($conn , $querystring);
 												echo mysqli_num_rows($res);
 											?>
@@ -732,6 +732,7 @@ if (isset($_POST['Logout'])) {
 		ambilSemuaGambar(idxBtnDetail);
 		addRbSize(idxBtnDetail);
 		addRbColor(idxBtnDetail);
+		$("#formDetail").append('<input type="hidden" name="id" value="'+idxBtnDetail+'">');
 		//add();
 	}
 
@@ -741,8 +742,7 @@ if (isset($_POST['Logout'])) {
 			url : "addToCart.php",
 			data : $("#formDetail").serialize(),
 			success : function(res) {
-				var result = JSON.parse(res);
-				alert(result);
+				alert("berhasil ditambahkan");
 			}
 		});
 		e.preventDefault();
