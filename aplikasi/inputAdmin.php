@@ -1,10 +1,10 @@
 <?php
     include("conn.php");
 
-    $pass = password_hash("<isiPass>", PASSWORD_DEFAULT);
+    $pass = password_hash("stefanie123", PASSWORD_DEFAULT);
     
     if(isset($_POST['btnInput'])){
-        $queryInsert = "INSERT INTO users VALUES('', '<isiNama>', '$pass','<isiEmail>', 1, 'admin', 1, '', '')";
+        $queryInsert = "INSERT INTO users VALUES('', 'stefanie', '$pass','stefanieanglx@gmail.com', 1, 'admin', 1, '', '')";
         $executeQuery = mysqli_query($conn, $queryInsert);
     }
 ?>

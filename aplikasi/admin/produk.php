@@ -77,7 +77,7 @@
         $editnamaproduk=    $_POST['editnamaproduk'];
         $editkategori=   $_POST['editkategori'];
         $editdeskripsiproduk=    $_POST['editdeskripsiproduk'];
-        $edituploadgambar=   $_POST['edituploadgambar'];
+        // $edituploadgambar=   $_POST['edituploadgambar'];
         $editIdProduk = $_POST['editIdProduk'];
         $updatebajuproduk = executeNonQuery("UPDATE baju set NAMA='$editnamaproduk', DESKRIPSI='$editdeskripsiproduk' where ID=$editIdProduk ");
     }
@@ -138,7 +138,7 @@
                                   <label for="kategori">Kategori</label>
                                   <select class="form-control" name="editkategori" id="editkategori">
                                       <?php $ambilkategori = executeQuery("SELECT ID_KATEGORI,NAMA_KATEGORI from kategori where STATUS=1");
-                                      for ($i=0; $i < count($ambilkategori); $i++) { ?>               
+                                      for ($i=0; $i < count($ambilkategori); $i++) { ?>              
                                           <option value="<?=$ambilkategori[$i]['ID_KATEGORI']?>">
                                           <?= $ambilkategori[$i]['NAMA_KATEGORI']?></option>
                                     <?php  }
@@ -222,7 +222,7 @@
                                 <thead>
                                     <tr>
                                         <th>Ukuran</th>
-                                        <th>Kategori</th>
+                                        <th>Warna</th>
                                         <th>Harga</th>
                                         <th>Stok</th>
                                         <th>Action</th>
@@ -331,7 +331,6 @@
                                     <thead>
                                         <tr>
                                             <th>Ukuran</th>
-                                            <th>Kategori</th>
                                             <th>Harga</th>
                                             <th>Stok</th>
                                             <th>Action</th>

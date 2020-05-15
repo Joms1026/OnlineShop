@@ -582,12 +582,6 @@ if(isset($_POST["register"]))
 						<input type="password" name ="cpass" placeholder="Confirm Password" />
 						<br>
 						<button type="submit" name="register" class="button-login">Register</button>
-						<br>
-						<span>or use your account for login</span>
-						<div class="social-container">
-							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-							<a href="#" class="social"><i class="fa fa-google"></i></a>
-						</div>
 					</form>
 				</div>
 				<div class="form-container sign-in-container">
@@ -599,12 +593,6 @@ if(isset($_POST["register"]))
 						<input type="password" name ="Lpass" placeholder="Password" />
 						<br>
 						<button type="submit" name ="login" class="button-login">Sign In</button>
-						<br>
-						<span>or use your account for login</span>
-						<div class="social-container">
-							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-							<a href="#" class="social"><i class="fa fa-google"></i></a>
-						</div>
 						<br>
 						<button type="button" class="btn btn-danger" id="exampleModal">Forgot your password?</button>
 					</form>
@@ -753,21 +741,20 @@ if(isset($_POST["register"]))
 									<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
 								</div>
 								<div class="favorite"></div>
-								<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
 								<div class="product_info">
 									<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
 									<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
 								</div>
 							</div>
-							<div class="red_button add_to_cart_button"style="margin-top : -10px;"><a href="detail.html">add to cart</a><div>
-						</div>
+							<div id="product-button${isiProduct[index][0]}"> </div>
+							</div>
 						`);
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						// var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
-						// newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
-						// $("#product-button"+isiProduct[index][0]).append(newElementDetail);
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="transform:translateX(15px); width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 					}
 				} else {
 					$("#product-grid").append("<h3> Data yang Anda Cari Belum Tersedia untuk Saat Ini!</h3>");
@@ -776,6 +763,10 @@ if(isset($_POST["register"]))
 		})
 	}
 
+	// $("btnShowDetailB").click(function(e){
+
+	// });
+	
 	$('#btnToTop').fadeOut();
 
 	$( "#signUp" ).click(function() {

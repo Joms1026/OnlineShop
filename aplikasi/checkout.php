@@ -1,7 +1,3 @@
-<?php 
-include('conn.php');
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,26 +44,16 @@ session_start();
                             <span class="badge badge-secondary badge-pill">3</span>
                         </h4>
                         <ul class="list-group mb-3" style="width: 500px">
-                            <?php
-                                $us = $_SESSION["username"];
-                                $queryselect = "SELECT DISTINCT K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , U.ID_USER , G.LINK_GAMBAR , B.NAMA
-                                FROM KERANJANG K , USERS U , BAJU B , GAMBAR G
-                                WHERE U.NAMA = '$us' AND K.ID_USER=U.ID_USER AND G.ID_BAJU = K.ID_BARANG AND B.ID = K.ID_BARANG AND B.ID = G.ID_BAJU";
-                                $res = mysqli_query($conn , $queryselect);
-                                while($row = mysqli_fetch_assoc($res)){
-                                    echo "<li class='list-group-item d-flex justify-content-between'>
-                                            <div><h6 class='my-0'>".$row["NAMA"]." x ".$row["JUMLAH_BARANG"]."</h6></div>
-                                            <span class='text-muted'>Rp".$row["HARGA_BARANG"]."</span>
-                                    </li>";
-                                }
-                            ?>
-                            <li class='list-group-item d-flex justify-content-between'>
-                                <div><h6 class='my-0'>Shipping</h6></div>
-                                <span class='text-muted'>Rp<?=$_SESSION["shipping"]?></span>
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <div>
+                                    <h6 class="my-0">Product name</h6>
+                                    <small class="text-muted">Brief description</small>
+                                </div>
+                                <span class="text-muted">$12</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>Total (IDR)</span>
-                                <strong>Rp<?=$_SESSION["total"];?></strong>
+                                <span>Total (USD)</span>
+                                <strong>$20</strong>
                             </li>
                         </ul>
                     <div class="col-md-8 order-md-1" style="width: 500px">

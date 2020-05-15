@@ -309,7 +309,7 @@
 										<div class="cart_extra_total_value ml-auto" id="carttotal"></div>
 									</li>
 								</ul>
-								<div class="checkout_button trans_200"><a href="checkout.php">proceed to checkout</a></div>
+								<div class="checkout_button trans_200"><a href="checkout.html">proceed to checkout</a></div>
 							</div>
 						</div>
 					</div>
@@ -599,17 +599,6 @@
 		var result = total + parseInt(shipping2);
 		$("#carttotal").html('');
 		$("#carttotal").append(result);
-		$.ajax({
-			method : "post",
-			url : "finaltotal.php",
-			data: {
-				shipping : shipping2,
-				finaltotal : result,
-			},
-			success : function(res){
-				//alert(res);
-			}
-		});
 	}
 
 	//buattotal
