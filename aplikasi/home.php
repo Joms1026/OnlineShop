@@ -679,7 +679,7 @@ if (isset($_POST['Logout'])) {
 			data : `idx=${ind}`,
 			success : function (result) {
 				var harga = JSON.parse(result);
-				price = harga['harga'] + 0;
+				price = harga['harga'] + "";
 				$("#product_price"+ind).append(`<p> ${formatRupiah(price, "Rp.")}</p>`);
 			}
 		});
