@@ -746,15 +746,15 @@ if(isset($_POST["register"]))
 									<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
 								</div>
 							</div>
-							<div class="red_button add_to_cart_button"style="margin-top : -10px;"><a href="detail.html">add to cart</a><div>
-						</div>
+							<div id="product-button${isiProduct[index][0]}"> </div>
+							</div>
 						`);
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						// var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
-						// newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
-						// $("#product-button"+isiProduct[index][0]).append(newElementDetail);
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="transform:translateX(15px); width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 					}
 				} else {
 					$("#product-grid").append("<h3> Data yang Anda Cari Belum Tersedia untuk Saat Ini!</h3>");
@@ -763,6 +763,10 @@ if(isset($_POST["register"]))
 		})
 	}
 
+	// $("btnShowDetailB").click(function(e){
+
+	// });
+	
 	$('#btnToTop').fadeOut();
 
 	$( "#signUp" ).click(function() {
