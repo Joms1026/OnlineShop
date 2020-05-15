@@ -27,6 +27,7 @@ function executeQuery($query){
     // $sql = "SELECT Lastname, Age FROM Persons ORDER BY Lastname";
     $conn = connect();
     $result = $conn->query($query);
+    if($result)
     return $result->fetch_all(MYSQLI_ASSOC);
     // Fetch all
 }
