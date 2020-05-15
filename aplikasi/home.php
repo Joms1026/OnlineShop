@@ -745,7 +745,7 @@ if (isset($_POST['Logout'])) {
 				alert(result);
 			}
 		});
-		e.prefentDefault();
+		e.preventDefault();
 	});
 	
 	function ambilSemuaGambar(id) {
