@@ -1,9 +1,17 @@
 <?php
 	include("conn.php");
 	session_start();
+	$user=$_SESSION['username'];
+
+	if(!isset($_SESSION['username'])){
+		header('location:index.php');
+	}
+
 	if(isset($_POST["continueshopping"])){
 		header("Location: home.php");
 	}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,37 +84,39 @@
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Shopping</a></li>
-								<li><a href="index.php">Home</a></li>
-								<li><a href="#">Term & Condition</a></li>
-								<li><a href="contact.html">contact</a></li>
+								<li><a href="home.php">Home</a></li>
+								<!-- <li><a href="#">Term & Condition</a></li>
+								<li><a href="contact.html">contact</a></li> -->
 							</ul>
-							<ul class="navbar_user">
-								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+								<!-- <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li> -->
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
 								<li class="account">
 									<a>
 										<i class="fa fa-user" aria-hidden="true"></i>
 									</a>
 									<ul class="account_selection">
-										<div class="widgets_div" onclick="showLoginModal()">
+										<div class="widgets_div" >
 											<div class="icon_div">
-												<span><i class="fa fa-sign-in"></i></span>
-											</div>
-											<div class="text_div actived">
-												<span>Toko</span>
-											</div>
-										</div>
-										<div class="widgets_div" onclick="showRegisterModal()">
-											<div class="icon_div">
-												<span><i class="fa fa-user-plus"></i></span>
+												<span><i class="fa fa-user"></i></span>
 											</div>
 											<div class="text_div">
-												<span>Register</span>
+												<span><?php  echo($user); ?></span>
+											</div>
+										</div>
+										<div class="widgets_div" >
+											<div class="icon_div">
+												<span><i class="fa fa-sign-out"></i></span>
+											</div>
+											<div class="text_div">
+											<form action="home.php" method="POST" style="margin-left:-22px; margin-top:-12px ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<button name = "Logout" type="submit" ><span style="margin-left:-10px;">Logout</span></button>  
+          									</form>	
+											
 											</div>
 										</div>
 									</ul>
 								</li>
-								<li class="checkout">
+								<!-- <li class="checkout">
 									<a href="#">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 										<span id="checkout_items" class="checkout_items">
@@ -120,7 +130,7 @@
 										?>
 										</span>
 									</a>
-								</li>
+								</li> -->
 							</ul>
 							<div class="hamburger_container">
 								<i class="fa fa-bars" aria-hidden="true"></i>
@@ -152,8 +162,8 @@
 						<li><a onclick="showRegisterModal()">Register&nbsp;&nbsp;<i class="fa fa-user-plus" aria-hidden="true"></i></a></li>
 					</ul>
 				</li>
-				<li class="menu_item"><a href="#">Term & Condition</a></li>
-				<li class="menu_item"><a href="contact.html">contact</a></li>
+				<!--<li class="menu_item"><a href="#">Term & Condition</a></li>
+				<li class="menu_item"><a href="contact.html">contact</a></li> -->
 			</ul>
 		</div>
 		<div class="hamburger_footer"><img src="images/logo.jpg" width="160px"></div>
@@ -249,14 +259,14 @@
 					<div class="col-lg-6">
 						<div class="cart_extra cart_extra_1">
 							<div class="cart_extra_content cart_extra_coupon">
-								<div class="cart_extra_title">Coupon code</div>
-								<div class="coupon_form_container">
+								<!-- <div class="cart_extra_title">Coupon code</div>
+									<div class="coupon_form_container">
 									<form action="#" id="coupon_form" class="coupon_form">
 										<input type="text" class="coupon_input" required="required">
 										<button class="coupon_button">apply</button>
 									</form>
-								</div>
-								<div class="coupon_text">Phasellus sit amet nunc eros. Sed nec congue tellus. Aenean nulla nisl, volutpat blandit lorem ut.</div>
+								</div> 
+								<div class="coupon_text">Phasellus sit amet nunc eros. Sed nec congue tellus. Aenean nulla nisl, volutpat blandit lorem ut.</div>-->
 								<div class="shipping">
 									<div class="cart_extra_title">Shipping Method</div>
 									<ul>
@@ -320,7 +330,7 @@
 
 	<!-- Blogs -->
 
-	<div class="blogs">
+	<!-- <div class="blogs">
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
@@ -362,7 +372,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- Newsletter -->
 
@@ -392,28 +402,6 @@
 	<footer class="footer">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-6">
-					<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
-						<ul class="footer_nav">
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">FAQs</a></li>
-							<li><a href="contact.html">Contact us</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
-						<ul>
-							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col-lg-12">
 					<div class="footer_nav_container">
 						<div class="cr">©2020 <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Sun Shop</a></div>
@@ -427,15 +415,6 @@
 		<div>
 			<button type="button" class="btn btn-main btn-primary has-tooltip" data-placement="left" title="Menu"> <i class="fa fa-arrow-up"></i> </button>
 		</div>
-	</div>
-
-	<!-- The social media icon bar -->
-	<div class="icon-bar">
-		<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-		<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-		<a href="#" class="google"><i class="fa fa-google"></i></a>
-		<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-		<a href="#" class="youtube"><i class="fa fa-youtube"></i></a>
 	</div>
 
 </div>
@@ -715,16 +694,4 @@
 		shippingcek(shippingtype);
 	});
 
-</script>
-
-<script type="text/javascript">
-	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-	(function(){
-	var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-	s1.async=true;
-	s1.src='https://embed.tawk.to/5dedcbe1d96992700fcb5cbd/1drnchuei';
-	s1.charset='UTF-8';
-	s1.setAttribute('crossorigin','*');
-	s0.parentNode.insertBefore(s1,s0);
-	})();
 </script>
