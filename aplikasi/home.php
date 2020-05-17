@@ -388,11 +388,11 @@ if (isset($_POST['Logout'])) {
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 
-						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Add to Wishlist</button>');
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Add to Wishlist</button>');
 						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
 						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
@@ -449,11 +449,11 @@ if (isset($_POST['Logout'])) {
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 
-						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Add to Wishlist</button>');
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Add to Wishlist</button>');
 						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
 						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
@@ -530,11 +530,11 @@ if (isset($_POST['Logout'])) {
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 
-						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Add to Wishlist</button>');
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Add to Wishlist</button>');
 						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
 						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
