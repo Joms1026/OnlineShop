@@ -388,12 +388,12 @@ if (isset($_POST['Logout'])) {
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px) translateY(-30px)">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 
-						var newElementWish = $('<button type="submit" id="btnWish" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px) translateY(-25px)">Add to Wishlist</button>');
-						newElementWish.on("click", {"idx": isiProduct[index][0]}, fungsiBtnWish);
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Add to Wishlist</button>');
+						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
 						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
 				} else {
@@ -449,12 +449,12 @@ if (isset($_POST['Logout'])) {
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px) translateY(-30px)">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 
-						var newElementWish = $('<button type="submit" id="btnWish" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px) translateY(-25px)">Add to Wishlist</button>');
-						newElementWish.on("click", {"idx": isiProduct[index][0]}, fungsiBtnWish);
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Add to Wishlist</button>');
+						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
 						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
 				} else {
@@ -530,12 +530,12 @@ if (isset($_POST['Logout'])) {
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px) translateY(-30px)">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 
-						var newElementWish = $('<button type="submit" id="btnWish" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px) translateY(-25px)">Add to Wishlist</button>');
-						newElementWish.on("click", {"idx": isiProduct[index][0]}, fungsiBtnWish);
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:25px; background-color: red; color: white; transform: translateY(-25px)">Add to Wishlist</button>');
+						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
 						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
 				} else {
