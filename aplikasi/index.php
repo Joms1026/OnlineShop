@@ -318,7 +318,6 @@ if(isset($_POST["register"]))
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Home</a></li>
-								<li><a href="#">Term & Condition</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
@@ -376,7 +375,6 @@ if(isset($_POST["register"]))
 						<li><a onclick="showRegisterModal()">Register&nbsp;&nbsp;<i class="fa fa-user-plus" aria-hidden="true"></i></a></li>
 					</ul>
 				</li>
-				<li class="menu_item"><a href="#">Term & Condition</a></li>
 				<li class="menu_item"><a href="contact.html">contact</a></li>
 			</ul>
 		</div>
@@ -414,7 +412,7 @@ if(isset($_POST["register"]))
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="new_arrivals">
 		<div class="container">
 			<div class="row">
@@ -639,7 +637,6 @@ if(isset($_POST["register"]))
 				<p id="deskripsi"></p>
 				<p id="harga"></p>
 				<form id="formDetail"></form>
-				<form id="formBtn"></form>
 			</div>
 		</div>
 	</div>
@@ -678,25 +675,30 @@ if(isset($_POST["register"]))
 				if(isiProduct != "none"){
 					for (let index = 0; index < isiProduct.length; index++) {
 						$("#product-grid").append(`
-							<div id="product-wrap" style="width:205px; height:305px">
-								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
-									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
-									</div>
-									<div class="favorite favorite_left"></div>
-									<div class="product_info" style="height:95px">
-										<h6 class="product_name">${isiProduct[index][1]}</h6>
-										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
-									</div>
-									<div id="product-button${isiProduct[index][0]}"> </div>
-								</div> 
+						<div class="product-item"id="product${isiProduct[index][0]}" >
+							<div class="product product_filter" >
+								<div class="product_image" >
+									<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
+								</div>
+								<div class="favorite"></div>
+								<div class="product_info">
+									<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
+									<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+								</div>
+							</div>
+							<div id="product-button${isiProduct[index][0]}"> </div>
 							</div>
 						`);
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(height:-100%)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Add to Wishlist</button>');
+						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
+						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
 				} else {
 					$("#product-grid").append("<h3> Coba kata kunci lainnya!</h3>");
@@ -752,9 +754,13 @@ if(isset($_POST["register"]))
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="transform:translateX(15px); width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100% background-color: red; color: white; transform: translateY(-100%)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Add to Wishlist</button>');
+						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
+						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
 				} else {
 					$("#product-grid").append("<h3> Data yang Anda Cari Belum Tersedia untuk Saat Ini!</h3>");
@@ -808,39 +814,6 @@ if(isset($_POST["register"]))
 		$("#loginModal").modal("toggle");
 	}
 
-	// function loadNewArrivals(){
-	// 	$("#product-new").html('');
-	// 	$.ajax({
-	// 		method: "post",
-	// 		url : "getNewArrival.php",
-	// 		success : function(res){
-	// 			var isiProduct = JSON.parse(res);
-	// 			//console.log(isiProduct);
-	// 			var ctr = 0; 
-	// 			for (let index = 0; index < isiProduct.length; index++) {
-	// 				$("#product-new").append(`
-					
-	// 					<div class="product_image">
-	// 						<img src="images/product_1.png" alt="">
-	// 					</div>
-	// 					<div class="favorite favorite_left"></div>
-	// 						<div class="product_info">
-	// 							<h6 class="product_name"><a href="single.html">Brown Hoodie</a></h6>
-	// 							<div class="product_price">Rp 65.000</div>
-	// 						</div>
-	// 					</div>
-	// 				`);
-	// 				ambilHarga(isiProduct[index][0]);
-	// 				ambilGambar(isiProduct[index][0]);
-
-	// 				var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
-	// 				newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
-	// 				$("#product-button"+isiProduct[index][0]).append(newElementDetail);
-	// 			}
-	// 		}
-	// 	})
-	// }
-
 	function loadProduct(){
 		$("#product-grid").html('');
 		$.ajax({
@@ -869,9 +842,13 @@ if(isset($_POST["register"]))
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px)">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Add to Wishlist</button>');
+						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
+						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
 				} else {
 					$("#product-grid").append("<h3> Belum Ada Barang Tersedia! </h3>");
@@ -879,6 +856,11 @@ if(isset($_POST["register"]))
 			}
 		})
 	};
+
+	function fungsiBtnWish(e){
+		e.preventDefault;
+		alert("Silahkan login terlebih dahulu untuk memasukkan barang ke wishlist!");
+	}
 
 	function ambilGambar(id){
 		$.ajax({

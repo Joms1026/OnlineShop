@@ -11,13 +11,11 @@
     ];
     $cobaselect = executeQuery("SELECT * from kategori");
     if (isset($_POST['addproduk'])) {	
-        // var_dump($_POST);
         $namaproduk      = $_POST['namaproduk'];
         $stokProduk      = $_POST['stokProduk'];
         $kategori        = $_POST['kategori'];
-        // $uploadgambar    = $_POST['uploadgambar'];
         $deskripsiproduk = $_POST['deskripsiproduk'];
-        $insertbarang = executeNonQuery("INSERT INTO baju(NAMA, DESKRIPSI, STATUS, ID_KATEGORI) values 
+        $insertbarang    = executeNonQuery("INSERT INTO baju(NAMA, DESKRIPSI, STATUS, ID_KATEGORI) values 
         ('$namaproduk','$deskripsiproduk',1, $kategori)");
         $ambilID = executeQuery("SELECT max(ID) as id from baju")[0]['id'];
         $kodeukuranProduk = [
@@ -34,34 +32,27 @@
             $warna       = $_POST['warna'][$key];
             $stok        = $_POST['stokProduk'][$key];
             $hargaProduk = $_POST['hargaproduk'][$key];
-
             $insertvarians = executeNonQuery("INSERT into varian_baju(ID_BAJU, HARGA, STOK, ID_WARNA, ID_UKURAN) values
             ($ambilID, $hargaProduk, $stok, '$warna', '$ukuran')");
         }
         
         
         foreach ($_FILES['uploadgambar']['name'] as $key => $img) {
-            
-            // echo json_encode($_FILES['uploadgambar'][$key]);
-
             if($_FILES['uploadgambar']['size'][$key] > 0 && $_FILES['uploadgambar']['error'][$key] == 0){
                 $target_dir = "uploads/produk/$ambilID";
 
                 if (!file_exists( $target_dir)) {
                     mkdir( $target_dir, 0777, true);
                 }
-                // $target_file = $target_dir . basename($_FILES['uploadgambar']["name"][$key]);
                 $imageFileType = strtolower(pathinfo(basename($_FILES['uploadgambar']["name"][$key]),PATHINFO_EXTENSION));
-
-                $filename = $ambilID.uniqid().".".$imageFileType;
-                $target_file = $target_dir."/" . $filename;
-                $uploadOk = 1;
+                $filename      = $ambilID.uniqid().".".$imageFileType;
+                $target_file   = $target_dir."/" . $filename;
+                $uploadOk      = 1;
 
                 if (move_uploaded_file($_FILES['uploadgambar']["tmp_name"][$key], $target_file)) {
                     # Buat ExecuteNonQuery Insert nama gambar $filename
                     $insertgambar = executeNonQuery("INSERT into gambar(LINK_GAMBAR,ID_BAJU) values
                     ('$filename',$ambilID)");
-                    // echo "The file ". basename( $_FILES['uploadgambar']["name"][$key]). " has been uploaded.";
                 } else {
                     
                 }
@@ -72,14 +63,43 @@
         $hapus = $_POST['delete'];
         $hapusbarang = executeNonQuery("UPDATE baju set STATUS = 1-STATUS where ID=$hapus");
     }
-    if(isset($_POST['updatebaju'])){
-        $updatebaju = $_POST['updatebaju'];
-        $editnamaproduk=    $_POST['editnamaproduk'];
-        $editkategori=   $_POST['editkategori'];
-        $editdeskripsiproduk=    $_POST['editdeskripsiproduk'];
-        // $edituploadgambar=   $_POST['edituploadgambar'];
-        $editIdProduk = $_POST['editIdProduk'];
-        $updatebajuproduk = executeNonQuery("UPDATE baju set NAMA='$editnamaproduk', DESKRIPSI='$editdeskripsiproduk' where ID=$editIdProduk ");
+    if ( isset($_POST['updatebaju']) ){
+        $updatebaju          = $_POST['updatebaju'];
+        $editnamaproduk      = $_POST['editnamaproduk'];
+        $editkategori        = $_POST['editkategori'];
+        $editdeskripsiproduk = $_POST['editdeskripsiproduk'];
+        $editIdProduk        = $_POST['editIdProduk'];
+        $updatebajuproduk    = executeNonQuery("UPDATE baju set NAMA='$editnamaproduk', DESKRIPSI='$editdeskripsiproduk' where ID=$editIdProduk ");
+
+        if (isset($_FILES['edituploadgambar']) && !empty($_FILES['edituploadgambar']) && $_FILES['edituploadgambar']['name'][0]!="") {
+            $deletegambarproduk = executeNonQuery("DELETE FROM gambar WHERE ID_BAJU=$editIdProduk");
+            if ($deletegambarproduk['status']) {
+                array_map('unlink', glob("uploads/produk/$editIdProduk/*.*"));
+            }
+            foreach ($_FILES['edituploadgambar']['name'] as $key => $img) {
+                if($_FILES['edituploadgambar']['size'][$key] > 0 && $_FILES['edituploadgambar']['error'][$key] == 0){
+                    $target_dir = "uploads/produk/$editIdProduk";
+                    if (!file_exists( $target_dir)) {
+                        mkdir( $target_dir, 0777, true);
+                    }                    
+                    $imageFileType = strtolower(pathinfo(basename($_FILES['edituploadgambar']["name"][$key]),PATHINFO_EXTENSION));
+                    $filename      = $editIdProduk.uniqid().".".$imageFileType;
+                    $target_file   = $target_dir."/" . $filename;
+                    $uploadOk      = 1;
+    
+                    if (move_uploaded_file($_FILES['edituploadgambar']["tmp_name"][$key], $target_file)) {
+                        # Buat ExecuteNonQuery Insert nama gambar $filename
+                        $insertgambar = executeNonQuery("INSERT into gambar(LINK_GAMBAR,ID_BAJU) values
+                        ('$filename',$editIdProduk)");
+                    } else {
+                        
+                    }
+                }
+            }
+        }
+        
+
+        
     }
     if (isset($_POST['updatevarian'])) {
         # code...
@@ -373,8 +393,6 @@
             <!-- /.content-header -->
             <section class="content">
                 <div class="container-fluid">
-                    <?php // Ganti halaman mu disini 
-                    // var_dump($cobaselect);?>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addProductModal">
                     Add Produk
@@ -388,7 +406,7 @@
                         GROUP BY b.ID;
 
                     ") ;
-                    // var_dump($ambilproduk);
+                    
                     ?>
                     <table class="table" id="tableProduk">
                         <thead>

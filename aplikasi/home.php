@@ -3,9 +3,9 @@ include("conn.php");
 session_start();
 $user=$_SESSION['username'];
 
-// if(!isset($_SESSION['username'])){
-// 	header('location:index.php');
-// }
+if(!isset($_SESSION['username'])){
+	header('location:index.php');
+}
 
 if (isset($_POST['Logout'])) {
     header('location:index.php');
@@ -122,6 +122,7 @@ if (isset($_POST['Logout'])) {
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Home</a></li>
 								<li><a href="chat.php">Chat</a></li>
+								<li><a href="wishlist.php">Wishlist</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
@@ -233,20 +234,6 @@ if (isset($_POST['Logout'])) {
 		</div>
 	</div>
 
-	<!-- Banner -->
-
-	<!--<div class="banner">
-		<!-- <div class="container"> -->
-                <!--<div class="row rowbanner">
-					<div class="col-md-1"></div>
-                    <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar2.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
-                    <div class="col-md-2 hidden-phone" style="background-image:url(images/gambar4.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;"></div>
-                    <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar3.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
-					<div class="col-md-1"></div>
-                </div>-->
-		<!-- </div> -->
-	<!--</div>-->
-
 	<!-- New Arrivals -->
 
 	<div class="new_arrivals">
@@ -304,41 +291,6 @@ if (isset($_POST['Logout'])) {
 	?>
 
 	<div class="deal_ofthe_week" style="transform:translateY(<?= $geser ?>)">
-		<!-- <div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6">
-					<div class="deal_ofthe_week_img">
-						<img src="images/deal_ofthe_week.png" alt="">
-					</div>
-				</div>
-				<div class="col-lg-6 text-right deal_ofthe_week_col">
-					<div class="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
-						<div class="section_title">
-							<h2>Deal Of The Week</h2>
-						</div>
-						<ul class="timer">
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="day" class="timer_num">03</div>
-								<div class="timer_unit">Day</div>
-							</li>
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="hour" class="timer_num">15</div>
-								<div class="timer_unit">Hours</div>
-							</li>
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="minute" class="timer_num">45</div>
-								<div class="timer_unit">Mins</div>
-							</li>
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="second" class="timer_num">23</div>
-								<div class="timer_unit">Sec</div>
-							</li>
-						</ul>
-						<div class="red_button deal_ofthe_week_button"><a href="#">shop now</a></div>
-					</div>
-				</div>
-			</div>
-		</div> -->
 		<div id="shadow" style="height:<?= $geser ?>; background-color:white"></div>
 	</div>
 	
@@ -355,16 +307,6 @@ if (isset($_POST['Logout'])) {
 			</div>
 			<div class="row">
 				<div class="col">
-					<!-- <div class="product_slider_container">
-						<div class="owl-carousel owl-theme product_slider"> 
-
-						<div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
-							<i class="fa fa-chevron-left" aria-hidden="true"></i>
-						</div>
-						<div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
-							<i class="fa fa-chevron-right" aria-hidden="true"></i>
-						</div> 
-					</div> -->
 				</div>
 			</div>
 		</div>
@@ -392,70 +334,6 @@ if (isset($_POST['Logout'])) {
 </div>
 <div class="box">
     <div class="navbox"></div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-		<div class="modal-body">
-			<div class="container-login" id="container-login">
-				<div class="form-container sign-up-container">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<form action="#" class="form-login">
-						<h3>Create Account</h3>
-						<br>
-						<input type="text" placeholder="Name" />
-						<input type="email" placeholder="Email" />
-						<input type="password" placeholder="Password" />
-						<input type="password" placeholder="Confirm Password" />
-						<br>
-						<button class="button-login">Register</button>
-						<br>
-						<span>or use your account for login</span>
-						<div class="social-container">
-							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-							<a href="#" class="social"><i class="fa fa-google"></i></a>
-						</div>
-					</form>
-				</div>
-				<div class="form-container sign-in-container">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<form action="#" class="form-login">
-						<h3>Sign in</h3>
-						<br>
-						<input type="email" placeholder="Email" />
-						<input type="password" placeholder="Password" />
-						<br>
-						<button class="button-login">Sign In</button>
-						<br>
-						<span>or use your account for login</span>
-						<div class="social-container">
-							<a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
-							<a href="#" class="social"><i class="fa fa-google"></i></a>
-						</div>
-						<br>
-						<a href="#">Forgot your password?</a>
-					</form>
-				</div>
-				<div class="overlay-container">
-					<div class="overlay">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<div class="overlay-panel overlay-left">
-							<p>Keep connected with us</p>
-							<button class="button-login ghost" id="signIn">Sign In</button>
-						</div>
-						<div class="overlay-panel overlay-right">
-							<h1></h1>
-							<p>Enter your personal details and start journey with us</p>
-							<button class="button-login ghost" id="signUp">Register</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</div>
-	</div>
 </div>
 
 <script src="js/jquery-3.2.1.min.js"></script>
@@ -493,31 +371,51 @@ if (isset($_POST['Logout'])) {
 				if(isiProduct != "none"){
 					for (let index = 0; index < isiProduct.length; index++) {
 						$("#product-grid").append(`
-							<div id="product-wrap" style="width:205px; height:305px">
-								<div id="product${isiProduct[index][0]}" style="width:200px; height:300px">
-									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+							<div class="product-item"id="product${isiProduct[index][0]}" >
+								<div class="product product_filter" >
+									<div class="product_image" >
+										<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
 									</div>
-									<div class="favorite favorite_left"></div>
-									<div class="product_info" style="height:95px">
-										<h6 class="product_name">${isiProduct[index][1]}</h6>
+									<div class="favorite"></div>
+									<div class="product_info">
+										<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
 										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
 									</div>
-									<div id="product-button${isiProduct[index][0]}"> </div>
-								</div> 
+								</div>
+								<div id="product-button${isiProduct[index][0]}"> </div>
 							</div>
 						`);
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Add to Wishlist</button>');
+						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
+						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
 				} else {
 					$("#product-grid").append("<h3> Data yang Anda Cari Belum Tersedia untuk Saat Ini!</h3>");
 				}
 			}
 		})
+	}
+
+	function fungsiBtnWish(e){
+		var index = e.data.idx;
+		$.ajax({
+			method: "post",
+			url : "tambahWishlist.php",
+			data : `idx=${index}`,
+			success : function(res){
+				var detailWish = JSON.parse(res);
+				alert(detailWish);
+			}
+		});
+
+		e.preventDefault;
 	}
 
 	$("#form-Search").click(function (e) {
@@ -534,25 +432,30 @@ if (isset($_POST['Logout'])) {
 				if(isiProduct != "none"){
 					for (let index = 0; index < isiProduct.length; index++) {
 						$("#product-grid").append(`
-							<div id="product-wrap" style="width:205px; height:305px">
-								<div id="product${isiProduct[index][0]}" style="border:solid 1px black; width:200px; height:300px">
-									<div id="product-image${isiProduct[index][0]}" style="height:145px; transform: translateX(50px) translateY(5px)">
+							<div class="product-item"id="product${isiProduct[index][0]}" >
+								<div class="product product_filter" >
+									<div class="product_image" >
+										<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
 									</div>
-									<div class="favorite favorite_left"></div>
-									<div class="product_info" style="height:95px">
-										<h6 class="product_name">${isiProduct[index][1]}</h6>
+									<div class="favorite"></div>
+									<div class="product_info">
+										<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
 										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
 									</div>
-									<div id="product-button${isiProduct[index][0]}"> </div>
-								</div> 
+								</div>
+								<div id="product-button${isiProduct[index][0]}"> </div>
 							</div>
 						`);
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Add to Wishlist</button>');
+						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
+						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
 				} else {
 					$("#product-grid").append("<h3> Coba kata kunci lainnya!</h3>");
@@ -627,9 +530,13 @@ if (isset($_POST['Logout'])) {
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+
+						var newElementWish = $('<button type="submit" id="btnWish" style="width: 99%; height:100%; background-color: red; color: white; transform: translateY(-100%)">Add to Wishlist</button>');
+						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
+						$("#product-button"+isiProduct[index][0]).append(newElementWish);
 					}
 				} else {
 					$("#product-grid").append("<h3> Belum Ada Barang Tersedia! </h3>");

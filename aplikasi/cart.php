@@ -87,11 +87,8 @@
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Shopping</a></li>
 								<li><a href="home.php">Home</a></li>
-								<!-- <li><a href="#">Term & Condition</a></li>
-								<li><a href="contact.html">contact</a></li> -->
+								<li><a href="wishlist.php">Wishlist</a></li>
 							</ul>
-								<!-- <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li> -->
-								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
 								<li class="account">
 									<a>
 										<i class="fa fa-user" aria-hidden="true"></i>

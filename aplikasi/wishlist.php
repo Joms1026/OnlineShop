@@ -1,22 +1,13 @@
 <?php
-include("conn.php");
-session_start();
+    include("conn.php");
+    session_start();
 
-$user=$_SESSION['username'];
+	$user=$_SESSION['username'];
 
-$idx="";
-if (isset($_POST['Logout'])) {
-    header('location:index.php');
-    unset($_SESSION['username']);
-}
-
-if(isset($_GET['idx'])){
-    $idx = $_GET['idx'];
-    // echo "<script>alert($idx); </script>";
-} else {
-    echo "<script>alert('none'); </script>";
-}
-
+    if (isset($_POST['Logout'])) {
+        header('location:index.php');
+        unset($_SESSION['username']);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -128,9 +119,9 @@ if(isset($_GET['idx'])){
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
-								<li><a href="home.php" class="actived">Home</a></li>
-								<li><a href="chat.php">Chat</a></li>
-								<li><a href="wishlist.php">Wishlist</a></li>
+								<li><a href="home.php">Home</a></li>
+                                <li><a href="chat.php">Chat</a></li>
+                                <li><a href="#" class="actived">Wishlist</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
@@ -210,102 +201,52 @@ if(isset($_GET['idx'])){
 		<div class="hamburger_footer"><img src="images/logo.jpg" width="160px"></div>
 	</div>
 
-	<form id="formShadow">
-        <input type="hidden" value="<?= $idx ?>" name="idx">
-    </form>
-	<!-- Banner -->
-
-	<!--<div class="banner">
-		<!-- <div class="container"> -->
-                <!--<div class="row rowbanner">
-					<div class="col-md-1"></div>
-                    <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar2.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
-                    <div class="col-md-2 hidden-phone" style="background-image:url(images/gambar4.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;"></div>
-                    <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar3.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
-					<div class="col-md-1"></div>
-                </div>-->
-		<!-- </div> -->
-	<!--</div>-->
-
 	<!-- New Arrivals -->
 
 	<div class="new_arrivals">
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<!-- <div class="section_title new_arrivals_title">
-						<h2>New Arrivals</h2>
-					</div> -->
+					<div class="section_title new_arrivals_title">
+                        <h1 style="transform: translateY(200px)">Wishlist</h1>
+
+					</div>
 				</div>
 			</div>
-			<div class="row align-items-center">
-				<div class="col text-center">
-                    <div class="detail-content">
-                        <div class="content-header">
-                            <h2 id="modalHeader"></h2>
-                        </div> <br/>
-                        <div id="modalBody">
-                            <div class="slideshow-container" id="slideshow-container" style="height: 210px;"></div>
-                            <p id="deskripsi" style="transform: translateY(110px)"></p>
-                            <p id="harga" style="transform: translateY(110px)"></p>
-                            <form id="formDetail" style="transform: translateY(110px)">
-                            
-                            </form>
-                        </div>
-                    </div>
+			<div class="row">
+				<div class="col">
+					<div id="product-grid" class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' style="display:flex;flex-wrap:wrap;  justify-content: center; transform: translateY(150px)">
+						<!-- Product -->
+						
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<?php
-		$querySelect = "SELECT * FROM baju WHERE status = 1";
-		$result = mysqli_query($conn, $querySelect);
 		$geser = "0";
-		if($result->num_rows < 5){
-			$geser = "400px";
-		} else {
-			$geser = $result->num_rows / 3 * 350;
-			$geser = $geser."px";
+		$querySelect = "SELECT id_user FROM users WHERE nama='$user'";
+		$result = mysqli_query($conn, $querySelect);
+
+		if($result){
+			$id = mysqli_query($conn, $querySelect)->fetch_assoc();
+			$id = $id['id_user'];
+			$querySelect = "SELECT * FROM wishlist WHERE id_user=$id";
+			$result = mysqli_query($conn, $querySelect);
+
+			if($result){
+				if($result->num_rows < 5){
+					$geser = "600px";
+				} else {
+					$geser = $result->num_rows / 3 * 350 + 250;
+					$geser = $geser."px";
+				}
+			}
 		}
 	?>
 
 	<div class="deal_ofthe_week" style="transform:translateY(<?= $geser ?>)">
-		<!-- <div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6">
-					<div class="deal_ofthe_week_img">
-						<img src="images/deal_ofthe_week.png" alt="">
-					</div>
-				</div>
-				<div class="col-lg-6 text-right deal_ofthe_week_col">
-					<div class="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
-						<div class="section_title">
-							<h2>Deal Of The Week</h2>
-						</div>
-						<ul class="timer">
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="day" class="timer_num">03</div>
-								<div class="timer_unit">Day</div>
-							</li>
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="hour" class="timer_num">15</div>
-								<div class="timer_unit">Hours</div>
-							</li>
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="minute" class="timer_num">45</div>
-								<div class="timer_unit">Mins</div>
-							</li>
-							<li class="d-inline-flex flex-column justify-content-center align-items-center">
-								<div id="second" class="timer_num">23</div>
-								<div class="timer_unit">Sec</div>
-							</li>
-						</ul>
-						<div class="red_button deal_ofthe_week_button"><a href="#">shop now</a></div>
-					</div>
-				</div>
-			</div>
-		</div> -->
 		<div id="shadow" style="height:<?= $geser ?>; background-color:white"></div>
 	</div>
 	
@@ -376,24 +317,12 @@ if(isset($_GET['idx'])){
 
 <script>
 	$(document).ready(function(){
-		loadDetail();
+		loadWishlist();
     });
 
 	const container = document.getElementById('container-login');
 
 	$('#btnToTop').fadeOut();
-
-	$( "#signUp" ).click(function() {
-		$(".sign-in-container").hide();
-		$(".sign-up-container").show();
-		container.classList.add("right-panel-active");
-	});
-
-	$( "#signIn" ).click(function() {
-		$(".sign-in-container").show();
-		$(".sign-up-container").hide();
-		container.classList.remove("right-panel-active");
-	});
 
 	$(window).scroll(function() {
 		if ($(this).scrollTop()) {
@@ -405,16 +334,6 @@ if(isset($_GET['idx'])){
 
 	function scrollToTop(){
 		$('html, body').animate({scrollTop: '0px'}, 300);
-	}
-	
-	function showLoginModal(){
-		$("#signIn").trigger( "click" );
-		$("#loginModal").modal("toggle");
-	}
-	
-	function showRegisterModal(){
-		$("#signUp").trigger( "click" );
-		$("#loginModal").modal("toggle");
 	}
 
 	function ambilGambar(id){
@@ -461,169 +380,66 @@ if(isset($_GET['idx'])){
 		rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
 		return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 	}
-
-	function loadDetail(e){
-        var idxBtnDetail = "";
-        $.ajax({
-			method : "post",
-			url : "getDeskripsi.php",
-			data : $("#formShadow").serialize(),
-			success : function (r) {
-                var detail = JSON.parse(r);
-                idxBtnDetail = detail['id'];
-
-				$("#deskripsi").append(`
-					&nbsp; &nbsp; &nbsp;
-					deskripsi : ${detail["deskripsi"]}
-                `);
-                
-                ambilSemuaGambar(idxBtnDetail);
-                addRbSize(idxBtnDetail);
-                addRbColor(idxBtnDetail);
-                $("#formDetail").append('<input type="hidden" name="id" value="'+idxBtnDetail+'">');
-			}
-		})	
-    }
     
-	$('#formDetail').submit(function(e){
+    function loadWishlist(){
+		$("#product-grid").html('');
 		$.ajax({
-			method : "post",
-			url : "addToCart.php",
-			data : $("#formDetail").serialize(),
-			success : function(res) {
-				alert("berhasil ditambahkan");
-			}
-		});
-		e.preventDefault();
-	});
-	
-	function ambilSemuaGambar(id) {
-		$.ajax({
-			method : "post",
-			url : "getAllImage.php",
-			data : `idx=${id}`,
-			success : function (result) {
-				var gambar = JSON.parse(result);
-				for (let index = 0; index < gambar.length; index++) {
-					srcGambar = `admin/uploads/produk/${id}/${gambar[index]}`;
-					$("#slideshow-container").append(`
-						<div class="mySlides1" style="transform:translateY(100px)">
-							<img src=${srcGambar} style="width:150px; height:200px;">
-						</div>
-					`);
-				}
-				$("#slideshow-container").append(`
-					<a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
-					<a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
-				`);
-			}
-		})
-	}
+			method: "post",
+			url : "getWishlist.php",
+			success : function(res){
+				var isiProduct = JSON.parse(res);
 
-	function addRbSize(ind){
-		var arrSize = [];
-
-		$.ajax({
-			method : "post",
-			url : "getDetailSize.php",
-			data : `idx=${ind}`,
-			success : function (result) {
-				var detail = JSON.parse(result);
-				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Size : ");
-				for (let index = 0; index < detail.length; index++) {
-					var masuk = true;
-					for (let i = 0; i < arrSize.length; i++) {
-						if(arrSize[i] == detail[index][4]){
-							masuk = false;
-						}
-					}
-					if(masuk == true){
-						arrSize.push(detail[index][4]);
-
-						if(index == 0){
-							$("#formDetail").append(`
-								<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
-							`);
-						} else {
-							$("#formDetail").append(`
-								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-								<input type="radio" name="ukuran" value="${detail[index][4]}">${detail[index][4]} <br/>
-							`);
-						}
-					}
-				}
-			}
-		});
-	}
-
-	function  addRbColor(ind) {
-		var arrColor = [];
-		
-		$.ajax({
-			method : "post",
-			url : "getDetailColor.php",
-			data : `idx=${ind}`,
-			success : function (result) {
-				var detail = JSON.parse(result);
-				
-				$("#formDetail").append("&nbsp; &nbsp; &nbsp; Color : ");
-				for (let index = 0; index < detail.length; index++) {
-					var masuk = true;
-					for (let i = 0; i < arrColor.length; i++) {
-						if(arrColor[i] == detail[index][4]){
-							masuk = false;
-						}
-					}
-					if(masuk == true){
-						arrColor.push(detail[index][4]);
-
-						if(index == 0){
-							$("#formDetail").append(`
-								<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
-							`);
-						} else {
-							$("#formDetail").append(`
-								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-								<input type="radio" name="warna" value="${detail[index][4]}">${detail[index][4]}  <br/>
-							`);
-						}
-					}	
-					if(index == detail.length-1){
-						$("#formDetail").append(`
-							&nbsp; &nbsp; &nbsp;
-							Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
-							<br/> &nbsp; &nbsp; 
-							<button type="submit" name="btnAdd" style="background-color:red; color:white; width:245px">Add To Cart</buton>
+				if(isiProduct != "none"){
+					for (let index = 0; index < isiProduct.length; index++) {
+						$("#product-grid").append(`
+							<div class="product-item"id="product${isiProduct[index][0]}" >
+								<div class="product product_filter" >
+									<div class="product_image" >
+										<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
+									</div>
+									<div class="favorite"></div>
+									<div class="product_info">
+										<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
+										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
+									</div>
+								</div>
+								<div id="product-button${isiProduct[index][0]}"> </div>
+							</div>
 						`);
+						ambilHarga(isiProduct[index][0]);
+						ambilGambar(isiProduct[index][0]);
+
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100%; background-color: red; color: white; transform:translateY(-100%)">Show Detail</button>');
+						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
+						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
+
+						var newElementDelete = $('<button type="submit" id="btnDelete" style="width: 99%; height:100%; background-color: red; color: white; transform:translateY(-100%)">Delete</button>');
+						newElementDelete.on("click", {"index": isiProduct[index][0]}, fungsiBtnDelete);
+						$("#product-button"+isiProduct[index][0]).append(newElementDelete);
 					}
+				} else {
+					$("#product-grid").append("<h3> Belum Ada Barang Tersedia! </h3>");
 				}
 			}
 		})
+	};
+
+	function fungsiBtnDetail(e){
+		var idxBtnDetail = e.data.idx;
+		window.location.href = `detailLogin.php?idx=${idxBtnDetail}`;
 	}
 
-	function add() {
-		// $("#formBtn").append(`
+	function fungsiBtnDelete(e){
+		var idx = e.data.index;
 
-		// `)
-	}
-
-	var slideIndex = [1,1];
-	var slideId = ["mySlides1"]
-	showSlides(1, 0);
-	showSlides(1, 1);
-
-	function plusSlides(n, no) {
-		showSlides(slideIndex[no] += n, no);
-	}
-
-	function showSlides(n, no) {
-		var i;
-		var x = document.getElementsByClassName(slideId[no]);
-		if (n > x.length) {slideIndex[no] = 1}    
-		if (n < 1) {slideIndex[no] = x.length}
-		for (i = 0; i < x.length; i++) {
-			x[i].style.display = "none";  
-		}
-		x[slideIndex[no]-1].style.display = "block"; 
+		$.ajax({
+			method : "post",
+			url : "deleteWishlist.php",
+			data : `idx=${idx}`,
+			success : function(res) {
+				var result = JSON.parse(res);
+				loadWishlist();
+			}
+		});
 	}
 </script>
