@@ -21,11 +21,13 @@ if(isset($_POST["login"]))
 						else if ($row["STATUS"] == "1") {
 							if ($row["ROLE"] == "0") {
 								$_SESSION['username']= $row["NAMA"];
+								$_SESSION['userid']= $row["ID_USER"];
 								$user=$_SESSION['username'];
 								echo "<script>alert('$user')</script>";
 								header("location: home.php");
 							} else if ($row["ROLE"] == "1") {
 								$_SESSION['username']= $row["NAMA"];
+								$_SESSION['userid']= $row["ID_USER"];
 								header("location: admin/dashboard.php");
 								
 							} 
