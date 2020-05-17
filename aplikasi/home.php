@@ -1,7 +1,7 @@
 <?php
 include("conn.php");
 session_start();
-// $user=$_SESSION['username'];
+$user=$_SESSION['username'];
 
 // if(!isset($_SESSION['username'])){
 // 	header('location:index.php');

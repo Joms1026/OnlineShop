@@ -10,8 +10,10 @@
 	if(isset($_POST["continueshopping"])){
 		header("Location: home.php");
 	}
-
-
+	
+	if(isset($_POST["btnCheckout"])){	
+		header("Location: checkout.php");
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -319,7 +321,11 @@
 										<div class="cart_extra_total_value ml-auto" id="carttotal"></div>
 									</li>
 								</ul>
-								<div class="checkout_button trans_200"><a href="checkout.php">proceed to checkout</a></div>
+								<div class="checkout_button trans_200">
+									<form method="post">
+										<a><button	 type="submit" name="btnCheckout"><a>proceed to checkout</a></button></a>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -575,27 +581,19 @@
 		else{
 			shipping2 = parseInt(shipping);
 		}
-		var result = total + parseInt(shipping2);
+		//alert(shipping2);
+		var result = parseInt(total) + parseInt(shipping2);
 		$("#carttotal").html('');
 		$("#carttotal").append(result);
+		shippingcek(shipping2);
 		$.ajax({
-			method : "post", // metode ajax
-			url : "ajax/simpanshipping.php", // tujuan request
-			data : {
-				shipping : shipping2,
-				total : result,
-			}, // data yang dikirim
-			success : function(res){
-				if(res == 0){
-					$("#shippingtype").html('');
-					$("#shippingtype").append("free");
-				}
-				else{
-					$("#shippingtype").html('');
-					$("#shippingtype").append(res + '.000');
-				}
+			method : "post",
+			url : "saveresult.php",
+			data: {
+				totals : total,
+				shippingtype : shipping2,
 			}
-		});
+		})
 	}
 
 	//buattotal
@@ -623,7 +621,7 @@
 				}
 				else{
 					$("#shippingtype").html('');
-					$("#shippingtype").append(res + '.000');
+					$("#shippingtype").append(res);
 				}
 			}
 		});
