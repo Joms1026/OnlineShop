@@ -9,7 +9,6 @@ function tambahVarianEdit() {
     let kodewarnaproduk  = $("#editwarna").val();
     let hargaproduk  = $("#edithargaproduk").val();
     let stokProduk   = $("#editstokProduk").val();
-    // console.log({ ukuranproduk, warna, hargaproduk, stokProduk }); // biar muncul di konsol
     if (ukuranproduk + warna in varians) {
         alert('ukuran dan warna sudah ada');
         // $(".varianMessage").html(
@@ -39,10 +38,8 @@ function tambahVarianEdit() {
             url: "ajax/edit-ajax.php",
             data: data,
             success: function (response) {
-                console.log(response);
                 let data = JSON.parse(response);
-                console.log(data.inserted);
-                let dom = `    <tr>
+                let dom  = `    <tr>
                                             <td>${ukuranproduk} 
                                             </td>
                                             <td>${warna}</td>
@@ -74,7 +71,6 @@ function tambahVarian() {
     let kodewarnaproduk  = $("#warna").val();
     let hargaproduk  = $("#hargaproduk").val();
     let stokProduk   = $("#stokProduk").val();
-    // console.log({ ukuranproduk, warna, hargaproduk, stokProduk }); // biar muncul di konsol
     if (ukuranproduk + warna in varians) {
         $(".varianMessage").html(
             `<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -149,7 +145,6 @@ function hapusVarian(element, varianData){
     $(element).parent().parent().remove();
 }
 function ajaxLoadEdit(idbaju){
-    console.log(idbaju);
     var data = [{name: 'load', value: idbaju}];
     $.ajax({
         type: "POST",
@@ -159,26 +154,27 @@ function ajaxLoadEdit(idbaju){
             variansedit = {};
             let {baju, varian} = JSON.parse(response);
             // Baju = Object, Varian = Array of Varian
+
             $('#editIdProduk').val(idbaju);
             $("#editnamaproduk").val(baju.NAMA);
             $("#editkategori").val(baju.ID_KATEGORI);
-            $('#editdeskripsi').val(baju.DESKRIPSI);
-            let gambars = baju.gambar.split('@');
-            let domGambar = "";
-            gambars.forEach(gambar => {
-                console.log({gambar});
-                domGambar += `
-                    <div class="col-4">
-                        <div style="background-image:url('./uploads/produk/${idbaju}/${gambar}')" class="ratio69 border div-image rounded" placeholder-image="default"></div>
-                    </div>
-                `;
-            });
-            $("#gambarLamaEdit").html(domGambar);
+            $('#editdeskripsiproduk').val(baju.DESKRIPSI);
+            if (baju.gambar!==null) {                
+                let gambars = baju.gambar.split('@');
+                let domGambar = "";
+                gambars.forEach(gambar => {
+                    domGambar += `
+                        <div class="col-4">
+                            <div style="background-image:url('./uploads/produk/${idbaju}/${gambar}')" class="ratio69 border div-image rounded" placeholder-image="default"></div>
+                        </div>
+                    `;
+                });
+                $("#gambarLamaEdit").html(domGambar);
+            }
             
 
             let dom = '';
             varian.forEach(e => {
-                console.log(e);
                 dom += `    <tr>
                                     <td>${e.UKURAN} 
                                     </td>
@@ -219,7 +215,7 @@ function submitVarianEdit(btn,varianData) {
         url: "ajax/edit-ajax.php",
         data: data,
         success: function (response) {
-            console.log(response);
+            
             let data = JSON.parse(response);
             if (data.status) {
                 alert('success');
@@ -245,7 +241,7 @@ function submitVarianEdit(btn,varianData) {
         url: "ajax/edit-ajax.php",
         data: data,
         success: function (response) {
-            console.log(response);
+            
             let data = JSON.parse(response);
             if (data.status) {
                 alert('success');
