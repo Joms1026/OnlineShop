@@ -409,11 +409,11 @@
 						ambilHarga(isiProduct[index][0]);
 						ambilGambar(isiProduct[index][0]);
 
-						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px) translateY(-30px)">Show Detail</button>');
+						var newElementDetail = $('<button type="submit" id="btnDetail" style="width: 99%; height:100%; background-color: red; color: white; transform:translateY(-100%)">Show Detail</button>');
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 
-						var newElementDelete = $('<button type="submit" id="btnDelete" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px) translateY(-25px)">Delete</button>');
+						var newElementDelete = $('<button type="submit" id="btnDelete" style="width: 99%; height:100%; background-color: red; color: white; transform:translateY(-100%)">Delete</button>');
 						newElementDelete.on("click", {"index": isiProduct[index][0]}, fungsiBtnDelete);
 						$("#product-button"+isiProduct[index][0]).append(newElementDelete);
 					}
