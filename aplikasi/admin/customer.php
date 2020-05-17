@@ -4,6 +4,9 @@
     $_SESSION['sideNav'] = [
         'customer' => true,
     ];
+    $_SESSION['activeTree'] = [
+        "master" => true
+    ];
     if (isset($_POST['delete'])) {
         $hapus = $_POST['delete'];
         $hapusbarang = executeNonQuery("UPDATE users set STATUS = 1-STATUS where ID_USER=$hapus");
