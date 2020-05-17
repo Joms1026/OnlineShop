@@ -2,7 +2,7 @@
     include("conn.php");
     session_start();
 
-    $user=$_SESSION['username'];
+	$user=$_SESSION['username'];
 
     if (isset($_POST['Logout'])) {
         header('location:index.php');
@@ -209,50 +209,40 @@
 				<div class="col text-center">
 					<div class="section_title new_arrivals_title">
                         <h1 style="transform: translateY(200px)">Wishlist</h1>
-                        <div class="data-wishlist">
-                            <table>
-                                <thead>
-                                    <th>Gambar</th>
-                                    <th>Nama</th>
-                                    <th>Harga</th>
-                                </thead>
-                                <tbody id="dataBody">
 
-                                </tbody>
-                            </table>
-                        </div>
 					</div>
 				</div>
 			</div>
-			<div class="row align-items-center">
-				<div class="col text-center">
-                    <div class="detail-content">
-                        <div class="content-header">
-                            <h2 id="modalHeader"></h2>
-                        </div> <br/>
-                        <div id="modalBody">
-                            <div class="slideshow-container" id="slideshow-container" style="height: 210px;"></div>
-                            <p id="deskripsi" style="transform: translateY(110px)"></p>
-                            <p id="harga" style="transform: translateY(110px)"></p>
-                            <form id="formDetail" style="transform: translateY(110px)">
-                            
-                            </form>
-                        </div>
-                    </div>
+			<div class="row">
+				<div class="col">
+					<div id="product-grid" class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' style="display:flex;flex-wrap:wrap;  justify-content: center; transform: translateY(150px)">
+						<!-- Product -->
+						
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<?php
-		$querySelect = "SELECT * FROM baju WHERE status = 1";
-		$result = mysqli_query($conn, $querySelect);
 		$geser = "0";
-		if($result->num_rows < 5){
-			$geser = "400px";
-		} else {
-			$geser = $result->num_rows / 3 * 350;
-			$geser = $geser."px";
+		$querySelect = "SELECT id_user FROM users WHERE nama='$user'";
+		$result = mysqli_query($conn, $querySelect);
+
+		if($result){
+			$id = mysqli_query($conn, $querySelect)->fetch_assoc();
+			$id = $id['id_user'];
+			$querySelect = "SELECT * FROM wishlist WHERE id_user=$id";
+			$result = mysqli_query($conn, $querySelect);
+
+			if($result){
+				if($result->num_rows < 5){
+					$geser = "600px";
+				} else {
+					$geser = $result->num_rows / 3 * 350 + 250;
+					$geser = $geser."px";
+				}
+			}
 		}
 	?>
 
@@ -327,7 +317,7 @@
 
 <script>
 	$(document).ready(function(){
-		loadDetail();
+		loadWishlist();
     });
 
 	const container = document.getElementById('container-login');
@@ -390,43 +380,8 @@
 		rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
 		return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 	}
-
-	function loadDetail(e){
-        var idxBtnDetail = "";
-        $.ajax({
-			method : "post",
-			url : "getDeskripsi.php",
-			data : $("#formShadow").serialize(),
-			success : function (r) {
-                var detail = JSON.parse(r);
-                idxBtnDetail = detail['id'];
-
-				$("#deskripsi").append(`
-					&nbsp; &nbsp; &nbsp;
-					deskripsi : ${detail["deskripsi"]}
-                `);
-                
-                ambilSemuaGambar(idxBtnDetail);
-                addRbSize(idxBtnDetail);
-                addRbColor(idxBtnDetail);
-                $("#formDetail").append('<input type="hidden" name="id" value="'+idxBtnDetail+'">');
-			}
-		})	
-    }
     
-	$('#formDetail').submit(function(e){
-		$.ajax({
-			method : "post",
-			url : "addToCart.php",
-			data : $("#formDetail").serialize(),
-			success : function(res) {
-				alert("berhasil ditambahkan");
-			}
-		});
-		e.preventDefault();
-    });
-    
-    function loadProduct(){
+    function loadWishlist(){
 		$("#product-grid").html('');
 		$.ajax({
 			method: "post",
@@ -458,9 +413,9 @@
 						newElementDetail.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnDetail);
 						$("#product-button"+isiProduct[index][0]).append(newElementDetail);
 
-						var newElementWish = $('<button type="submit" id="btnWish" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px) translateY(-25px)">Add to Wishlist</button>');
-						newElementWish.on("click", {"idx": isiProduct[index][0], "nama": isiProduct[index][1]}, fungsiBtnWish);
-						$("#product-button"+isiProduct[index][0]).append(newElementWish);
+						var newElementDelete = $('<button type="submit" id="btnDelete" style="width: 195px; height:25px; background-color: red; color: white; transform:translateX(15px) translateY(-25px)">Delete</button>');
+						newElementDelete.on("click", {"index": isiProduct[index][0]}, fungsiBtnDelete);
+						$("#product-button"+isiProduct[index][0]).append(newElementDelete);
 					}
 				} else {
 					$("#product-grid").append("<h3> Belum Ada Barang Tersedia! </h3>");
@@ -468,4 +423,23 @@
 			}
 		})
 	};
+
+	function fungsiBtnDetail(e){
+		var idxBtnDetail = e.data.idx;
+		window.location.href = `detailLogin.php?idx=${idxBtnDetail}`;
+	}
+
+	function fungsiBtnDelete(e){
+		var idx = e.data.index;
+
+		$.ajax({
+			method : "post",
+			url : "deleteWishlist.php",
+			data : `idx=${idx}`,
+			success : function(res) {
+				var result = JSON.parse(res);
+				loadWishlist();
+			}
+		});
+	}
 </script>

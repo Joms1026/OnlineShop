@@ -1,11 +1,11 @@
 <?php
 include("conn.php");
 session_start();
-// $user=$_SESSION['username'];
+$user=$_SESSION['username'];
 
-// if(!isset($_SESSION['username'])){
-// 	header('location:index.php');
-// }
+if(!isset($_SESSION['username'])){
+	header('location:index.php');
+}
 
 if (isset($_POST['Logout'])) {
     header('location:index.php');
@@ -405,16 +405,13 @@ if (isset($_POST['Logout'])) {
 
 	function fungsiBtnWish(e){
 		var index = e.data.idx;
-		alert("btnWish1");
 		$.ajax({
 			method: "post",
 			url : "tambahWishlist.php",
 			data : `idx=${index}`,
 			success : function(res){
-				alert("btnWish2");
 				var detailWish = JSON.parse(res);
 				alert(detailWish);
-				alert("btnWish3");
 			}
 		});
 
