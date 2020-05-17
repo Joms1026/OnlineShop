@@ -318,7 +318,6 @@ if(isset($_POST["register"]))
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Home</a></li>
-								<li><a href="#">Term & Condition</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
@@ -376,7 +375,6 @@ if(isset($_POST["register"]))
 						<li><a onclick="showRegisterModal()">Register&nbsp;&nbsp;<i class="fa fa-user-plus" aria-hidden="true"></i></a></li>
 					</ul>
 				</li>
-				<li class="menu_item"><a href="#">Term & Condition</a></li>
 				<li class="menu_item"><a href="contact.html">contact</a></li>
 			</ul>
 		</div>
