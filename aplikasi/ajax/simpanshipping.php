@@ -3,13 +3,14 @@
     $type = $_POST["shipping"];
     $harga = 0;
     if($type == "nd"){
-        $harga = 100;
+        $harga = 100000;
     }   
     else if($type == "sd"){
-        $harga = 50;
+        $harga = 50000;
     }
     else if($type == "free"){
         $harga = 0;
     }
+    $_SESSION["shipping"] = $harga;
     echo $harga;
 ?>

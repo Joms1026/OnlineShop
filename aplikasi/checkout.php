@@ -1,6 +1,46 @@
 <?php
     include('conn.php');
     session_start();
+    if(isset($_POST["bayar"])){
+        $totaltrans = $_SESSION["total"];
+        $user = $_SESSION["username"];
+        $firstname = $_POST["fn"];
+        $lastname = $_POST["ln"];
+        $alamat = $_POST["alamat"];
+        $notlp = $_POST["notlp"];
+        $provinsi = $_POST["provinsi"];
+        $kodepos = $_POST["kodepos"];
+        $nameoncard = $_POST["nameoncard"];
+        $ccnum = $_POST["ccnum"];
+        $querycariuser = "SELECT * FROM USERS WHERE NAMA='$user'";
+        $resp = mysqli_query($conn , $querycariuser);
+        $idus = 0;
+        while ($row = mysqli_fetch_assoc($resp)) {
+            $idus = $row["ID_USER"];
+        }
+        //Generate kode
+        $select = "SELECT * FROM HTRANS";
+        $reselect = mysqli_query($conn,$select);
+        $count = mysqli_num_rows($reselect);
+        $idhtrans = 'B00'.$count;
+        //insert ke htrans
+        $queryinsert = "INSERT INTO HTRANS VALUES('$idhtrans',$idus,$totaltrans,SYSDATE(),'BELUM','$alamat')";
+        $re = mysqli_query($conn , $queryinsert);
+        //GENERATE KODE TRANS
+        $querykode = "SELECT * FROM DTRANS";
+        $ress = mysqli_query($conn , $querykode);
+        $code = mysqli_num_rows($ress);
+        //insert ke dtrns
+        $querymasukinid = "SELECT * FROM KERANJANG";
+        $rescart = mysqli_query($conn , $querymasukinid);
+        while($row = mysqli_fetch_assoc($rescart)){
+            $idbarang = $row["ID_BARANG"];
+            $jumlahbarang = $row["JUMLAH_BARANG"];
+            $jumlahdtrans = $jumlahbarang * $row["HARGA_BARANG"];
+            $Q = "INSERT INTO DTRANS VALUES('$idhtrans','$code',$idbarang,$jumlahbarang,$jumlahdtrans)";
+            $r = mysqli_query($conn , $Q);
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,24 +113,24 @@
                                 <span class='text-muted'>Rp<?=$_SESSION["shipping"]?></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>Total (USD)</span>
-                                <strong>$20</strong>
+                                <span>Total (IDR)</span>
+                                <strong>Rp<?=$_SESSION["total"]?></strong>
                             </li>
                         </ul>
                     <div class="col-md-8 order-md-1" style="width: 500px">
                         <h4 class="mb-3" style="width: 500px">Billing address</h4>
-                        <form class="needs-validation" novalidate>
+                        <form class="needs-validation" method="post">
                             <div class="row" style="width: 500px">
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName">First name</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                                    <input type="text" class="form-control" id="firstName" placeholder="" value="" name="fn">
                                     <div class="invalid-feedback">
                                         Valid first name is required.
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3" style="width: 500px">
                                     <label for="lastName">Last name</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                                    <input type="text" class="form-control" id="lastName" placeholder="" value="" name="ln">
                                     <div class="invalid-feedback">
                                         Valid last name is required.
                                     </div>
@@ -99,7 +139,7 @@
 
                             <div class="mb-3" style="width: 465px">
                                 <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                                <input type="text" class="form-control" id="address" placeholder="1234 Main St" name='alamat' required>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
@@ -107,7 +147,7 @@
 
                             <div class="mb-3" style="width: 465px">
                                 <label for="phoneNumber">Phone Number</label>
-                                <input type="tel" class="form-control" id="phoneNumber" required>
+                                <input type="tel" class="form-control" id="phoneNumber" name='notlp' required>
                                 <div class="invalid-feedback">
                                     Please enter your phone number.
                                 </div>
@@ -116,19 +156,24 @@
                             <div class="row" style="width: 465px">
                                 <div class="col-md-5 mb-3">
                                     <label for="country">Country</label>
-                                    <select class="custom-select d-block w-100" id="country" required>
-                                        <option value="">Choose...</option>
-                                        <option>United States</option>
+                                    <select class="custom-select d-block w-100" id="country" disabled>
+                                        <!-- <option value="">Choose...</option> -->
+                                        <option value='Indonesia'>Indonesia</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         Please select a valid country.
                                     </div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="state">State</label>
-                                    <select class="custom-select d-block w-100" id="state" required>
-                                        <option value="">Choose...</option>
-                                        <option>California</option>
+                                    <label for="state">Province</label>
+                                    <select class="custom-select d-block w-100" id="state" name="provinsi" required>
+                                        <?php
+                                            $queryprovinsi = "SELECT * FROM PROVINCES";
+                                            $respon = mysqli_query($conn , $queryprovinsi);
+                                            while ($row = mysqli_fetch_assoc($respon)) {
+                                                echo "<option value='".$row["nama_provinsi"]."'>".$row["nama_provinsi"]."</option>";
+                                            }
+                                        ?>
                                     </select>
                                     <div class="invalid-feedback">
                                         Please provide a valid state.
@@ -136,7 +181,7 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="zip">Zip</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="" required>
+                                    <input type="text" class="form-control" id="zip" placeholder="" name="kodepos" required>
                                     <div class="invalid-feedback">
                                         Zip code required.
                                     </div>
@@ -148,7 +193,7 @@
                             <div class="row" style="width: 465px">
                                 <div class="col-md-6 mb-3">
                                     <label for="cc-name">Name on card</label>
-                                    <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                                    <input type="text" class="form-control" id="cc-name" placeholder="" name="nameoncard" required>
                                     <small class="text-muted">Full name as displayed on card</small>
                                     <div class="invalid-feedback">
                                         Name on card is required
@@ -156,14 +201,14 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="cc-number">Credit card number</label>
-                                    <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                                    <input type="text" class="form-control" id="cc-number" placeholder="" name="ccnum" required>
                                     <div class="invalid-feedback">
                                         Credit card number is required
                                     </div>
                                 </div>
                             </div>
                             <hr class="mb-4">
-                            <button class="btn btn-primary btn-lg btn-block" type="submit" style="width: 465px">
+                            <button class="btn btn-primary btn-lg btn-block" name="bayar" type="submit" style="width: 465px">
                                 <i class="fa fa-credit-card"></i> Continue to checkout</button>
                         </form>
                     </div>
