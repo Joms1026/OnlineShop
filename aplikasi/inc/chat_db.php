@@ -1,6 +1,5 @@
 <?php
 class Db {
-
 	public $con;
 	private $servername = "localhost";
 	private $username = "root";
