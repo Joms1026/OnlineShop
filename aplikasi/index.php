@@ -48,13 +48,14 @@ if(isset($_POST["register"]))
 		{
 			if ($_POST["pass"]==$_POST["cpass"])
 			{
+				$hasil = 0;
 				$email=$_POST["email"];
-				$sql = "Select count(email) as 'jumlah' from users where EMAIL_USER='$email'";
+				$sql = "Select count(email_user) as 'jumlah' from users where EMAIL_USER='$email'";
 				$result = $conn->query($sql);
 				if($result->num_rows > 0)
 				{	while($row = $result->fetch_assoc())
 					{
-					$hasil= $row["jumlah"];
+						$hasil= $row["jumlah"];
 					}
 				}
 				
@@ -97,15 +98,15 @@ if(isset($_POST["register"]))
 									$mail->AltBody = 'This is the body ';
 								
 									$mail->send();
-									echo 'Message has been sent';
+									// echo 'Message has been sent';
 								} catch (Exception $e) {
-									echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+									// echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
 								}
 
 								if(!$mail->Send()) {
 									echo "Oops, Mailer Error: " . $mail->ErrorInfo;
 								} else {
-									echo "Mail Sukses";
+									// echo "Mail Sukses";
 								}
 
 							//
