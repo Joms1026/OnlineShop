@@ -48,12 +48,27 @@ class Conversation
 		$fromUser = new Rs_Users($from);
 		$toUser = new Rs_Users($to);
 
-		if($fromUser->ROLE == 0 ):
+		if($fromUser->user_role == "parent" && $toUser->user_role == "tutor"):
 			$this->AddParticipantFromParent($from,$conversationId,$from);
 		
-		elseif($fromUser->ROLE == 1):
-			if($toUser->ROLE == 0):
+		elseif($fromUser->user_role == "student"  && $toUser->user_role == "tutor"):
+			$this->AddParticipantFromChild($from,$conversationId,$from);
+		
+		elseif($fromUser->user_role == "tutor"):
+
+			if($toUser->user_role == "parent"):
 				$this->AddParticipantFromParent($toUser->id,$conversationId,$from);
+			elseif($toUser->user_role == "student"):
+				$this->AddParticipantFromChild($toUser->id,$conversationId,$from);
+			else:
+				// do nothing
+			endif;
+
+		elseif($fromUser->user_role == "admin"):
+			if($toUser->user_role == "parent"):
+				$this->AddParticipantFromParent($toUser->id,$conversationId,$from);
+			elseif($toUser->user_role == "student"):
+				$this->AddParticipantFromChild($toUser->id,$conversationId,$from);
 			else:
 				// do nothing
 			endif;
@@ -195,6 +210,7 @@ class Conversation
 				";*/
 		$sqlARg = "SELECT * from $this->tableConvarsation tc WHERE tc.id IN (SELECT conversation_id FROM $this->tableParticipant Where user_id = $userId)
 				 ORDER BY last_activity DESC";
+
 		//$sqlARg = "SELECT * FROM $this->table";
 		return $this->db->con->query($sqlARg);
 	}
