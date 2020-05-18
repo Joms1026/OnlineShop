@@ -14,9 +14,8 @@ $user = (object)[
 ];
 $conversation = new Conversation();
 $conversationList = $conversation->GetUserConversationList($user->id,$user->user_role,1);
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en" data-textdirection="LTR" class="loading">
     <head>

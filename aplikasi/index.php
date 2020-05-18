@@ -21,12 +21,12 @@ if(isset($_POST["login"]))
 						else if ($row["STATUS"] == "1") {
 							if ($row["ROLE"] == "0") {
 								$_SESSION['username']= $row["NAMA"];
-								$_SESSION['userid']= $row["ID"];
+								$_SESSION['userid']= $row["ID_USER"];
 								$_SESSION['userrole']= $row["ROLE"];
 								header("location: home.php");
 							} else if ($row["ROLE"] == "1") {
 								$_SESSION['username']= $row["NAMA"];
-								$_SESSION['userid']= $row["ID"];
+								$_SESSION['userid']= $row["ID_USER"];
 								$_SESSION['userrole']= $row["ROLE"];
 								header("location: admin/dashboard.php");
 								
