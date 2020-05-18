@@ -2,6 +2,7 @@
 	include("conn.php");
 	session_start();
 	$user=$_SESSION['username'];
+	$userid = $_SESSION['userid'];
 
 	if(!isset($_SESSION['username'])){
 		header('location:index.php');
@@ -10,7 +11,7 @@
 	if(isset($_POST["continueshopping"])){
 		header("Location: home.php");
 	}
-	
+
 	if(isset($_POST["btnCheckout"])){	
 		header("Location: checkout.php");
 	}
@@ -61,6 +62,11 @@
 <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 <link rel="stylesheet" type="text/css" href="styles/login.css">
 <link rel="stylesheet" type="text/css" href="styles/preloader.css">
+<style>
+	.madiv{
+		display : none;
+	}
+</style>
 </head>
 
 <body>
@@ -199,10 +205,11 @@
 								</thead>
 								<tbody id="tablecart">
 									<?php
-										$us = $_SESSION["username"];
-										$querystring = "SELECT DISTINCT K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , U.ID_USER , G.LINK_GAMBAR , B.NAMA
+										//$us = $_SESSION["username"];
+										$querystring = "SELECT DISTINCT K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , G.LINK_GAMBAR , B.NAMA
 										FROM KERANJANG K , USERS U , BAJU B , GAMBAR G
-										WHERE U.NAMA = '$us' AND K.ID_USER=U.ID_USER AND G.ID_BAJU = K.ID_BARANG AND B.ID = K.ID_BARANG AND B.ID = G.ID_BAJU";
+										WHERE K.ID_USER = '$userid' AND G.ID_BAJU = K.ID_BARANG AND B.ID = K.ID_BARANG AND B.ID = G.ID_BAJU
+										GROUP BY K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , B.NAMA";
 										$res = mysqli_query($conn , $querystring);
 										if(mysqli_num_rows($res) == 0){
 											echo '<td colspan="6"><div class="alert alert-danger" role="alert">
@@ -224,6 +231,7 @@
 													<div class='product_text'>Second line for additional info</div>
 												</div>
 											</div>
+											<div class='madiv' id='hidden".$ctr."'>".$row["ID_BARANG"]."</div>
 										</td>
 										<td>".$row['SIZE']."</td>
 										<td id='price".$ctr."'>".$row["HARGA_BARANG"]."</td>
@@ -582,12 +590,12 @@
 		var result = parseInt(total) + parseInt(shipping2);
 		$("#carttotal").html('');
 		$("#carttotal").append(result);
-		shippingcek(shipping2);
+		//shippingcek(shipping2);
 		$.ajax({
 			method : "post",
 			url : "saveresult.php",
 			data: {
-				totals : total,
+				totals : result,
 				shippingtype : shipping2,
 			}
 		})
@@ -603,7 +611,7 @@
 		hitung();
 	}
 
-	//shipppingtype
+	//shipppingcek
 	function shippingcek(shippingtype){
 		$.ajax({
 			method : "post", // metode ajax
@@ -620,6 +628,7 @@
 					$("#shippingtype").html('');
 					$("#shippingtype").append(res);
 				}
+				hitung();
 			}
 		});
 	}
@@ -641,6 +650,10 @@
 			document.getElementById("minus"+index.toString()).addEventListener("click", function(){
 				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) - 1;
 				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
+				var idbarang = parseInt(document.getElementById("hidden"+index.toString()).innerHTML);
+				if(angkanya <= 0){
+					angkanya = 1;
+				}
 				var hasil = angkanya * harganya;
 				document.getElementById("total"+index.toString()).innerHTML = hasil;
 				refreshtotal();
@@ -650,9 +663,13 @@
 					data : {
 						a : angkanya,
 						h : harganya,
+						id : idbarang,
 					}, // data yang dikirim
 					success : function(res){
 						//alert(res);
+						if(angkanya == 1){
+							document.getElementById('angka'+index.toString()).innerHTML = angkanya;
+						}
 					}
 				});
 			});
@@ -661,6 +678,7 @@
 			document.getElementById("plus"+index.toString()).addEventListener("click", function(){
 				var angkanya = parseInt(document.getElementById('angka'+index.toString()).innerHTML) + 1;
 				var harganya = parseInt(document.getElementById("price"+index.toString()).innerHTML);
+				var idbarang = parseInt(document.getElementById("hidden"+index.toString()).innerHTML);
 				var hasil = angkanya * harganya;
 				document.getElementById("total"+index.toString()).innerHTML = hasil;
 				refreshtotal();
@@ -670,6 +688,7 @@
 					data : {
 						a : angkanya,
 						h : harganya,
+						id : idbarang,
 					}, // data yang dikirim
 					success : function(res){
 						//alert(res);

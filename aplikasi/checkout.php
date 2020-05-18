@@ -3,7 +3,7 @@
     session_start();
     if(isset($_POST["bayar"])){
         $totaltrans = $_SESSION["total"];
-        $user = $_SESSION["username"];
+        $user = $_SESSION["userid"];
         $firstname = $_POST["fn"];
         $lastname = $_POST["ln"];
         $alamat = $_POST["alamat"];
@@ -12,7 +12,7 @@
         $kodepos = $_POST["kodepos"];
         $nameoncard = $_POST["nameoncard"];
         $ccnum = $_POST["ccnum"];
-        $querycariuser = "SELECT * FROM USERS WHERE NAMA='$user'";
+        $querycariuser = "SELECT * FROM USERS WHERE ID_USER='$user'";
         $resp = mysqli_query($conn , $querycariuser);
         $idus = 0;
         while ($row = mysqli_fetch_assoc($resp)) {
@@ -99,7 +99,8 @@
                                 $us = $_SESSION["username"];
                                 $queryselect = "SELECT DISTINCT K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , U.ID_USER , G.LINK_GAMBAR , B.NAMA
                                 FROM KERANJANG K , USERS U , BAJU B , GAMBAR G
-                                WHERE U.NAMA = '$us' AND K.ID_USER=U.ID_USER AND G.ID_BAJU = K.ID_BARANG AND B.ID = K.ID_BARANG AND B.ID = G.ID_BAJU";
+                                WHERE U.NAMA = '$us' AND K.ID_USER=U.ID_USER AND G.ID_BAJU = K.ID_BARANG AND B.ID = K.ID_BARANG AND B.ID = G.ID_BAJU
+                                GROUP BY K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , B.NAMA";
                                 $res = mysqli_query($conn , $queryselect);
                                 while($row = mysqli_fetch_assoc($res)){
                                     echo "<li class='list-group-item d-flex justify-content-between'>
