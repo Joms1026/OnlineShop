@@ -1,4 +1,5 @@
 <?php 
+    include("../conn.php");
     session_start();
     $_SESSION['sideNav'] = [
         'pembayaran' => true,
@@ -6,6 +7,12 @@
     $_SESSION['activeTree'] = [
         "master" => true
     ];
+    if(isset($_POST["btnConfirm"])){
+        $idh = $_POST["btnConfirm"];
+        $queryupdate = "UPDATE HTRANS SET STATUS_PEMBAYARAN = 'SUDAH' WHERE ID_HTRANS = '$idh'";
+        $ress = mysqli_query($conn , $queryupdate);
+        echo "<script>alert('Pembayaran sudah dikonfirmasi')</script>";
+    }
 ?>
 <!-- Head -->
 <!DOCTYPE html>
@@ -60,7 +67,77 @@
                             <?php 
                             // Ganti halaman mu disini 
                             ?>
-                            <div>Disini ya Koko Erland</div>
+                            <div id="container">                                
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">ID HTRANS</th>
+                                        <th scope="col">ID USER</th>
+                                        <th scope="col">TOTAL TRANSAKSI</th>
+                                        <th scope="col">TANGGAL TRANSAKSI</th>
+                                        <th scope="col">STATUS PEMBAYARAN</th>
+                                        <th scope="col">ALAMAT</th>
+                                        <th scope="col">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablebody">
+                                        <?php
+                                            $queryselect = "SELECT * FROM HTRANS";
+                                            $res = mysqli_query($conn , $queryselect);
+                                            //$ctr = 0;
+                                            while ($row = mysqli_fetch_assoc($res)) {
+                                                echo "<tr>
+                                                <td>".$row['ID_HTRANS']."</td>
+                                                <td>".$row['ID_USER']."</td>
+                                                <td>".$row['TOTAL_TRANS']."</td>
+                                                <td>".$row['TGL_TRANS']."</td>
+                                                <td>".$row['STATUS_PEMBAYARAN']."</td>
+                                                <td>".$row['ALAMAT']."</td>
+                                                <td>
+                                                <form method='post'>
+                                                <button class='btn btn-warning' type='submit' name='btnDetail' value='".$row['ID_HTRANS']."'>Detail</button>
+                                                <button class='btn btn-success' type='submit' name='btnConfirm' value='".$row['ID_HTRANS']."'>Confim</button>
+                                                </form>
+                                                </td>
+                                                </tr>";
+                                                //$ctr++;
+                                            }
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <?php
+                                    if(isset($_POST["btnDetail"])){
+                                        echo "<h1>Detail</h1>";
+                                        //echo "<script>alert('Detail')</script>";
+                                        $id = $_POST["btnDetail"];
+                                        $queryselect = "SELECT B.NAMA , D.JUMLAH_BARANG , D.JUMLAH_DTRANS FROM DTRANS D , BAJU B WHERE ID_HTRANS = '$id' AND D.ID_BARANG = B.ID";
+                                        $respon = mysqli_query($conn , $queryselect);
+                                        echo"
+                                        <table class='table'>
+                                            <thead>
+                                                <tr>
+                                                <th scope='col'>NAMA BARANG</th>
+                                                <th scope='col'>JUMLAH BARANG</th>
+                                                <th scope='col'>SUBTOTAL</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                        ";
+                                        while($row = mysqli_fetch_assoc($respon)){
+                                        echo
+                                            "<tr>
+                                                <td>".$row["NAMA"]."</td>
+                                                <td>".$row["JUMLAH_BARANG"]."</td>
+                                                <td>".$row["JUMLAH_DTRANS"]."</td>
+                                            </tr>";
+                                        }
+                                        echo"
+                                        </tbody>
+                                        </table>
+                                        ";
+                                    }
+                                ?>
+                            </div>
                         </div>
                     </section>
                 </div>
@@ -75,6 +152,18 @@
     <?php include('page-part-admin/admin-required-script.php'); ?>
     
     <!-- Optional Scripts -->
-    
+    <script>
+        // $(".confirm").submit(function(e){
+        //     e.preventDefault();
+        //     $.ajax({
+        //         method : "post",
+        //         url : "confirmpembayaran.php",
+        //         data : $(".confirm").serialize(),
+        //         success : function(res){
+        //             alert(res);
+        //         }
+        //     });
+        // });
+    </script>
 </body>
 </html>
