@@ -159,7 +159,8 @@
 											<?php
 												$querystring = "SELECT * FROM KERANJANG K , USERS U WHERE U.NAMA='$user' AND K.ID_USER = U.ID_USER";
 												$res = mysqli_query($conn , $querystring);
-												echo mysqli_num_rows($res);
+												if($res)echo mysqli_num_rows($res);
+												else echo "0";
 											?>
 										</span>
 									</a>
@@ -251,7 +252,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<div class="section_title new_arrivals_title">
+					<div class="section_title new_arrivals_title" style="transform: translateY(110px)">
 						<!-- <h2>Best Sellers</h2> -->
 					</div>
 				</div>
@@ -275,7 +276,7 @@
 
 	<!-- Footer -->
 
-	<footer class="footer">
+	<footer class="footer" style="transform: translateY(200px)">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
@@ -284,6 +285,7 @@
 					</div>
 				</div>
 			</div>
+			<div style="height: 150px"></div>
 		</div>
 	</footer>
 

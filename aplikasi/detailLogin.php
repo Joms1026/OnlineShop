@@ -601,11 +601,7 @@ if(isset($_GET['idx'])){
 							&nbsp; &nbsp; &nbsp;
 							Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
 							<br/> &nbsp; &nbsp; 
-<<<<<<< HEAD
-							<button style="cursor:pointer;" type="submit" name="btnAdd" class="btn btn-primary w-100">Add To Cart</buton>
-=======
 							<button type="submit" name="btnAdd" class="btn btn-primary w-100">Add To Cart</buton>
->>>>>>> b79e8bf3c7562446a3da6846d83e1ae33870476e
 						`);
 					}
 				}
