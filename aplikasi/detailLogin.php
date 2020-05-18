@@ -69,6 +69,14 @@ if(isset($_GET['idx'])){
         background-color: #f1f1f1;
         color: black;
 	}
+
+	.carousel-item .div-image{
+		padding-bottom: calc(100% * calc(6 / 9)) !important;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-color: gainsboro;
+		background-position: center;
+	}
 </style>
 <!--
 	Favicon
@@ -167,7 +175,8 @@ if(isset($_GET['idx'])){
 											<?php
 												$querystring = "SELECT * FROM KERANJANG K , USERS U WHERE U.NAMA='$user' AND K.ID_USER = U.ID_USER";
 												$res = mysqli_query($conn , $querystring);
-												echo mysqli_num_rows($res);
+												if($res) echo mysqli_num_rows($res);
+												else echo"0";
 											?>
 										</span>
 									</a>
@@ -213,23 +222,10 @@ if(isset($_GET['idx'])){
 	<form id="formShadow">
         <input type="hidden" value="<?= $idx ?>" name="idx">
     </form>
-	<!-- Banner -->
-
-	<!--<div class="banner">
-		<!-- <div class="container"> -->
-                <!--<div class="row rowbanner">
-					<div class="col-md-1"></div>
-                    <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar2.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
-                    <div class="col-md-2 hidden-phone" style="background-image:url(images/gambar4.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;"></div>
-                    <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar3.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
-					<div class="col-md-1"></div>
-                </div>-->
-		<!-- </div> -->
-	<!--</div>-->
 
 	<!-- New Arrivals -->
 
-	<div class="new_arrivals">
+	<div class="new_arrivals" style="margin-top:185px;">
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
@@ -239,8 +235,21 @@ if(isset($_GET['idx'])){
 				</div>
 			</div>
 			<div class="row align-items-center">
-				<div class="col text-center">
-                    <div class="detail-content">
+			<div class="offset-3 col-6 text-center">
+					<div id="slideshow-container" class="carousel slide" data-ride="carousel">
+						<div class="carousel-inner">
+							
+						</div>
+						<a class="carousel-control-prev" href="#slideshow-container" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#slideshow-container" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+                    <!-- <div class="detail-content">
                         <div class="content-header">
                             <h2 id="modalHeader"></h2>
                         </div> <br/>
@@ -248,12 +257,15 @@ if(isset($_GET['idx'])){
                             <div class="slideshow-container" id="slideshow-container" style="height: 210px;"></div>
                             <p id="deskripsi" style="transform: translateY(110px)"></p>
                             <p id="harga" style="transform: translateY(110px)"></p>
-                            <form id="formDetail" style="transform: translateY(110px)">
                             
-                            </form>
                         </div>
-                    </div>
+                    </div> -->
 				</div>
+			</div>
+			<div class="row">
+				<form id="formDetail" class="col-6 offset-3">
+				
+				</form>
 			</div>
 		</div>
 	</div>
@@ -306,7 +318,7 @@ if(isset($_GET['idx'])){
 				</div>
 			</div>
 		</div> -->
-		<div id="shadow" style="height:<?= $geser ?>; background-color:white"></div>
+		<!-- <div id="shadow" style="height:<?= $geser ?>; background-color:white"></div> -->
 	</div>
 	
 	<!-- Best Sellers -->
@@ -383,18 +395,6 @@ if(isset($_GET['idx'])){
 
 	$('#btnToTop').fadeOut();
 
-	$( "#signUp" ).click(function() {
-		$(".sign-in-container").hide();
-		$(".sign-up-container").show();
-		container.classList.add("right-panel-active");
-	});
-
-	$( "#signIn" ).click(function() {
-		$(".sign-in-container").show();
-		$(".sign-up-container").hide();
-		container.classList.remove("right-panel-active");
-	});
-
 	$(window).scroll(function() {
 		if ($(this).scrollTop()) {
 			$('#btnToTop:hidden').stop(true, true).fadeIn();
@@ -405,16 +405,6 @@ if(isset($_GET['idx'])){
 
 	function scrollToTop(){
 		$('html, body').animate({scrollTop: '0px'}, 300);
-	}
-	
-	function showLoginModal(){
-		$("#signIn").trigger( "click" );
-		$("#loginModal").modal("toggle");
-	}
-	
-	function showRegisterModal(){
-		$("#signUp").trigger( "click" );
-		$("#loginModal").modal("toggle");
 	}
 
 	function ambilGambar(id){
@@ -506,16 +496,34 @@ if(isset($_GET['idx'])){
 				var gambar = JSON.parse(result);
 				for (let index = 0; index < gambar.length; index++) {
 					srcGambar = `admin/uploads/produk/${id}/${gambar[index]}`;
+					$("#slideshow-container .carousel-inner").append(`
+						<div class="carousel-item ${(index===0) ? 'active': ''}">
+							<div class='div-image' style="background-image:url('${srcGambar}');"></div>
+						</div>
+					`);
+						// <div class="mySlides1" style="transform:translateY(100px)">
+						// 	<img src=${srcGambar} style="width:150px; height:200px;">
+						// </div>
+				}
+				$('#slideshow-container').carousel({
+					interval: 2000
+				});
+				// $("#slideshow-container").append(`
+				// 	<a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+				// 	<a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+				// `);	var gambar = JSON.parse(result);
+				for (let index = 0; index < gambar.length; index++) {
+					srcGambar = `admin/uploads/produk/${id}/${gambar[index]}`;
 					$("#slideshow-container").append(`
 						<div class="mySlides1" style="transform:translateY(100px)">
 							<img src=${srcGambar} style="width:150px; height:200px;">
 						</div>
 					`);
 				}
-				$("#slideshow-container").append(`
-					<a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
-					<a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
-				`);
+				// $("#slideshow-container").append(`
+				// 	<a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+				// 	<a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+				// `);
 			}
 		})
 	}
@@ -593,18 +601,12 @@ if(isset($_GET['idx'])){
 							&nbsp; &nbsp; &nbsp;
 							Jumlah : <input type="number" name="count" value="1" min="1"> <br/>
 							<br/> &nbsp; &nbsp; 
-							<button type="submit" name="btnAdd" style="background-color:red; color:white; width:245px">Add To Cart</buton>
+							<button style="cursor:pointer;" type="submit" name="btnAdd" class="btn btn-primary w-100">Add To Cart</buton>
 						`);
 					}
 				}
 			}
 		})
-	}
-
-	function add() {
-		// $("#formBtn").append(`
-
-		// `)
 	}
 
 	var slideIndex = [1,1];
