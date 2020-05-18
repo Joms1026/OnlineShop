@@ -14,7 +14,7 @@
 			$sqlupdate = "UPDATE users SET PASSWORD_USER='$pass1' WHERE EMAIL_USER='$emails' AND TOKEN='$passh'";
 			if (mysqli_query($conn, $sqlupdate)) {
 				echo "<script>alert('Password Anda Telah berhasil direset');</script>";
-				echo "<script>alert('$emails');</script>";
+				header('location:index.php');
 			 }
 			 else {
 				echo "<script>alert('gagal reset password! silahkan forget lagi');</script>";

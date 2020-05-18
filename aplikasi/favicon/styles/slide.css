@@ -1,0 +1,28 @@
+.roundabout-holder {
+	height:5em;
+}
+.roundabout-moveable-item {
+	cursor:pointer;
+	width:636px;
+	height:478px;
+	margin-top:229px;
+	padding-bottom:20px
+}
+.roundabout-in-focus {
+	cursor:auto;
+}
+#gallery {
+	position:relative;
+	height:520px
+}
+#gallery img {
+	display:block;
+	width:100%;
+	height:100%
+}
+.gallery {
+	margin-top:-10px;
+	padding-left:8px;
+	width:100%;
+	overflow:hidden
+}
