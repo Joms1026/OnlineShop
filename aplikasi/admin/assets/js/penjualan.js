@@ -3774,23 +3774,23 @@ function initHighchart(data){ // Generare highchart
             zoomType: 'x'
         },
         title: {
-            text: 'Solar Employment Growth by Sector, 2010-2016'
+            text: 'REPORT SUNSHOP'
         },
     
         subtitle: {
-            text: 'Source: thesolarfoundation.com'
+            text: ''
         },
     
         yAxis: {
             title: {
-                text: 'Number of Employees'
+                text: 'Jumlah Pembelian'
             }
         },
     
         xAxis: {
             type: 'datetime',
             accessibility: {
-                rangeDescription: 'Range: 2010 to 2017'
+                rangeDescription: '2020'
             }
         },
     
