@@ -68,8 +68,6 @@ if(isset($_GET['idx'])){
         color: black;
 	}
 
-	
-
 	.carousel-item .div-image{
 		padding-bottom: calc(100% * calc(6 / 9)) !important;
 		background-repeat: no-repeat;
@@ -174,19 +172,6 @@ if(isset($_GET['idx'])){
 	<form id="formShadow">
         <input type="hidden" value="<?= $idx ?>" name="idx">
     </form>
-	<!-- Banner -->
-
-	<!--<div class="banner">
-		<!-- <div class="container"> -->
-                <!--<div class="row rowbanner">
-					<div class="col-md-1"></div>
-                    <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar2.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
-                    <div class="col-md-2 hidden-phone" style="background-image:url(images/gambar4.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;"></div>
-                    <div class="col-md-4 rowbanner-child" style="background-image:url(images/gambar3.jpg);background-size: contain;background-repeat: no-repeat;background-position: center;cursor:pointer;"></div>
-					<div class="col-md-1"></div>
-                </div>-->
-		<!-- </div> -->
-	<!--</div>-->
 
 	<!-- New Arrivals -->
 

@@ -7,6 +7,7 @@
     $_SESSION['activeTree'] = [
         "report" => true
     ];
+    
 ?>
 <!-- Head -->
 <!DOCTYPE html>

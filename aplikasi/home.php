@@ -159,7 +159,9 @@ if (isset($_POST['Logout'])) {
 											<?php
 												$querystring = "SELECT * FROM KERANJANG K , USERS U WHERE U.NAMA='$user' AND K.ID_USER = U.ID_USER";
 												$res = mysqli_query($conn , $querystring);
-												echo mysqli_num_rows($res);
+												//echo mysqli_num_rows($res);
+												if($res) echo mysqli_num_rows($res);
+												else echo "0";
 											?>
 										</span>
 									</a>

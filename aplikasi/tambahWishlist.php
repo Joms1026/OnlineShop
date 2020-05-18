@@ -1,12 +1,12 @@
 <?php
-    include("conn.php");
     session_start();
+    include_once("conn.php");
     
     $user=$_SESSION['username'];
-    $idx = $_POST['idx'];
     $idUser = $_SESSION['userid'];
-    $returnValue = "Gagal menambahkan ke wishlist!";
 
+    $idx = $_POST['idx'];
+    $returnValue = "Gagal menambahkan ke wishlist!";
        
     $querySelect2 = "SELECT * FROM wishlist WHERE id_user = $idUser";
     $result3 = mysqli_query($conn, $querySelect2);
@@ -31,6 +31,5 @@
         $returnValue = "Barang sudah ada di wishlist!";
     }
     
-
     echo json_encode($returnValue);
 ?>

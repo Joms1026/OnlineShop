@@ -23,11 +23,11 @@ function connect(){
  *
  * @return array
  */
-function executeQuery($query){ 
+function executeQuery($query, $options= MYSQLI_ASSOC){ 
     // $sql = "SELECT Lastname, Age FROM Persons ORDER BY Lastname";
     $conn = connect();
     $result = $conn->query($query);
-    return $result->fetch_all(MYSQLI_ASSOC);
+    return $result->fetch_all($options);
     // Fetch all
 }
 
