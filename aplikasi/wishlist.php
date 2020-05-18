@@ -3,6 +3,7 @@
     session_start();
 
 	$user=$_SESSION['username'];
+	$idUser = $_SESSION['userid'];
 
     if (isset($_POST['Logout'])) {
         header('location:index.php');
@@ -194,7 +195,6 @@
 						<li><a onclick="showRegisterModal()">Register&nbsp;&nbsp;<i class="fa fa-user-plus" aria-hidden="true"></i></a></li>
 					</ul>
 				</li>
-				<li class="menu_item"><a href="#">Term & Condition</a></li>
 				<li class="menu_item"><a href="contact.html">contact</a></li>
 			</ul>
 		</div>
@@ -226,24 +226,19 @@
 
 	<?php
 		$geser = "0";
-		$querySelect = "SELECT id_user FROM users WHERE nama='$user'";
+		
+		$querySelect = "SELECT * FROM wishlist WHERE id_user=$idUser";
 		$result = mysqli_query($conn, $querySelect);
 
 		if($result){
-			$id = mysqli_query($conn, $querySelect)->fetch_assoc();
-			$id = $id['id_user'];
-			$querySelect = "SELECT * FROM wishlist WHERE id_user=$id";
-			$result = mysqli_query($conn, $querySelect);
-
-			if($result){
-				if($result->num_rows < 5){
-					$geser = "600px";
-				} else {
-					$geser = $result->num_rows / 3 * 350 + 250;
-					$geser = $geser."px";
-				}
+			if($result->num_rows < 5){
+				$geser = "600px";
+			} else {
+				$geser = $result->num_rows / 3 * 350 + 250;
+				$geser = $geser."px";
 			}
 		}
+		
 	?>
 
 	<div class="deal_ofthe_week" style="transform:translateY(<?= $geser ?>)">
@@ -418,7 +413,7 @@
 						$("#product-button"+isiProduct[index][0]).append(newElementDelete);
 					}
 				} else {
-					$("#product-grid").append("<h3> Belum Ada Barang Tersedia! </h3>");
+					$("#product-grid").append("<h3> Belum Ada Barang ditambahkan ke Wishlist! </h3>");
 				}
 			}
 		})

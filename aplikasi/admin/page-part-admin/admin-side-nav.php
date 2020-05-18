@@ -49,7 +49,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-                <?php $base = "http://localhost/onlineShop/aplikasi/admin/"; ?>
+                <?php $base = ""; ?>
                 <li class="nav-item">
                     <a href="<?=$base?>kategori.php" class="nav-link <?php activeMenu('kategori'); ?>">
                     <i class="far fa-circle nav-icon"></i>
@@ -63,13 +63,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?=$base?>customer.php" class="nav-link">
+                    <a href="<?=$base?>customer.php" class="nav-link <?php activeMenu('customer'); ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Customer</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?=$base?>pembayaran.php" class="nav-link <?php activeMenu('pembayaran'); ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Pembayaran</p>
+                    </a>
+                </li>
             </ul>
-            <li class="nav-item has-treeview">
+            <li class="nav-item has-treeview <?php activeTree('report'); ?>">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-tree"></i>
                     <p>
@@ -79,7 +85,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="UI/general.html" class="nav-link">
+                        <a href="<?=$base?>penjualan.php" class="nav-link <?php activeMenu('penjualan'); ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Penjualan</p>
                         </a>
