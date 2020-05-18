@@ -5,7 +5,7 @@ if(!isset($_SESSION['is_login']) || !$_SESSION['is_login'])
 
 include('inc/chat_db.php');
 include('inc/chat/load.php');
-include('inc/cls/Rs_Users.php');
+// include('inc/cls/Rs_Users.php');
 $userId = $_SESSION['user']['id'];
 $user = new Rs_Users($userId);
 $conversation = new Conversation();

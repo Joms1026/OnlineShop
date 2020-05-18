@@ -195,12 +195,9 @@ class Rs_Users
 
 	/* Set user data in session*/
 	public function SetUserToSession(){
-		$_SESSION['user']['id'] = $this->id;
-		$_SESSION['user']['user_name'] = $this->user_name;
-		$_SESSION['user']['email'] = $this->email;
-		$_SESSION['user']['l_name'] = $this->l_name;
-		$_SESSION['user']['f_name'] = $this->f_name;
-		$_SESSION['user']['name'] = $this->f_name." ".$this->l_name;
+		$_SESSION['user']['ID'] = $this->id;
+		$_SESSION['user']['NAMA'] = $this->user_name;
+		$_SESSION['user']['EMAIL_USER'] = $this->email;
 	}
 
 

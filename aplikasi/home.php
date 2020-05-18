@@ -121,7 +121,7 @@ if (isset($_POST['Logout'])) {
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a href="#" class="actived">Home</a></li>
-								<li><a href="chat.php">Chat</a></li>
+								<li><a href="inbox.php">Chat</a></li>
 								<li><a href="wishlist.php">Wishlist</a></li>
 							</ul>
 							<ul class="navbar_user">
@@ -437,7 +437,6 @@ if (isset($_POST['Logout'])) {
 									<div class="product_image" >
 										<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
 									</div>
-									<div class="favorite"></div>
 									<div class="product_info">
 										<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
 										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
@@ -518,7 +517,6 @@ if (isset($_POST['Logout'])) {
 									<div class="product_image" >
 										<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
 									</div>
-									<div class="favorite"></div>
 									<div class="product_info">
 										<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
 										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
