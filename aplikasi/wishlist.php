@@ -413,7 +413,7 @@
 						$("#product-button"+isiProduct[index][0]).append(newElementDelete);
 					}
 				} else {
-					$("#product-grid").append("<h3> Belum Ada Barang Tersedia! </h3>");
+					$("#product-grid").append("<h3> Belum Ada Barang ditambahkan ke Wishlist! </h3>");
 				}
 			}
 		})
