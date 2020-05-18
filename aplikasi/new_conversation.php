@@ -1,7 +1,7 @@
 <?php
-    session_start();
-// if(!isset($_SESSION['is_login']) || !$_SESSION['is_login'])
-//     //header("location:index.php");
+session_start();
+if(!isset($_SESSION['is_login']) || !$_SESSION['is_login'])
+    header("location:index.php");
 include('inc/chat_db.php');
 include('inc/cls/Rs_Users.php');
 include('inc/chat/load.php');
@@ -40,7 +40,7 @@ if(isset($_GET['page'])){
     $offset = ($postPerPage * ($_GET['page'] - 1)); 
     $page = $_GET['page'];
 }
-if($user->ROLE == 1){
+if($user->user_role == 1){
 
     $sql = "SELECT * from users";
     if(isset($_GET['s'])){
@@ -48,8 +48,8 @@ if($user->ROLE == 1){
         $search_by = $_GET['search_by'];
         $sql .= " WHERE ( NAMA like '%$skey%' || EMAIL_USER like '%$skey%' ) AND ROLE ='$search_by'";
     }
-}elseif ($user->ROLE == 0){
-    $sql = "SELECT * from USERS  where ( ROLE = 1 ||  id in( SELECT std_id from tbl_parent_std where parent_id = $user->id ) ) ";
+}elseif ($user->user_role == 0){
+    $sql = "SELECT * from USERS  where ROLE='1' ";
     if(isset($_GET['s'])){
         $skey = $_GET['s'];
         $sql .= " AND ( NAMA like '%$skey%' || EMAIL_USER like '%$skey%' )";
@@ -88,7 +88,7 @@ $contactsResult = $db->con->query($sql);
                         <?php
                     }
                 ?>
-                <div class="rs_chat_box nw_conversion_chat" data-message_option = '<?php echo json_encode( $tempChatInformation ); ?>'>
+                <div class="rs_chat_box nw_conversion_chat" data-message_option = '<?php echo json_encode( $tempChatInformation ); ?>' style="width:126%; height:76%; margin-left:-23.900%; margin-top:6%; ">
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
                             
@@ -98,12 +98,11 @@ $contactsResult = $db->con->query($sql);
                                     
                                     <div class="row search_box">
                                         <form action="" method="get">
-                                            <?php if($user->user_role == 1): ?>
                                             <div class="col-xs-3 form-group ">
-                                                <select class="form-control" name="search_by">
+                                            <select class="form-control" name="search_by">
                                                     <?php
                                                     $serchByOptoins = array(
-                                                        '0' => "User",
+                                                        '1' => "Admin"
                                                     );
                                                     foreach ($serchByOptoins as $key => $value) {
                                                         ?>
@@ -113,7 +112,6 @@ $contactsResult = $db->con->query($sql);
                                                     ?>
                                                 </select>
                                             </div>
-                                            <?php endif; ?>
                                             <div class="col-xs-3">
                                                 <input type="text" name="s" value="<?php echo $skey; ?>" class="form-control">
                                             </div>
@@ -134,13 +132,18 @@ $contactsResult = $db->con->query($sql);
                                                             while ($contact = $contactsResult->fetch_assoc()) {
                                                                 ?>
                                                                 <li>
-                                                                    <label style="display: block;">
-                                                                        <input style="display: none;" type="radio" name="members" value="<?php echo $contact['id']; ?>">
+                                                                <label style="display: block;">
+                                                                        <input style="display: none;" type="radio" name="members" value="<?php echo $contact['ID']; ?>">
                                                                         <div class="single_user">
-                                                                            <img src="<?php echo (!empty($contact['picture'])? $contact['picture']:'images/blank_user.png'); ?>" style="width:40px;" alt="">
+                                                                            <img src="<?php echo (!empty($contact['PICTURE'])? $contact['PICTURE']:'images/blank_user.png'); ?>" style="width:40px;" alt="">
                                                                             <div>
-                                                                                <h3 class="name"><?php echo $contact['f_name'].' '.$contact['l_name']; ?></h3>
-                                                                                <span class="last_message" style="text-transform: capitalize;"><?php echo $contact['user_role']; ?></span>
+                                                                                <h3 class="name"><?php echo $contact['NAMA'].' <br> '.$contact['EMAIL_USER']; ?></h3>
+                                                                                <span class="last_message" style="text-transform: capitalize;"><?php if($contact['ROLE'] == 1)
+                                                                                { echo "Admin";
+                                                                                }
+                                                                                else { echo "User"; }
+                                                                                
+                                                                                ?></span>
                                                                             </div>
                                                                         </div>
                                                                     </label>
@@ -151,7 +154,7 @@ $contactsResult = $db->con->query($sql);
                                                     ?>
                                                 </ul> 
                                                 <div class="new_conv_pagination">
-                                                    <div class="btn-group">
+                                                    <div class="btn-group" style="margin-left:85%;">
                                                         <?php if($page>=2): ?>
                                                         <a href="?page=<?php echo $page-1; ?>" class="btn btn-info">< Previus</a>
                                                         <?php endif; ?>
@@ -181,6 +184,7 @@ $contactsResult = $db->con->query($sql);
         </div>
 
         <?php
+        include_once 'master_page/script.php';
         ?>
         <script type="text/javascript" src="js/chat.js"></script>
     </body>

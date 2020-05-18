@@ -21,13 +21,13 @@ if(isset($_POST["login"]))
 						else if ($row["STATUS"] == "1") {
 							if ($row["ROLE"] == "0") {
 								$_SESSION['username']= $row["NAMA"];
-								$_SESSION['userid']= $row["ID_USER"];
-								$user=$_SESSION['username'];
-								echo "<script>alert('$user')</script>";
+								$_SESSION['userid']= $row["ID"];
+								$_SESSION['userrole']= $row["ROLE"];
 								header("location: home.php");
 							} else if ($row["ROLE"] == "1") {
 								$_SESSION['username']= $row["NAMA"];
-								$_SESSION['userid']= $row["ID_USER"];
+								$_SESSION['userid']= $row["ID"];
+								$_SESSION['userrole']= $row["ROLE"];
 								header("location: admin/dashboard.php");
 								
 							} 
@@ -745,7 +745,6 @@ if(isset($_POST["register"]))
 								<div class="product_image" >
 									<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
 								</div>
-								<div class="favorite"></div>
 								<div class="product_info">
 									<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
 									<div class="product_price" id="product_price${isiProduct[index][0]}"></div>
@@ -833,7 +832,6 @@ if(isset($_POST["register"]))
 									<div class="product_image" >
 										<div id="product-image${isiProduct[index][0]}" alt="" style="margin: 5px 5% 0px; width: 90%; height: 100%"></div>
 									</div>
-									<div class="favorite"></div>
 									<div class="product_info">
 										<h6 class="product_name"><a href="single.html">${isiProduct[index][1]}</a></h6>
 										<div class="product_price" id="product_price${isiProduct[index][0]}"></div>

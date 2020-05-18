@@ -24,10 +24,10 @@
     <li class="nav-item dropdown">
         <a class="nav-link nav-link-label" href="inbox.php">
         <i class="far fa-comments"></i>
-         <span class="badge badge-danger navbar-badge">3</span>
+         <span class="badge badge-danger navbar-badge"></span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <a href="#" class="dropdown-item">
+        <a href="Inbox.php" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
             <img src="vendor-admin/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">

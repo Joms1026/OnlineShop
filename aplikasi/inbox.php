@@ -7,9 +7,15 @@ include('inc/chat_db.php');
 include('inc/chat/load.php');
 include('inc/cls/Rs_Users.php');
 $userId = $_SESSION['user']['id'];
-$user = new Rs_Users($userId);
+
+$user = (object)[
+    'id' => $_SESSION['userid'],
+    'user_role' => $_SESSION['userrole'],
+];
 $conversation = new Conversation();
 $conversationList = $conversation->GetUserConversationList($user->id,$user->user_role,1);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en" data-textdirection="LTR" class="loading">
@@ -29,7 +35,7 @@ $conversationList = $conversation->GetUserConversationList($user->id,$user->user
         ?>
         <div class="robust-content content container-fluid">
             <div class="content-wrapper">
-                <div class="rs_chat_box" id="rsMessageData" data-message_option = '<?php echo json_encode( $tempChatInformation ); ?>'>
+                <div class="rs_chat_box" id="rsMessageData" data-message_option = '<?php echo json_encode( $tempChatInformation ); ?>'style = "width:99,900%; height:75%; margin-left:-10px; margin-top:60px;">
                     <div class="row">
                         <!-- <div class="col-xs-12 col-sm-2">
                             <div class="rs_inbox_menu">
@@ -73,6 +79,8 @@ $conversationList = $conversation->GetUserConversationList($user->id,$user->user
                                             foreach ($conversationList as $keyConv => $valueConv) {
                                                 $last_activity = $valueConv['last_activity'];
                                                 $userTemp = $user;
+                                                // var_dump($user);
+                                                // exit();
                                                 if($user->id == $valueConv['created_by'] ){
                                                     $userTemp = new Rs_Users($valueConv['send_to']);
                                                 }else{
