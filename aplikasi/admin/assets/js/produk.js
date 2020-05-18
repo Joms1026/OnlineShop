@@ -109,26 +109,7 @@ function updatebaju() {
     //     {name:"deskripsi", value:"Baju KOKO"}
     // ]; serialize array membuat seperti ini
     data.push({name:'update', value:idbaju});
-    // data = [
-    //     {name:"nama", value:"Baju KOKO"},
-    //     {name:"deskripsi", value:"Baju KOKO"},
-    //     {name:'update', value:idbaju}
-    // ];
 
-    // Bentuk di ajax
-    // data = [
-    //     {name:"nama", value:"Baju KOKO"},
-    //     {name:"deskripsi", value:"Baju KOKO"},
-    //     {name:'update', value:idbaju}
-    // ];
-    // Bentuk di php
-    // $_POST['nama'] = "ju KOK"
-    // $_POST['deskripsi'] = "ju KOK"
-    // $_POST['update'] = "dbaju"
-
-    // Step pertama : Menyiapkan data yang dikirim -> sebelum ajax Js
-    // Step kedua : ngerjain PHP nya -> php
-    // Step ketiga : melakukan hal tertentu setelah ajax -> hasil (success) js
     $.ajax({
         type: "POST",
         url: "ajax/edit-ajax.php",

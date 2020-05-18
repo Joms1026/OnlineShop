@@ -1,3 +1,4 @@
+
 let datausdeur = [
 
 [1147651200000,376.20],
@@ -3722,78 +3723,111 @@ let dataaaplc =[
 [1368144000000,452.97]
 ];
 
-let mydata = [{
-    type: 'line',
-    name: 'baju perempuan',
-    data: datausdeur
-},{
-    type: 'line',
-    name: 'baju laki',
-    data: dataaaplc
-}];
 // Contoh Nambahin series
 // mydata.push({
 //     type: 'line',
 //     name: 'baju perempuan',
 //     data: datausdeur
 // });
-
-Highcharts.chart('chart-line-container', {
-    
-    chart: {
-        zoomType: 'x'
-    },
-    title: {
-        text: 'Solar Employment Growth by Sector, 2010-2016'
-    },
-
-    subtitle: {
-        text: 'Source: thesolarfoundation.com'
-    },
-
-    yAxis: {
+function initData(){
+    $.ajax({
+        type: "GET",
+        url: "ajax-penjualan.php",
+        success: function (response) {
+            let data = JSON.parse(response);
+            
+            let chartData = [];
+            for (const namaKategori in data) {
+                if (data.hasOwnProperty(namaKategori)) {
+                    
+                    let dataConvert = data[namaKategori].map(function (val, idx){
+                        console.log(val,idx);
+                        let [unix, count] = val;
+                        let date = new Date(unix);
+                        let newDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+                        return [newDate, parseInt(count)];
+                    });
+                    console.log(dataConvert);
+                    chartData.push({
+                        type: 'line',
+                        name: namaKategori,
+                        data: dataConvert
+                    });
+                } 
+            }
+            console.log({chartData});
+            // data.forEach(dataKategori => {
+            //     chartData.push({
+            //         type: 'line',
+            //         name: 'baju perempuan',
+            //         data: dataKategori
+            //     });
+            // });
+            initHighchart(chartData);
+        }
+    });
+}
+function initHighchart(data){ // Generare highchart
+    Highcharts.chart('chart-line-container', {
+        
+        chart: {
+            zoomType: 'x'
+        },
         title: {
-            text: 'Number of Employees'
-        }
-    },
-
-    xAxis: {
-        type: 'datetime',
-        accessibility: {
-            rangeDescription: 'Range: 2010 to 2017'
-        }
-    },
-
-    legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
-    },
-
-    plotOptions: {
-        series: {
-            label: {
-            connectorAllowed: false
-            },
-            pointStart: 2010
-        }
-    },
-
-    series: mydata,
-
-    responsive: {
-        rules: [{
-            condition: {
-            maxWidth: 500
-            },
-            chartOptions: {
-            legend: {
-                layout: 'horizontal',
-                align: 'center',
-                verticalAlign: 'bottom'
+            text: 'Solar Employment Growth by Sector, 2010-2016'
+        },
+    
+        subtitle: {
+            text: 'Source: thesolarfoundation.com'
+        },
+    
+        yAxis: {
+            title: {
+                text: 'Number of Employees'
             }
+        },
+    
+        xAxis: {
+            type: 'datetime',
+            accessibility: {
+                rangeDescription: 'Range: 2010 to 2017'
             }
-        }]
-    }
-
+        },
+    
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+    
+        plotOptions: {
+            series: {
+                label: {
+                connectorAllowed: false
+                },
+                // pointStart: 2010
+            }
+        },
+    
+        series: data,
+    
+        responsive: {
+            rules: [{
+                condition: {
+                maxWidth: 500
+                },
+                chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+                }
+            }]
+        }
+    
+    });
+}
+$(document).ready(function () {
+    initData();
 });
