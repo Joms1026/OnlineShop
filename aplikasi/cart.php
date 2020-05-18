@@ -210,6 +210,7 @@
 										WHERE K.ID_USER = '$userid' AND G.ID_BAJU = K.ID_BARANG AND B.ID = K.ID_BARANG AND B.ID = G.ID_BAJU
 										GROUP BY K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , B.NAMA";
 										$res = mysqli_query($conn , $querystring);
+										
 										if(mysqli_num_rows($res) == 0){
 											echo '<td colspan="6"><div class="alert alert-danger" role="alert">
  												 Tidak ada barang di dalam cart
@@ -221,12 +222,12 @@
 										echo	"<tr>
 										<td>".($ctr + 1)."</td>
 										<td>
-											<div class='row'>
+											<div class='row py-2'>
 												<div class='col-lg-2'>
-													<img src='images/".$row["LINK_GAMBAR"]."' alt=''>
+													<img src='admin/uploads/produk/".$row["ID_BARANG"]."/".$row["LINK_GAMBAR"]."' alt=''>
 												</div>
 												<div class='col-lg-10'>
-													<div class='product_name'><a href='product.html'>".$row["NAMA"]."</a></div>
+													<div class='product_name mt-0'><a href='product.html'>".$row["NAMA"]."</a></div>
 													<div class='product_text'>Second line for additional info</div>
 												</div>
 											</div>

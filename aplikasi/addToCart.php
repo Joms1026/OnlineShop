@@ -4,13 +4,13 @@
 
     $ukr = $_POST["ukuran"];
     $warna = $_POST["warna"];
-    $us = $_SESSION["username"];
-    $queryidus = "SELECT ID_USER FROM USERS WHERE NAMA='$us'";
-    $res = mysqli_query($conn , $queryidus);
-    $iduser = 0;
-    while ($row = mysqli_fetch_assoc($res)) {
-        $iduser = $row["ID_USER"];
-    }
+    // $us = $_SESSION["username"];
+    // $queryidus = "SELECT ID_USER FROM USERS WHERE NAMA='$us'";
+    // $res = mysqli_query($conn , $queryidus);
+    $iduser = $_SESSION['userid'];
+    // while ($row = mysqli_fetch_assoc($res)) {
+    //     $iduser = $row["ID_USER"];
+    // }
     $idbarang = $_POST["id"];
     $jumlahbarang = $_POST["count"];
     $queryharga = "SELECT HARGA FROM VARIAN_BAJU WHERE ID_BAJU = '$idbarang'";
