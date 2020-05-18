@@ -210,6 +210,7 @@
 										WHERE K.ID_USER = '$userid' AND G.ID_BAJU = K.ID_BARANG AND B.ID = K.ID_BARANG AND B.ID = G.ID_BAJU
 										GROUP BY K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , B.NAMA";
 										$res = mysqli_query($conn , $querystring);
+										
 										if(mysqli_num_rows($res) == 0){
 											echo '<td colspan="6"><div class="alert alert-danger" role="alert">
  												 Tidak ada barang di dalam cart
@@ -221,12 +222,12 @@
 										echo	"<tr>
 										<td>".($ctr + 1)."</td>
 										<td>
-											<div class='row'>
+											<div class='row py-2'>
 												<div class='col-lg-2'>
-													<img src='images/".$row["LINK_GAMBAR"]."' alt=''>
+													<img src='admin/uploads/produk/".$row["ID_BARANG"]."/".$row["LINK_GAMBAR"]."' alt=''>
 												</div>
 												<div class='col-lg-10'>
-													<div class='product_name'><a href='product.html'>".$row["NAMA"]."</a></div>
+													<div class='product_name mt-0'><a href='product.html'>".$row["NAMA"]."</a></div>
 													<div class='product_text'>Second line for additional info</div>
 												</div>
 											</div>
@@ -254,8 +255,24 @@
 							<!-- Cart Buttons -->
 							<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
 								<div class="cart_buttons_inner ml-sm-auto d-flex flex-row align-items-start justify-content-start flex-wrap">
-									<form method="post" id="clearcart"><button type="submit" name="btnClear"><div class="button button_clear trans_200" name="clearcart"><a style="color:white">clear cart</a></div></button></form>
-									<form method="post"><button type="submit" name="continueshopping"><div class="button button_continue trans_200"><a style="color:white">continue shopping</a></div></button></form>
+									<form method="post" id="clearcart">
+										<button type="submit" name="btnClear" class="border-0 btn btn-secondary mr-2">
+											<!-- <div class="button button_clear trans_200" name="clearcart"> -->
+												<!-- <a style="color:white"> -->
+												Clear Cart
+												<!-- </a> -->
+											<!-- </div> -->
+										</button>
+									</form>
+									<form method="post">
+										<button type="submit" name="continueshopping" class="border-0 btn btn-success">
+											<!-- <div class="button button_continue trans_200">
+												<a style="color:white"> -->
+												Continue Shopping
+												<!-- </a> -->
+											<!-- </div> -->
+										</button>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -325,11 +342,11 @@
 										<div class="cart_extra_total_value ml-auto" id="carttotal"></div>
 									</li>
 								</ul>
-								<div class="checkout_button trans_200">
-									<form method="post">
-										<a><button	 type="submit" name="btnCheckout"><a>proceed to checkout</a></button></a>
-									</form>
-								</div>
+								<form method="post">
+									<button type="submit" name="btnCheckout" class="checkout_button trans_200 btn btn-success">
+											Proceed to Checkout
+									</button>
+								</form>
 							</div>
 						</div>
 					</div>
