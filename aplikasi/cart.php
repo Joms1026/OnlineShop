@@ -125,14 +125,13 @@
 									<a href="#">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 										<span id="checkout_items" class="checkout_items">
-										<?php
-											if(isset($_SESSION["cart"])){
-												echo count($_SESSION["cart"]);
-											}
-											else{
-												echo "";
-											}
-										?>
+										
+											// $querystring = "SELECT * FROM KERANJANG K , USERS U WHERE U.ID_USER='$userid' AND K.ID_USER = U.ID_USER";
+											// $res = mysqli_query($conn , $querystring);
+											// //echo mysqli_num_rows($res);
+											/	/ if($res) echo mysqli_num_rows($res);
+											// else echo "0";
+										
 										</span>
 									</a>
 								</li> -->
