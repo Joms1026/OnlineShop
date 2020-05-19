@@ -19,7 +19,7 @@
     ];
     if(isset($_POST["btnConfirm"])){
         $idh = $_POST["btnConfirm"];
-        $queryupdate = "UPDATE HTRANS SET STATUS_PEMBAYARAN = 'SUDAH' WHERE ID_HTRANS = '$idh'";
+        $queryupdate = "UPDATE htrans SET STATUS_PEMBAYARAN = 'SUDAH' WHERE ID_HTRANS = '$idh'";
         $ress = mysqli_query($conn , $queryupdate);
         echo "<script>alert('Pembayaran sudah dikonfirmasi')</script>";
     }
@@ -92,7 +92,7 @@
                                     </thead>
                                     <tbody id="tablebody">
                                         <?php
-                                            $queryselect = "SELECT * FROM HTRANS";
+                                            $queryselect = "SELECT * FROM htrans";
                                             $res = mysqli_query($conn , $queryselect);
                                             //$ctr = 0;
                                             while ($row = mysqli_fetch_assoc($res)) {
@@ -120,7 +120,7 @@
                                         echo "<h1>Detail</h1>";
                                         //echo "<script>alert('Detail')</script>";
                                         $id = $_POST["btnDetail"];
-                                        $queryselect = "SELECT B.NAMA , D.JUMLAH_BARANG , D.JUMLAH_DTRANS FROM DTRANS D , BAJU B WHERE ID_HTRANS = '$id' AND D.ID_BARANG = B.ID";
+                                        $queryselect = "SELECT B.NAMA , D.JUMLAH_BARANG , D.JUMLAH_DTRANS FROM dtrans D , BAJU B WHERE ID_HTRANS = '$id' AND D.ID_BARANG = B.ID";
                                         $respon = mysqli_query($conn , $queryselect);
                                         echo"
                                         <table class='table'>
