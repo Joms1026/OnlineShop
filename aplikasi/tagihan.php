@@ -140,9 +140,10 @@ if(isset($_POST['upload'])){
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
-								<li><a href="#" class="actived">Home</a></li>
-								<li><a href="inbox.php">Chat</a></li>
+								<li><a href="home.php">Home</a></li>
+								<li><a href="chat.php">Chat</a></li>
 								<li><a href="wishlist.php">Wishlist</a></li>
+								<li><a class="actived">Tagihan</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
@@ -267,7 +268,7 @@ if(isset($_POST['upload'])){
                     echo "<tr>";
                     echo "<td>".$row['TOTAL_TRANS']."</td>";
 					echo "<td>".$row['TGL_TRANS']."</td>";
-					if($row['UPLOAD'] == 1){
+					if($row['UPLOAD'] == 1 && $row['STATUS_PEMBAYARAN'] == "BELUM"){
 						echo "<td>Menunggu Konfirmasi</td>";
 					}
 					else{
@@ -305,7 +306,37 @@ if(isset($_POST['upload'])){
 				<button type='submit' class='btn btn-success' name='upload' value='$idh'>Upload gambar</button>
 			</form>
             ";
-        }
+		}
+		if(isset($_POST["btnDetail"])){
+			echo "<h1>Detail</h1>";
+			//echo "<script>alert('Detail')</script>";
+			$id = $_POST["btnDetail"];
+			$queryselect = "SELECT B.NAMA , D.JUMLAH_BARANG , D.JUMLAH_DTRANS FROM DTRANS D , BAJU B WHERE ID_HTRANS = '$id' AND D.ID_BARANG = B.ID";
+			$respon = mysqli_query($conn , $queryselect);
+			echo"
+			<table class='table'>
+				<thead>
+					<tr>
+					<th scope='col'>NAMA BARANG</th>
+					<th scope='col'>JUMLAH BARANG</th>
+					<th scope='col'>SUBTOTAL</th>
+					</tr>
+				</thead>
+				<tbody>
+			";
+			while($row = mysqli_fetch_assoc($respon)){
+			echo
+				"<tr>
+					<td>".$row["NAMA"]."</td>
+					<td>".$row["JUMLAH_BARANG"]."</td>
+					<td>".$row["JUMLAH_DTRANS"]."</td>
+				</tr>";
+			}
+			echo"
+			</tbody>
+			</table>
+			";
+		}
     ?>
     </div>
 	<!-- Footer -->

@@ -1,5 +1,8 @@
 <?php
     session_start();
-    unset($_SESSION["cart"]);
-    echo "sukses";
+    include('../conn.php');
+    $userid = $_SESSION["userid"];
+    $querydelete = "DELETE FROM KERANJANG WHERE ID_USER = $userid";
+    $resdel = mysqli_query($conn , $querydelete);
+    echo "berhasil";
 ?>
