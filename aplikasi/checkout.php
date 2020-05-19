@@ -38,6 +38,7 @@
             $Q = "INSERT INTO dtrans VALUES('$idhtrans','$code',$idbarang,$jumlahbarang,$jumlahdtrans)";
             $r = mysqli_query($conn , $Q);
         }
+        $querydelete = "DELETE FROM keranjang WHERE ID_USER = $user";
         header("Location: tagihan.php");
     }
 ?>
