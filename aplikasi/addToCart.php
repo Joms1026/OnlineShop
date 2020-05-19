@@ -14,7 +14,7 @@
     while ($row = mysqli_fetch_assoc($res2)) {
         $hargabarang = $row["HARGA"];
     }
-    $queryinsert = "INSERT INTO keranjang VALUES('',$iduser,$idbarang,$jumlahbarang,$hargabarang,'$ukr','$warna')";
+    $queryinsert = "INSERT INTO keranjang(ID_USER , ID_BARANG , JUMLAH_BARANG , HARGA_BARANG , SIZE , WARNA) VALUES($iduser,$idbarang,$jumlahbarang,$hargabarang,'$ukr','$warna')";
     $ins = mysqli_query($conn , $queryinsert);
     echo "jalan";
 ?>

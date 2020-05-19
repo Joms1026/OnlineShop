@@ -311,7 +311,7 @@ if(isset($_POST['upload'])){
 			echo "<h1>Detail</h1>";
 			//echo "<script>alert('Detail')</script>";
 			$id = $_POST["btnDetail"];
-			$queryselect = "SELECT B.NAMA , D.JUMLAH_BARANG , D.JUMLAH_DTRANS FROM dtrans D , BAJU B WHERE ID_HTRANS = '$id' AND D.ID_BARANG = B.ID";
+			$queryselect = "SELECT B.NAMA , D.JUMLAH_BARANG , D.JUMLAH_DTRANS FROM dtrans D , baju B WHERE ID_HTRANS = '$id' AND D.ID_BARANG = B.ID";
 			$respon = mysqli_query($conn , $queryselect);
 			echo"
 			<table class='table'>

@@ -10,8 +10,6 @@
         $notlp = $_POST["notlp"];
         $provinsi = $_POST["provinsi"];
         $kodepos = $_POST["kodepos"];
-        $nameoncard = $_POST["nameoncard"];
-        $ccnum = $_POST["ccnum"];
         $querycariuser = "SELECT * FROM users WHERE ID_USER='$user'";
         $resp = mysqli_query($conn , $querycariuser);
         $idus = 0;
@@ -24,7 +22,7 @@
         $count = mysqli_num_rows($reselect);
         $idhtrans = 'B00'.$count;
         //insert ke htrans
-        $queryinsert = "INSERT INTO htrans VALUES('$idhtrans',$idus,$totaltrans,SYSDATE(),'BELUM',0,'$alamat')";
+        $queryinsert = "INSERT INTO htrans VALUES('$idhtrans',$idus,$totaltrans,SYSDATE(),'BELUM','$alamat',0)";
         $re = mysqli_query($conn , $queryinsert);
         //GENERATE KODE TRANS
         $querykode = "SELECT * FROM dtrans";
@@ -89,7 +87,7 @@
                             <span class="badge badge-secondary badge-pill">
                             <?php
                                 $user = $_SESSION["username"];
-								$querystring = "SELECT * FROM KERANJANG K , USERS U WHERE U.NAMA='$user' AND K.ID_USER = U.ID_USER";
+								$querystring = "SELECT * FROM keranjang K , users U WHERE U.NAMA='$user' AND K.ID_USER = U.ID_USER";
 								$res = mysqli_query($conn , $querystring);
 								echo mysqli_num_rows($res);
 							?>
@@ -170,7 +168,7 @@
                                     <label for="state">Province</label>
                                     <select class="custom-select d-block w-100" id="state" name="provinsi" required>
                                         <?php
-                                            $queryprovinsi = "SELECT * FROM PROVINCES";
+                                            $queryprovinsi = "SELECT * FROM provinces";
                                             $respon = mysqli_query($conn , $queryprovinsi);
                                             while ($row = mysqli_fetch_assoc($respon)) {
                                                 echo "<option value='".$row["nama_provinsi"]."'>".$row["nama_provinsi"]."</option>";
