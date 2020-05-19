@@ -9,8 +9,8 @@
 
     $querySelect = "SELECT DISTINCT w.ID_Baju, b.NAMA, g.LINK_GAMBAR FROM wishlist w 
     LEFT OUTER JOIN gambar g on w.ID_Baju = g.ID_GAMBAR 
-    LEFT OUTER JOIN baju b on b.id = w.ID_Baju 
-    WHERE w.id_user = $idUser";
+    LEFT OUTER JOIN baju b on b.ID = w.ID_Baju 
+    WHERE w.ID_USER = $idUser";
     $result = mysqli_query($conn, $querySelect);
 
     if($result){
@@ -21,12 +21,12 @@
             $tempIsi = $isiDB[$i][2];
             $isiDB[$i][2] = "admin/uploads/produk/$id/$tempIsi";
 
-            $querySelect2 = "SELECT harga FROM varian_baju WHERE id_baju=$id";
+            $querySelect2 = "SELECT HARGA FROM varian_baju WHERE ID_BAJU=$id";
             $result2 = mysqli_query($conn, $querySelect2);
 
             if($result2){
                 $isiDB2 = mysqli_query($conn, $querySelect2)->fetch_assoc();
-                $isiDB[$i][3] = $isiDB2['harga'];
+                $isiDB[$i][3] = $isiDB2['HARGA'];
             }
         }
         $returnValue = $isiDB;

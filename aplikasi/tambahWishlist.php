@@ -8,7 +8,7 @@
     $idx = $_POST['idx'];
     $returnValue = "Gagal menambahkan ke wishlist!";
        
-    $querySelect2 = "SELECT * FROM wishlist WHERE id_user = $idUser";
+    $querySelect2 = "SELECT * FROM wishlist WHERE ID_USER = $idUser";
     $result3 = mysqli_query($conn, $querySelect2);
 
     $insert = true;

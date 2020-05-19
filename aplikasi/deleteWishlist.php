@@ -9,7 +9,7 @@
     $returnValue = "Gagal menghapus!";
 
        
-    $querySelect2 = "DELETE FROM wishlist WHERE id_user = $idUser AND id_baju = $idx";
+    $querySelect2 = "DELETE FROM wishlist WHERE ID_USER = $idUser AND ID_Baju = $idx";
     $result3 = mysqli_query($conn, $querySelect2);
 
     if($result3){
