@@ -1,5 +1,13 @@
 <?php 
     session_start();
+    if (!isset($_SESSION['userid'])) {
+        header('location: ../index.php');
+        die();
+    }
+    if (!isset($_SESSION['userrole']) || $_SESSION['userrole']!=1) {
+        header('location: ../index.php');
+        die();
+    }
     include('conn-admin.php');
     $_SESSION['sideNav'] = [
         'kategori' => true,
