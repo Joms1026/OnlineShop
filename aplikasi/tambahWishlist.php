@@ -24,7 +24,7 @@
     }
 
     if($insert == true){
-        $queryInsert = "INSERT INTO wishlist('ID_Baju', 'ID_USER') VALUES($idx, $idUser)";
+        $queryInsert = "INSERT INTO wishlist(ID_Baju, ID_USER) VALUES($idx, $idUser)";
         $result2 = mysqli_query($conn, $queryInsert);
         if($result2) $returnValue = "Berhasil menambahkan ke wishlist!";
     } else {
