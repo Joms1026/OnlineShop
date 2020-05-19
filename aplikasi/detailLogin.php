@@ -271,7 +271,7 @@ if(isset($_GET['idx'])){
 	</div>
 
 	<?php
-		$querySelect = "SELECT * FROM baju WHERE status = 1";
+		$querySelect = "SELECT * FROM baju WHERE STATUS = 1";
 		$result = mysqli_query($conn, $querySelect);
 		$geser = "0";
 		if($result->num_rows < 5){
@@ -429,7 +429,7 @@ if(isset($_GET['idx'])){
 			data : `idx=${ind}`,
 			success : function (result) {
 				var harga = JSON.parse(result);
-				price = harga['harga'] + "";
+				price = harga['HARGA'] + "";
 				$("#product_price"+ind).append(`<p> ${formatRupiah(price, "Rp.")}</p>`);
 			}
 		});
@@ -460,7 +460,7 @@ if(isset($_GET['idx'])){
 			data : $("#formShadow").serialize(),
 			success : function (r) {
                 var detail = JSON.parse(r);
-                idxBtnDetail = detail['id'];
+                idxBtnDetail = detail['ID'];
 
 				$("#deskripsi").append(`
 					&nbsp; &nbsp; &nbsp;

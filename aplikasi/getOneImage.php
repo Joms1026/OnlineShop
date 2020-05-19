@@ -3,13 +3,13 @@
 
     $id = $_POST['idx'];
 
-    $querySelect = "SELECT link_gambar FROM gambar WHERE id_baju=$id";
+    $querySelect = "SELECT LINK_GAMBAR FROM gambar WHERE ID_BAJU=$id";
     $result = mysqli_query($conn, $querySelect);
 
     if($result->num_rows > 0){
-        $querySelect = "SELECT link_gambar FROM gambar WHERE id_baju=$id";
+        $querySelect = "SELECT LINK_GAMBAR FROM gambar WHERE ID_BAJU=$id";
         $isiDB = mysqli_query($conn, $querySelect)->fetch_assoc();
-        $tempIsi = $isiDB['link_gambar'];
+        $tempIsi = $isiDB['LINK_GAMBAR'];
         $isiDB = "admin/uploads/produk/$id/$tempIsi";
     } else {
         $isiDB = "none";

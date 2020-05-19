@@ -229,7 +229,7 @@
 	<?php
 		$geser = "0";
 		
-		$querySelect = "SELECT * FROM wishlist WHERE id_user=$idUser";
+		$querySelect = "SELECT * FROM wishlist WHERE ID_USER=$idUser";
 		$result = mysqli_query($conn, $querySelect);
 
 		if($result){
@@ -356,7 +356,7 @@
 			data : `idx=${ind}`,
 			success : function (result) {
 				var harga = JSON.parse(result);
-				price = harga['harga'] + "";
+				price = harga['HARGA'] + "";
 				$("#product_price"+ind).append(`<p> ${formatRupiah(price, "Rp.")}</p>`);
 			}
 		});

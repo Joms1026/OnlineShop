@@ -3,11 +3,11 @@
 
     $id = $_POST['idx'];
 
-    $querySelect = "SELECT harga FROM varian_baju WHERE id_baju=$id";
+    $querySelect = "SELECT HARGA FROM varian_baju WHERE ID_BAJU=$id";
     $result = mysqli_query($conn, $querySelect);
 
     if($result->num_rows > 0){
-        $querySelect = "SELECT harga FROM varian_baju WHERE id_baju=$id";
+        $querySelect = "SELECT HARGA FROM varian_baju WHERE ID_BAJU=$id";
         $isiDB = mysqli_query($conn, $querySelect)->fetch_assoc();
     } else {
         $isiDB = "none";

@@ -41,58 +41,64 @@
                 </a>
             </li>
             <li class="nav-item has-treeview <?php activeTree('master'); ?>">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-table"></i>
-              <p>
-                Master
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <?php $base = ""; ?>
-                <li class="nav-item">
-                    <a href="<?=$base?>kategori.php" class="nav-link <?php activeMenu('kategori'); ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kategori</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?=$base?>produk.php" class="nav-link <?php activeMenu('produk'); ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Produk</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?=$base?>customer.php" class="nav-link <?php activeMenu('customer'); ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Customer</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?=$base?>pembayaran.php" class="nav-link <?php activeMenu('pembayaran'); ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Pembayaran</p>
-                    </a>
-                </li>
-            </ul>
-            <li class="nav-item has-treeview <?php activeTree('report'); ?>">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-tree"></i>
+                    <i class="nav-icon fas fa-table"></i>
                     <p>
-                        Report
+                        Master
                         <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
+                    <?php $base = ""; ?>
                     <li class="nav-item">
-                        <a href="<?=$base?>penjualan.php" class="nav-link <?php activeMenu('penjualan'); ?>">
+                        <a href="<?=$base?>kategori.php" class="nav-link <?php activeMenu('kategori'); ?>">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Penjualan</p>
+                        <p>Kategori</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?=$base?>produk.php" class="nav-link <?php activeMenu('produk'); ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Produk</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?=$base?>customer.php" class="nav-link <?php activeMenu('customer'); ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Customer</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?=$base?>pembayaran.php" class="nav-link <?php activeMenu('pembayaran'); ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Pembayaran</p>
                         </a>
                     </li>
                 </ul>
+                <li class="nav-item has-treeview <?php activeTree('report'); ?>">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tree"></i>
+                        <p>
+                            Report
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?=$base?>penjualan.php" class="nav-link <?php activeMenu('penjualan'); ?>">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Penjualan</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </li>
-        </li>
+            <li class="nav-item">
+                <a href="logout.php" class="nav-link <?php activeMenu('dashboard'); ?>">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>Logout</p>
+                </a>
+            </li>
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

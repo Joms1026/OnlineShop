@@ -431,11 +431,11 @@ if(isset($_POST["register"]))
 						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
 							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" id="ALL" value="ALL">ALL</li>
 							<?php
-								$querySelect = "SELECT * FROM kategori WHERE status=1";
+								$querySelect = "SELECT * FROM kategori WHERE STATUS=1";
 								$result = mysqli_query($conn, $querySelect);
 
 								if($result->num_rows > 0){
-									$querySelect = "SELECT * FROM kategori WHERE status=1";
+									$querySelect = "SELECT * FROM kategori WHERE STATUS=1";
 									$isiDB = mysqli_query($conn, $querySelect)->fetch_all();
 
 									for ($i=0; $i < $result->num_rows; $i++) { ?>
@@ -460,7 +460,7 @@ if(isset($_POST["register"]))
 	</div>
 
 	<?php
-		$querySelect = "SELECT * FROM baju WHERE status = 1";
+		$querySelect = "SELECT * FROM baju WHERE STATUS = 1";
 		$result = mysqli_query($conn, $querySelect);
 		$geser = "0";
 		if($result->num_rows < 5){
@@ -885,7 +885,7 @@ if(isset($_POST["register"]))
 			data : `idx=${ind}`,
 			success : function (result) {
 				var harga = JSON.parse(result);
-				price = harga['harga'] + "";
+				price = harga['HARGA'] + "";
 				$("#product_price"+ind).append(`<p> ${formatRupiah(price, "Rp.")}</p>`);
 			}
 		});
