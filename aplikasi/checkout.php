@@ -12,32 +12,32 @@
         $kodepos = $_POST["kodepos"];
         $nameoncard = $_POST["nameoncard"];
         $ccnum = $_POST["ccnum"];
-        $querycariuser = "SELECT * FROM USERS WHERE ID_USER='$user'";
+        $querycariuser = "SELECT * FROM users WHERE ID_USER='$user'";
         $resp = mysqli_query($conn , $querycariuser);
         $idus = 0;
         while ($row = mysqli_fetch_assoc($resp)) {
             $idus = $row["ID_USER"];
         }
         //Generate kode
-        $select = "SELECT * FROM HTRANS";
+        $select = "SELECT * FROM htrans";
         $reselect = mysqli_query($conn,$select);
         $count = mysqli_num_rows($reselect);
         $idhtrans = 'B00'.$count;
         //insert ke htrans
-        $queryinsert = "INSERT INTO HTRANS VALUES('$idhtrans',$idus,$totaltrans,SYSDATE(),'BELUM',0,'$alamat')";
+        $queryinsert = "INSERT INTO htrans VALUES('$idhtrans',$idus,$totaltrans,SYSDATE(),'BELUM',0,'$alamat')";
         $re = mysqli_query($conn , $queryinsert);
         //GENERATE KODE TRANS
-        $querykode = "SELECT * FROM DTRANS";
+        $querykode = "SELECT * FROM dtrans";
         $ress = mysqli_query($conn , $querykode);
         $code = mysqli_num_rows($ress);
         //insert ke dtrns
-        $querymasukinid = "SELECT * FROM KERANJANG";
+        $querymasukinid = "SELECT * FROM keranjang";
         $rescart = mysqli_query($conn , $querymasukinid);
         while($row = mysqli_fetch_assoc($rescart)){
             $idbarang = $row["ID_BARANG"];
             $jumlahbarang = $row["JUMLAH_BARANG"];
             $jumlahdtrans = $jumlahbarang * $row["HARGA_BARANG"];
-            $Q = "INSERT INTO DTRANS VALUES('$idhtrans','$code',$idbarang,$jumlahbarang,$jumlahdtrans)";
+            $Q = "INSERT INTO dtrans VALUES('$idhtrans','$code',$idbarang,$jumlahbarang,$jumlahdtrans)";
             $r = mysqli_query($conn , $Q);
         }
         header("Location: tagihan.php");
@@ -99,7 +99,7 @@
                             <?php
                                 $us = $_SESSION["username"];
                                 $queryselect = "SELECT DISTINCT K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , U.ID_USER , G.LINK_GAMBAR , B.NAMA
-                                FROM KERANJANG K , USERS U , BAJU B , GAMBAR G
+                                FROM keranjang K , users U , baju B , gambar G
                                 WHERE U.NAMA = '$us' AND K.ID_USER=U.ID_USER AND G.ID_BAJU = K.ID_BARANG AND B.ID = K.ID_BARANG AND B.ID = G.ID_BAJU
                                 GROUP BY K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , B.NAMA";
                                 $res = mysqli_query($conn , $queryselect);

@@ -206,7 +206,7 @@
 									<?php
 										//$us = $_SESSION["username"];
 										$querystring = "SELECT DISTINCT K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , G.LINK_GAMBAR , B.NAMA
-										FROM KERANJANG K , USERS U , BAJU B , GAMBAR G
+										FROM keranjang K , users U , baju B , gambar G
 										WHERE K.ID_USER = '$userid' AND G.ID_BAJU = K.ID_BARANG AND B.ID = K.ID_BARANG AND B.ID = G.ID_BAJU
 										GROUP BY K.SIZE , K.ID_KERANJANG , K.ID_USER , K.ID_BARANG , K.JUMLAH_BARANG , K.HARGA_BARANG , B.NAMA";
 										$res = mysqli_query($conn , $querystring);

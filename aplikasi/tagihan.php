@@ -22,7 +22,7 @@ if(isset($_POST['upload'])){
 	$id = $_POST['upload'];
 
 	if(move_uploaded_file($file_tem_loc , $file_store)){
-		$queryset = "UPDATE HTRANS SET UPLOAD = 1 WHERE ID_HTRANS = '$id'";
+		$queryset = "UPDATE htrans SET UPLOAD = 1 WHERE ID_HTRANS = '$id'";
 		$responses = mysqli_query($conn , $queryset);
 	    echo "<script>alert('Bukti Sudah di upload')</script>";
 	}
@@ -178,7 +178,7 @@ if(isset($_POST['upload'])){
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 										<span id="checkout_items" class="checkout_items">
 											<?php
-												$querystring = "SELECT * FROM KERANJANG K , USERS U WHERE U.NAMA='$user' AND K.ID_USER = U.ID_USER";
+												$querystring = "SELECT * FROM keranjang K , users U WHERE U.NAMA='$user' AND K.ID_USER = U.ID_USER";
 												$res = mysqli_query($conn , $querystring);
 												//echo mysqli_num_rows($res);
 												if($res) echo mysqli_num_rows($res);
@@ -262,7 +262,7 @@ if(isset($_POST['upload'])){
         </thead>
         <tbody id="tablebody">
             <?php
-                $queryselect = "SELECT * FROM HTRANS WHERE ID_USER = '$userid'";
+                $queryselect = "SELECT * FROM htrans WHERE ID_USER = '$userid'";
                 $res = mysqli_query($conn , $queryselect);
                 while ($row = mysqli_fetch_assoc($res)) {
                     echo "<tr>";
@@ -311,7 +311,7 @@ if(isset($_POST['upload'])){
 			echo "<h1>Detail</h1>";
 			//echo "<script>alert('Detail')</script>";
 			$id = $_POST["btnDetail"];
-			$queryselect = "SELECT B.NAMA , D.JUMLAH_BARANG , D.JUMLAH_DTRANS FROM DTRANS D , BAJU B WHERE ID_HTRANS = '$id' AND D.ID_BARANG = B.ID";
+			$queryselect = "SELECT B.NAMA , D.JUMLAH_BARANG , D.JUMLAH_DTRANS FROM dtrans D , BAJU B WHERE ID_HTRANS = '$id' AND D.ID_BARANG = B.ID";
 			$respon = mysqli_query($conn , $queryselect);
 			echo"
 			<table class='table'>
