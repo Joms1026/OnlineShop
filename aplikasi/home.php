@@ -123,6 +123,7 @@ if (isset($_POST['Logout'])) {
 								<li><a href="#" class="actived">Home</a></li>
 								<li><a href="inbox.php">Chat</a></li>
 								<li><a href="wishlist.php">Wishlist</a></li>
+								<li><a href="tagihan.php">Tagihan</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->

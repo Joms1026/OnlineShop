@@ -24,7 +24,7 @@
         $count = mysqli_num_rows($reselect);
         $idhtrans = 'B00'.$count;
         //insert ke htrans
-        $queryinsert = "INSERT INTO HTRANS VALUES('$idhtrans',$idus,$totaltrans,SYSDATE(),'BELUM','$alamat')";
+        $queryinsert = "INSERT INTO HTRANS VALUES('$idhtrans',$idus,$totaltrans,SYSDATE(),'BELUM',0,'$alamat')";
         $re = mysqli_query($conn , $queryinsert);
         //GENERATE KODE TRANS
         $querykode = "SELECT * FROM DTRANS";
@@ -40,6 +40,7 @@
             $Q = "INSERT INTO DTRANS VALUES('$idhtrans','$code',$idbarang,$jumlahbarang,$jumlahdtrans)";
             $r = mysqli_query($conn , $Q);
         }
+        header("Location: tagihan.php");
     }
 ?>
 <!DOCTYPE html>

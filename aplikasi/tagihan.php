@@ -13,6 +13,21 @@ if (isset($_POST['Logout'])) {
     unset($_SESSION['username']);
 }
 
+if(isset($_POST['upload'])){
+	$file_name = $_FILES['file']['name'];
+	$file_type = $_FILES['file']['type'];
+	$file_size = $_FILES['file']['size'];
+	$file_tem_loc = $_FILES['file']['tmp_name'];
+	$file_store = "bukti/".$_POST['upload'].".jpg";
+	$id = $_POST['upload'];
+
+	if(move_uploaded_file($file_tem_loc , $file_store)){
+		$queryset = "UPDATE HTRANS SET UPLOAD = 1 WHERE ID_HTRANS = '$id'";
+		$responses = mysqli_query($conn , $queryset);
+	    echo "<script>alert('Bukti Sudah di upload')</script>";
+	}
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -249,34 +264,48 @@ if (isset($_POST['Logout'])) {
                 $queryselect = "SELECT * FROM HTRANS WHERE ID_USER = '$userid'";
                 $res = mysqli_query($conn , $queryselect);
                 while ($row = mysqli_fetch_assoc($res)) {
-                    echo "<tr>
-                    <td>".$row['TOTAL_TRANS']."</td>
-                    <td>".$row['TGL_TRANS']."</td>
-                    <td>".$row['STATUS_PEMBAYARAN']."</td>
-                    <td>".$row['ALAMAT']."</td>
-                    <td>
-                    <form method='post'>
-                    <button class='btn btn-warning' type='submit' name='btnDetail' value='".$row['ID_HTRANS']."'>Detail</button>
-                    <button class='btn btn-success' type='submit' name='btnConfirm' value='".$row['ID_HTRANS']."'>Bayar</button>
-                    </form>
-                    </td>
-                    </tr>";
+                    echo "<tr>";
+                    echo "<td>".$row['TOTAL_TRANS']."</td>";
+					echo "<td>".$row['TGL_TRANS']."</td>";
+					if($row['UPLOAD'] == 1){
+						echo "<td>Menunggu Konfirmasi</td>";
+					}
+					else{
+						echo "<td>".$row['STATUS_PEMBAYARAN']."</td>";
+					}
+					echo"<td>".$row['ALAMAT']."</td>";
+					if($row['UPLOAD'] == 0){
+						echo "<td>
+						<form method='post'>
+						<button class='btn btn-warning' type='submit' name='btnDetail' value='".$row['ID_HTRANS']."'>Detail</button>
+						<button class='btn btn-success' type='submit' name='btnConfirm' value='".$row['ID_HTRANS']."'>Bayar</button>
+						</form>
+						</td>";
+					}
+					else{
+						echo "<td>
+						<form method='post'>
+						<button class='btn btn-warning' type='submit' name='btnDetail' value='".$row['ID_HTRANS']."'>Detail</button>
+						</form>
+						</td>";
+					}
+                    echo "</tr>";
                 }
             ?>
         </tbody>
     </table>
-    <h3>Silahkan Upload bukti pembayaran</h3>
-        <form action='uploadtagihan.php' method='post' enctype='multipart/formdata'>
-            <input type='file' name='fileku'><br><br>
-            <button type='submit' class='btn btn-success' name='upload'>Upload gambar</button>
-        </form>
+    
     <?php
-        // if(isset($_POST["btnConfirm"])){
-        //     $idh = $_POST["btnConfirm"];
-        //     echo"
-                
-        //     ";
-        // }
+        if(isset($_POST["btnConfirm"])){
+            $idh = $_POST["btnConfirm"];
+            echo"
+			<h3>Silahkan Upload bukti pembayaran</h3>
+			<form action='#' method='post' enctype='multipart/form-data'>
+				<input type='file' name='file'><br><br>
+				<button type='submit' class='btn btn-success' name='upload' value='$idh'>Upload gambar</button>
+			</form>
+            ";
+        }
     ?>
     </div>
 	<!-- Footer -->

@@ -123,6 +123,7 @@
 								<li><a href="home.php">Home</a></li>
                                 <li><a href="chat.php">Chat</a></li>
                                 <li><a href="#" class="actived">Wishlist</a></li>
+								<li><a href="tagihan.php">Tagihan</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
