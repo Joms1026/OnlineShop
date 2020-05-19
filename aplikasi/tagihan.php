@@ -140,11 +140,10 @@ if(isset($_POST['upload'])){
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
-								<li><a href="home.php">Home</a></li>=======
+								<li><a href="home.php">Home</a></li>
 								<li><a href="inbox.php">Chat</a></li>
 								<li><a href="wishlist.php">Wishlist</a></li>
 								<li><a href="#" class="actived">Tagihan</a></li>
->>>>>>> f035404745f588a91909f07ff1e6b05fa248e403
 							</ul>
 							<ul class="navbar_user">
 								<!-- <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
